@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "dimore:block/end_redstone_ore"
+    }
+  }
+}

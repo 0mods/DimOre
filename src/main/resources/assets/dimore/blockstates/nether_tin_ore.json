@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "dimore:block/integration/nether_tin_ore"
+    }
+  }
+}

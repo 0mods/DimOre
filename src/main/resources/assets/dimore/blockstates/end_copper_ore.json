@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "dimore:block/integration/end_copper_ore"
+    }
+  }
+}

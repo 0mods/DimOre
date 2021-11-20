@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "MIT"
+
+[[mods]]
+modId = "dimore"
+version = "${file.jarVersion}"
+displayName = "DimensionalOres"
+authors = "AlgorithmLX"
+description = '''
+Add end and nether ore from your world!
+'''
+
+[[dependencies.dimore]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.dimore]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5,1.17)"
+ordering = "NONE"
+side = "BOTH"

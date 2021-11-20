@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "dimore:nether_redstone_ore",
+    "dimore:end_redstone_ore"
+  ]
+}

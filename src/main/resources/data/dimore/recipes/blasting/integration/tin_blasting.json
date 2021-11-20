@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:ores/tin"
+  },
+  "result": {
+    "tag": "forge:ingots/tin"
+  },
+  "experience": 1,
+  "cookingtime": 100
+}
