@@ -19,5 +19,11 @@
   "block.dimore.nether_tin_ore": "Незерская оловянная руда",
 
   "block.dimore.end_copper_ore": "Медная руда края",
-  "block.dimore.end_tin_ore": "Оловянная руда края"
+  "block.dimore.end_tin_ore": "Оловянная руда края",
+
+  "update.dimore.update_message": "§9[DimOre] §fНовая версия уже доступна для обновления (%s), Пожалуйста, обновитесь!",
+  "update.dimore.changelog": "§eСписок изменений: ",
+  "update.dimore.change": "- %s",
+  "update.dimore.update_message2": "And more...",
+  "update.dimore.not_released": "§9[DimOre] §fВерсия не была выпущена"
 }

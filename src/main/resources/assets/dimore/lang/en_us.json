@@ -19,5 +19,11 @@
   "block.dimore.nether_tin_ore": "Nether Tin Ore",
 
   "block.dimore.end_copper_ore": "End Copper Ore",
-  "block.dimore.end_tin_ore": "End Tin Ore"
+  "block.dimore.end_tin_ore": "End Tin Ore",
+
+  "update.dimore.update_message": "§9[DimOre] §fA new version is available (%s), please update!",
+  "update.dimore.changelog": "§eChangelog: ",
+  "update.dimore.change": "- %s",
+  "update.dimore.update_message2": "And more...",
+  "update.dimore.not_released": "§9[DimOre] §fVersion not released yet"
 }

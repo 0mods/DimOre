@@ -23,13 +23,15 @@
  */
 package com.algorithmlx.dimore;
 
-import com.algorithmlx.dimore.setup.DimOreConfig;
-import com.algorithmlx.dimore.setup.DimOreCore;
-import com.algorithmlx.dimore.setup.Registration;
+import com.algorithmlx.dimore.setup.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,9 +43,11 @@ public class DimOre {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public DimOre() {
-        LOGGER.info("Mod DimOre Module loading Starting!");
+        LOGGER.info("Mod DimOre Modules loading Starting!");
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> DimOreClientCore::new);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DimOreConfig.GEN, "dimore_config.toml");
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(DimOreCore::init);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(DimOreCore::commonInit);
         Registration.init();
+        LOGGER.info("Mod DimOre Modules loading finished!");
     }
 }
