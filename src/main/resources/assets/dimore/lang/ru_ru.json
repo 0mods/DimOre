@@ -1,6 +1,6 @@
 {
   "itemGroup.dimore.dimore_nether_tab": "DimOre: Незер руды",
-  "itemGroup.dimore.dimore_end_tab": "DimOre: Руды края",
+  "itemGroup.dimore.dimore_end_tab": "DimOre: Руды энда",
 
   "block.dimore.nether_coal_ore": "Незерская угольная руда",
   "block.dimore.nether_iron_ore": "Незерская железная руда",
@@ -8,18 +8,18 @@
   "block.dimore.nether_diamond_ore": "Незерская алмазная руда",
   "block.dimore.nether_emerald_ore": "Незерская изумрудная руда",
 
-  "block.dimore.end_coal_ore": "Угольная руда края",
-  "block.dimore.end_iron_ore": "Железная руда края",
-  "block.dimore.end_golden_ore": "Золотая руда края",
-  "block.dimore.end_redstone_ore": "Редстоун руда края",
-  "block.dimore.end_diamond_ore": "Алмазная руда края",
-  "block.dimore.end_emerald_ore": "Изумрудная руда края",
+  "block.dimore.end_coal_ore": "Угольная руда энда",
+  "block.dimore.end_iron_ore": "Железная руда энда",
+  "block.dimore.end_golden_ore": "Золотая руда энда",
+  "block.dimore.end_redstone_ore": "Редстоун руда энда",
+  "block.dimore.end_diamond_ore": "Алмазная руда энда",
+  "block.dimore.end_emerald_ore": "Изумрудная руда энда",
 
   "block.dimore.nether_copper_ore": "Незерская медная руда",
   "block.dimore.nether_tin_ore": "Незерская оловянная руда",
 
-  "block.dimore.end_copper_ore": "Медная руда края",
-  "block.dimore.end_tin_ore": "Оловянная руда края",
+  "block.dimore.end_copper_ore": "Медная руда энда",
+  "block.dimore.end_tin_ore": "Оловянная руда энда",
 
   "update.dimore.update_message": "§9[DimOre] §fНовая версия уже доступна для обновления (%s), Пожалуйста, обновитесь!",
   "update.dimore.changelog": "§eСписок изменений: ",
