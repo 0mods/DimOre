@@ -28,9 +28,11 @@ import com.algorithmlx.dimore.world.gen.EndOreGen;
 import com.algorithmlx.dimore.world.gen.NetherOreGen;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = DimOre.ModId, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -48,16 +50,13 @@ public class DimOreCore {
         }
     };
 
-    public static void init(final FMLCommonSetupEvent event) {
+    public static void commonInit(final FMLCommonSetupEvent event) {
         NetherOreGen.registerOres();
         EndOreGen.registerOres();
-        DimOre.LOGGER.info("DimOreCore is started!");
     }
 
     @SubscribeEvent
     public static void serverLoad(RegisterCommandsEvent event) {
-    }
-    public DimOreCore() {
-        DimOre.LOGGER.info("Mod DimOre Module loading Finished!");
+
     }
 }

@@ -12,8 +12,9 @@ public class DimOreConfig {
     }
 
     public static final ForgeConfigSpec.ConfigValue<Boolean> genNetherOres = DIMORE_CONFIG.comment("Generation Nether ores").define("genNetherOres", true);
-
     public static final ForgeConfigSpec.ConfigValue<Boolean> genEndOres = DIMORE_CONFIG.comment("Generation End ores").define("genEndOres", true);
+    public static final ForgeConfigSpec.ConfigValue<Boolean> allowIntegration = DIMORE_CONFIG.comment("Allow Mods Integration").define("allowIntegration", true);
+    public static final ForgeConfigSpec.ConfigValue<Boolean> checkUpdates = DIMORE_CONFIG.comment("Turn On Checking mod Updates").define("checkUpdates", true);
 
     static {
         DIMORE_CONFIG.pop();
@@ -40,15 +41,34 @@ public class DimOreConfig {
 
     static {
         DIMORE_CONFIG.pop();
+        DIMORE_CONFIG.push("DimOre Config: Generation Range");
+    }
+
+    public static final ForgeConfigSpec.IntValue genCoalRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Coal ore").defineInRange("genCoalRange", 40, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue genIronRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Iron ore").defineInRange("genIronRange", 35, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue genGoldenRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Iron ore").defineInRange("genGoldenRange", 25, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue genRedstoneRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Redstone ore").defineInRange("genRedstoneRange", 20, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue genDiamondRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Diamond ore").defineInRange("genDiamondRange", 8, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue genEmeraldRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Emerald ore").defineInRange("genEmeraldRange", 5, 1, Integer.MAX_VALUE);
+
+    static {
+        DIMORE_CONFIG.pop();
         DIMORE_CONFIG.push("DimOre Config: Integration");
     }
-    public static final ForgeConfigSpec.ConfigValue<Boolean> allowIntegration = DIMORE_CONFIG.comment("Allow Mods Integration").define("allowIntegration", true);
 
     public static final ForgeConfigSpec.ConfigValue<Boolean> genNetherCopperOre = DIMORE_CONFIG.comment("Generation Nether Copper Ore (Works only if allowIntegration = true)").define("genNetherCopperOre", true);
-    public static final ForgeConfigSpec.ConfigValue<Boolean> genNetherTinOre = DIMORE_CONFIG.comment("Generation Nether Tin Ore (Works only if allowIntegration = true)").define("genNetherCopperOre", true);
+    public static final ForgeConfigSpec.ConfigValue<Boolean> genNetherTinOre = DIMORE_CONFIG.comment("Generation Nether Tin Ore (Works only if allowIntegration = true)").define("genNetherTinOre", true);
 
     public static final ForgeConfigSpec.ConfigValue<Boolean> genEndCopperOre = DIMORE_CONFIG.comment("Generation End Copper Ore (Works only if allowIntegration = true)").define("genEndCopperOre", true);
     public static final ForgeConfigSpec.ConfigValue<Boolean> genEndTinOre = DIMORE_CONFIG.comment("Generation End Copper Ore (Works only if allowIntegration = true)").define("genEndTinOre", true);
+
+    static {
+        DIMORE_CONFIG.pop();
+        DIMORE_CONFIG.push("DimOre Config: Range Integration Gen");
+    }
+
+    public static final ForgeConfigSpec.IntValue genCopperRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Copper ore").defineInRange("genCopperRange", 25, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.IntValue genTinRange = DIMORE_CONFIG.comment("Setting number in generation DimOre Tin ore").defineInRange("genTinRange", 25, 1, Integer.MAX_VALUE);
 
     static {
         DIMORE_CONFIG.pop();

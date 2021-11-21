@@ -61,30 +61,30 @@ public class EndOreGen {
     public static void registerOres() {
         if(DimOreConfig.genEndOres.get().equals(true)) {
             if(DimOreConfig.genEndCoalOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_COAL_ORE.get(), 0, 128, 10, 40));
+                endOres.add(genEndOre(Registration.END_COAL_ORE.get(), 0, 128, 10, DimOreConfig.genCoalRange.get()));
             }
             if(DimOreConfig.genEndIronOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_IRON_ORE.get(), 0, 128, 10, 25));
+                endOres.add(genEndOre(Registration.END_IRON_ORE.get(), 0, 128, 10, DimOreConfig.genIronRange.get()));
             }
             if(DimOreConfig.genEndGoldenOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_GOLDEN_ORE.get(), 0, 128, 10, 25));
+                endOres.add(genEndOre(Registration.END_GOLDEN_ORE.get(), 0, 128, 10, DimOreConfig.genGoldenRange.get()));
             }
             if(DimOreConfig.genEndRedstoneOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_REDSTONE_ORE.get(), 0, 128, 10, 20));
+                endOres.add(genEndOre(Registration.END_REDSTONE_ORE.get(), 0, 128, 10, DimOreConfig.genRedstoneRange.get()));
             }
             if(DimOreConfig.genEndDiamondOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_DIAMOND_ORE.get(), 0, 128, 10, 8));
+                endOres.add(genEndOre(Registration.END_DIAMOND_ORE.get(), 0, 128, 10, DimOreConfig.genDiamondRange.get()));
             }
             if(DimOreConfig.genEndEmeraldOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_EMERALD_ORE.get(), 0, 128, 10, 5));
+                endOres.add(genEndOre(Registration.END_EMERALD_ORE.get(), 0, 128, 10, DimOreConfig.genEmeraldRange.get()));
             }
         }
         if(DimOreConfig.genEndOres.get().equals(true) && DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")) {
             if(DimOreConfig.genEndCopperOre.get().equals(true)){
-                endOres.add(genEndOre(Registration.END_COPPER_ORE.get(), 0, 128, 10, 25));
+                endOres.add(genEndOre(Registration.END_COPPER_ORE.get(), 0, 128, 10, DimOreConfig.genCopperRange.get()));
             }
             if(DimOreConfig.genEndTinOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_TIN_ORE.get(), 0, 128, 10, 25));
+                endOres.add(genEndOre(Registration.END_TIN_ORE.get(), 0, 128, 10, DimOreConfig.genTinRange.get()));
             }
 
         }
