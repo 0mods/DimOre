@@ -6,7 +6,7 @@ license = "MIT"
 modId = "dimore"
 version = "${file.jarVersion}"
 displayName = "DimensionalOres"
-updateJSONURL= "https://raw.githubusercontent.com/AlgorithmLX-Team/ModUpdateRepo/main/dimore_update.json"
+updateJSONURL= "https://raw.githubusercontent.com/AlgorithmLX-Team/ModUpdateRepo/main/dimore/1.16-repo.json"
 authors = "AlgorithmLX"
 description = '''
 Add end and nether ore from your world!

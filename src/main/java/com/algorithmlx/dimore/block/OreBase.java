@@ -6,6 +6,6 @@ import net.minecraftforge.common.ToolType;
 
 public class OreBase extends OreBlock {
     public OreBase() {
-        super(Properties.of(Material.STONE).harvestLevel(3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(2f, 2f));
+        super(Properties.of(Material.STONE).harvestLevel(3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(3f, 3f));
     }
 }

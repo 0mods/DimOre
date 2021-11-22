@@ -25,7 +25,7 @@ package com.algorithmlx.dimore.world.gen;
 
 import com.algorithmlx.dimore.DimOre;
 import com.algorithmlx.dimore.setup.DimOreConfig;
-import com.algorithmlx.dimore.setup.Registration;
+import com.algorithmlx.dimore.setup.DimOreReg;
 import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
@@ -61,27 +61,30 @@ public class NetherOreGen {
     public static void registerOres() {
         if(DimOreConfig.genNetherOres.get().equals(true)) {
             if (DimOreConfig.genNetherCoalOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_COAL_ORE.get(), 0, 128, 7, DimOreConfig.genCoalRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_COAL_ORE.get(), 0, 128, 5, DimOreConfig.genCoalRange.get()));
             }
             if (DimOreConfig.genNetherIronOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_IRON_ORE.get(), 0, 128, 7, DimOreConfig.genIronRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_IRON_ORE.get(), 0, 128, 5, DimOreConfig.genIronRange.get()));
+            }
+            if (DimOreConfig.genNetherLapisOre.get().equals(true)) {
+                netherOres.add(genNetherOre(DimOreReg.NETHER_LAPIS_LAZULI_ORE.get(), 0, 128, 5, DimOreConfig.genLapisRange.get()));
             }
             if (DimOreConfig.genNetherRedstoneOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_REDSTONE_ORE.get(), 0, 128, 7, DimOreConfig.genRedstoneRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_REDSTONE_ORE.get(), 0, 128, 5, DimOreConfig.genRedstoneRange.get()));
             }
             if (DimOreConfig.genNetherDiamondOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_DIAMOND_ORE.get(), 0, 128, 7, DimOreConfig.genDiamondRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_DIAMOND_ORE.get(), 0, 128, 5, DimOreConfig.genDiamondRange.get()));
             }
             if (DimOreConfig.getNetherEmeraldOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_EMERALD_ORE.get(), 0, 128, 7, DimOreConfig.genEmeraldRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_EMERALD_ORE.get(), 0, 128, 5, DimOreConfig.genEmeraldRange.get()));
             }
         }
         if(DimOreConfig.genNetherOres.get().equals(true) && DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")) {
             if (DimOreConfig.genNetherCopperOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_COPPER_ORE.get(), 0, 128, 10, DimOreConfig.genCopperRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_COPPER_ORE.get(), 0, 128, 5, DimOreConfig.genCopperRange.get()));
             }
             if (DimOreConfig.genNetherTinOre.get().equals(true)) {
-                netherOres.add(genNetherOre(Registration.NETHER_TIN_ORE.get(), 0, 128, 10, DimOreConfig.genTinRange.get()));
+                netherOres.add(genNetherOre(DimOreReg.NETHER_TIN_ORE.get(), 0, 128, 5, DimOreConfig.genTinRange.get()));
             }
         }
     }

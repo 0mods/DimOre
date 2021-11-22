@@ -2,22 +2,23 @@
   "itemGroup.dimore.dimore_nether_tab": "DimOre: Незер руды",
   "itemGroup.dimore.dimore_end_tab": "DimOre: Руды энда",
 
+  "block.dimore.quartz_ore": "Незер-Кварцевая руда",
   "block.dimore.nether_coal_ore": "Незерская угольная руда",
   "block.dimore.nether_iron_ore": "Незерская железная руда",
+  "block.dimore.nether_lapis_lazuli_ore": "Незерская лазуритовая руда",
   "block.dimore.nether_redstone_ore": "Незерская редстоун руда",
   "block.dimore.nether_diamond_ore": "Незерская алмазная руда",
   "block.dimore.nether_emerald_ore": "Незерская изумрудная руда",
-
+  "block.dimore.end_quartz_ore": "Незер-Кварцевая руда энда",
   "block.dimore.end_coal_ore": "Угольная руда энда",
   "block.dimore.end_iron_ore": "Железная руда энда",
   "block.dimore.end_golden_ore": "Золотая руда энда",
+  "block.dimore.end_lapis_lazuli_ore": "Лазуритовая руда энда",
   "block.dimore.end_redstone_ore": "Редстоун руда энда",
   "block.dimore.end_diamond_ore": "Алмазная руда энда",
   "block.dimore.end_emerald_ore": "Изумрудная руда энда",
-
   "block.dimore.nether_copper_ore": "Незерская медная руда",
   "block.dimore.nether_tin_ore": "Незерская оловянная руда",
-
   "block.dimore.end_copper_ore": "Медная руда энда",
   "block.dimore.end_tin_ore": "Оловянная руда энда",
 

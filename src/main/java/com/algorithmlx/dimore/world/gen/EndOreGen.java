@@ -25,7 +25,7 @@ package com.algorithmlx.dimore.world.gen;
 
 import com.algorithmlx.dimore.DimOre;
 import com.algorithmlx.dimore.setup.DimOreConfig;
-import com.algorithmlx.dimore.setup.Registration;
+import com.algorithmlx.dimore.setup.DimOreReg;
 import com.algorithmlx.dimore.world.gen.feature.DimOreFeature;
 import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
@@ -60,31 +60,37 @@ public class EndOreGen {
 
     public static void registerOres() {
         if(DimOreConfig.genEndOres.get().equals(true)) {
+            if(DimOreConfig.genEndQuartzOre.get().equals(true)) {
+                endOres.add(genEndOre(DimOreReg.END_QUARTZ_ORE.get(), 0, 128, 5, DimOreConfig.genQuartzRange.get()));
+            }
             if(DimOreConfig.genEndCoalOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_COAL_ORE.get(), 0, 128, 10, DimOreConfig.genCoalRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_COAL_ORE.get(), 0, 128, 5, DimOreConfig.genCoalRange.get()));
             }
             if(DimOreConfig.genEndIronOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_IRON_ORE.get(), 0, 128, 10, DimOreConfig.genIronRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_IRON_ORE.get(), 0, 128, 5, DimOreConfig.genIronRange.get()));
             }
             if(DimOreConfig.genEndGoldenOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_GOLDEN_ORE.get(), 0, 128, 10, DimOreConfig.genGoldenRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_GOLDEN_ORE.get(), 0, 128, 5, DimOreConfig.genGoldenRange.get()));
+            }
+            if(DimOreConfig.genEndLapisOre.get().equals(true)) {
+                endOres.add(genEndOre(DimOreReg.END_LAPIS_LAZULI_ORE.get(), 0, 128, 5, DimOreConfig.genLapisRange.get()));
             }
             if(DimOreConfig.genEndRedstoneOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_REDSTONE_ORE.get(), 0, 128, 10, DimOreConfig.genRedstoneRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_REDSTONE_ORE.get(), 0, 128, 5, DimOreConfig.genRedstoneRange.get()));
             }
             if(DimOreConfig.genEndDiamondOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_DIAMOND_ORE.get(), 0, 128, 10, DimOreConfig.genDiamondRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_DIAMOND_ORE.get(), 0, 128, 5, DimOreConfig.genDiamondRange.get()));
             }
             if(DimOreConfig.genEndEmeraldOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_EMERALD_ORE.get(), 0, 128, 10, DimOreConfig.genEmeraldRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_EMERALD_ORE.get(), 0, 128, 5, DimOreConfig.genEmeraldRange.get()));
             }
         }
         if(DimOreConfig.genEndOres.get().equals(true) && DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")) {
             if(DimOreConfig.genEndCopperOre.get().equals(true)){
-                endOres.add(genEndOre(Registration.END_COPPER_ORE.get(), 0, 128, 10, DimOreConfig.genCopperRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_COPPER_ORE.get(), 0, 128, 5, DimOreConfig.genCopperRange.get()));
             }
             if(DimOreConfig.genEndTinOre.get().equals(true)) {
-                endOres.add(genEndOre(Registration.END_TIN_ORE.get(), 0, 128, 10, DimOreConfig.genTinRange.get()));
+                endOres.add(genEndOre(DimOreReg.END_TIN_ORE.get(), 0, 128, 5, DimOreConfig.genTinRange.get()));
             }
 
         }

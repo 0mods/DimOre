@@ -47,7 +47,6 @@ public class DimOreFeature implements IFeatureConfig {
         this.size = size;
         this.state = state;
         this.target = test;
-        DimOre.LOGGER.debug("DimOreFeature is Loaded!");
     }
 
     public static final class BlockFiller {
