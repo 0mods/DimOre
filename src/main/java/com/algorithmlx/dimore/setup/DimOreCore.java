@@ -26,13 +26,12 @@ package com.algorithmlx.dimore.setup;
 import com.algorithmlx.dimore.DimOre;
 import com.algorithmlx.dimore.world.gen.EndOreGen;
 import com.algorithmlx.dimore.world.gen.NetherOreGen;
+import com.algorithmlx.dimore.world.gen.OverworldOreGen;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = DimOre.ModId, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -40,19 +39,26 @@ public class DimOreCore {
     public static final ItemGroup DimOreNetherTab = new ItemGroup(DimOre.ModId + ".dimore_nether_tab") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(Registration.NETHER_IRON_ORE.get());
+            return new ItemStack(DimOreReg.NETHER_IRON_ORE.get());
         }
     };
     public static final ItemGroup DimOreEndTab = new ItemGroup(DimOre.ModId + ".dimore_end_tab") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(Registration.END_IRON_ORE.get());
+            return new ItemStack(DimOreReg.END_IRON_ORE.get());
+        }
+    };
+    public static final ItemGroup DimOreOtherTab = new ItemGroup(DimOre.ModId + ".dimore_other_ores") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(DimOreReg.QUARTZ_ORE.get());
         }
     };
 
     public static void commonInit(final FMLCommonSetupEvent event) {
         NetherOreGen.registerOres();
         EndOreGen.registerOres();
+        OverworldOreGen.registerOres();
     }
 
     @SubscribeEvent

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "minecraft:gold_ore"
+  },
+  "result": {
+    "item": "minecraft:air"
+  },
+  "experience": 0,
+  "cookingtime": -1
+}
