@@ -13,16 +13,8 @@ public class DimOreConfig {
 
     public static final ForgeConfigSpec.ConfigValue<Boolean> genNetherOres = DIMORE_CONFIG.comment("Generation Nether ores").define("genNetherOres", true);
     public static final ForgeConfigSpec.ConfigValue<Boolean> genEndOres = DIMORE_CONFIG.comment("Generation End ores").define("genEndOres", true);
-    public static final ForgeConfigSpec.ConfigValue<Boolean> genOverworldOres = DIMORE_CONFIG.comment("Generation Overworld Ores").define("genOverworldOres", true);
     public static final ForgeConfigSpec.ConfigValue<Boolean> allowIntegration = DIMORE_CONFIG.comment("Allow Mods Integration").define("allowIntegration", true);
     public static final ForgeConfigSpec.ConfigValue<Boolean> checkUpdates = DIMORE_CONFIG.comment("Turn On Checking mod Updates").define("checkUpdates", true);
-
-    static {
-        DIMORE_CONFIG.pop();
-        DIMORE_CONFIG.push("DimOre Config: Overworld Ores");
-    }
-
-    public static final ForgeConfigSpec.ConfigValue<Boolean> genQuartzOre = DIMORE_CONFIG.comment("Generation Quartz ore").define("genQuartzOre", false);
 
     static {
         DIMORE_CONFIG.pop();
