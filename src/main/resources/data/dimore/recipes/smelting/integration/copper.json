@@ -1,10 +1,10 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "tag": "forge:ores/iron"
+    "tag": "forge:ores/copper"
   },
   "result": {
-    "item": "minecraft:iron_ingot"
+    "tag": "forge:ingots/copper"
   },
   "experience": 1,
   "cookingtime": 200

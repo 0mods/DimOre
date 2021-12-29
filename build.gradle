@@ -15,13 +15,14 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 String dimore_version = "${mc_version}-${version_mod}"
+String forge_dependency = "${mc_version}-${forge_ver}"
 
-group = 'com.algorithmlx'
+group = "${mod_package}"
 version = "${dimore_version}"
 
 java {
     archivesBaseName = "${mod_project_name}"
-    toolchain.languageVersion = JavaLanguageVersion.of(8)
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
 }
 
 minecraft {
@@ -84,7 +85,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     // flatDir {
-    //     dir 'libs'
+    //     dir 'api'
     // }
     maven {
         name = "Progwml6 maven"
@@ -97,7 +98,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.9'
+    minecraft "net.minecraftforge:forge:${forge_dependency}"
 
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
     implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
@@ -111,7 +112,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "dimensionores",
+                "Specification-Title"     : "DimensionalOres",
                 "Specification-Vendor"    : "AlgorithmLX",
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : project.name,

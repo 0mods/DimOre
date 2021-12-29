@@ -37,22 +37,13 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = DimOre.ModId, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DimOreCore {
-    public static final ItemGroup DimOreNetherTab = new ItemGroup(DimOre.ModId + ".dimore_nether_tab") {
+    public static final ItemGroup DIMORE_TAB = new ItemGroup(DimOre.ModId + ".dimore_tab") {
         @Override @Nonnull
         public ItemStack makeIcon() {
-            return new ItemStack(DimOreReg.NETHER_IRON_ORE.get());
+            return new ItemStack(DimOreReg.NETHER_DIAMOND_ORE.get());
         }
     };
-    public static final ItemGroup DimOreEndTab = new ItemGroup(DimOre.ModId + ".dimore_end_tab") {
-        @Override @Nonnull
-        public ItemStack makeIcon() {
-            return new ItemStack(DimOreReg.END_IRON_ORE.get());
-        }
-    };
-    private static FMLCommonSetupEvent event;
-
     public static void commonInit(final FMLCommonSetupEvent event) {
-        DimOreCore.event = event;
         NetherOreGen.registerOres();
         EndOreGen.registerOres();
     }

@@ -85,7 +85,7 @@ public class EndOreGen {
                 endOres.add(genEndOre(DimOreReg.END_EMERALD_ORE.get(), 0, 128, 5, DimOreConfig.genEmeraldRange.get()));
             }
         }
-        if(DimOreConfig.genEndOres.get().equals(true) && DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")) {
+        if(DimOreConfig.genEndOres.get().equals(true) /*&& DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")*/) {
             if(DimOreConfig.genEndCopperOre.get().equals(true)){
                 endOres.add(genEndOre(DimOreReg.END_COPPER_ORE.get(), 0, 128, 5, DimOreConfig.genCopperRange.get()));
             }
