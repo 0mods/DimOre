@@ -1,10 +1,10 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "tag": "forge:ores/iron"
+    "tag": "forge:ores/diamond"
   },
   "result": {
-    "item": "minecraft:iron_ingot"
+    "item": "minecraft:diamond"
   },
   "experience": 1,
   "cookingtime": 200

@@ -79,7 +79,7 @@ public class NetherOreGen {
                 netherOres.add(genNetherOre(DimOreReg.NETHER_EMERALD_ORE.get(), 0, 128, 5, DimOreConfig.genEmeraldRange.get()));
             }
         }
-        if(DimOreConfig.genNetherOres.get().equals(true) && DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")) {
+        if(DimOreConfig.genNetherOres.get().equals(true) /*&& DimOreConfig.allowIntegration.get().equals(true) && ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")*/) {
             if (DimOreConfig.genNetherCopperOre.get().equals(true)) {
                 netherOres.add(genNetherOre(DimOreReg.NETHER_COPPER_ORE.get(), 0, 128, 5, DimOreConfig.genCopperRange.get()));
             }

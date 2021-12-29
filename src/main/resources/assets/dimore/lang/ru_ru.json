@@ -1,6 +1,5 @@
 {
-  "itemGroup.dimore.dimore_nether_tab": "DimOre: Незер руды",
-  "itemGroup.dimore.dimore_end_tab": "DimOre: Руды энда",
+  "itemGroup.dimore.dimore_tab": "DimOre: Все руды",
 
   "block.dimore.quartz_ore": "Незер-Кварцевая руда",
   "block.dimore.nether_coal_ore": "Незерская угольная руда",

@@ -1,6 +1,5 @@
 {
-  "itemGroup.dimore.dimore_nether_tab": "Dimore: Nether ores",
-  "itemGroup.dimore.dimore_end_tab": "Dimore: End ores",
+  "itemGroup.dimore.dimore_tab": "Dimore: All ores",
 
   "block.dimore.quartz_ore": "Quartz Ore",
   "block.dimore.nether_coal_ore": "Nether Coal Ore",

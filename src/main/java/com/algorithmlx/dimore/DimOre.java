@@ -24,9 +24,14 @@
 package com.algorithmlx.dimore;
 
 import com.algorithmlx.dimore.setup.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -34,6 +39,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(DimOre.ModId)
+@Mod.EventBusSubscriber(modid = DimOre.ModId, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DimOre {
     public static final String ModId = "dimore";
 
@@ -44,5 +50,14 @@ public class DimOre {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DimOreConfig.GEN, "dimore_config.toml");
         FMLJavaModLoadingContext.get().getModEventBus().addListener(DimOreCore::commonInit);
         DimOreReg.init();
+    }
+    @SubscribeEvent
+    public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
+        DimOreReg.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
+            event.getRegistry()
+                    .register(new BlockItem(block, new Item.Properties().tab(DimOreCore.DIMORE_TAB))
+                            .setRegistryName(block.getRegistryName()));
+        });
+
     }
 }
