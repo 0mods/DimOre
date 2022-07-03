@@ -24,10 +24,11 @@
 package com.algorithmlx.dimore.setup;
 
 import com.algorithmlx.dimore.DimOre;
-import com.algorithmlx.dimore.world.gen.EndOreGen;
-import com.algorithmlx.dimore.world.gen.NetherOreGen;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import com.algorithmlx.dimore.world.gen.OreConfigured;
+import com.algorithmlx.dimore.world.gen.OrePlacement;
+
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,15 +38,16 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = DimOre.ModId, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DimOreCore {
-    public static final ItemGroup DIMORE_TAB = new ItemGroup(DimOre.ModId + ".dimore_tab") {
+    public static final CreativeModeTab DIMORE_TAB = new CreativeModeTab(DimOre.ModId + ".dimore_tab") {
         @Override @Nonnull
         public ItemStack makeIcon() {
             return new ItemStack(DimOreReg.NETHER_DIAMOND_ORE.get());
         }
     };
+
     public static void commonInit(final FMLCommonSetupEvent event) {
-        NetherOreGen.registerOres();
-        EndOreGen.registerOres();
+        OrePlacement.register();
+        OreConfigured.register();
     }
 
     @SubscribeEvent

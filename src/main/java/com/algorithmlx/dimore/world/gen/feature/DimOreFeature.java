@@ -23,16 +23,16 @@
  */
 package com.algorithmlx.dimore.world.gen.feature;
 
-import com.algorithmlx.dimore.DimOre;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.feature.template.RuleTest;
 
-public class DimOreFeature implements IFeatureConfig {
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+
+public class DimOreFeature implements FeatureConfiguration {
     public static final Codec<DimOreFeature> CODEC = RecordCodecBuilder.create((p_236568_0_)
             -> p_236568_0_.group(RuleTest.CODEC.fieldOf("target").forGetter((p_236570_0_)
             -> p_236570_0_.target), BlockState.CODEC.fieldOf("state").forGetter((p_236569_0_)
@@ -50,6 +50,6 @@ public class DimOreFeature implements IFeatureConfig {
     }
 
     public static final class BlockFiller {
-        public static final RuleTest END_STONE = new BlockMatchRuleTest(Blocks.END_STONE);
+        public static final RuleTest END_STONE = new BlockMatchTest(Blocks.END_STONE);
     }
 }

@@ -26,12 +26,13 @@ package com.algorithmlx.dimore.setup;
 import com.algorithmlx.dimore.DimOre;
 import com.algorithmlx.dimore.block.ModOreBase;
 import com.algorithmlx.dimore.block.OreBase;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
+
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class DimOreReg {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, DimOre.ModId);
@@ -56,8 +57,8 @@ public class DimOreReg {
     public static final RegistryObject<OreBase> END_DIAMOND_ORE = BLOCKS.register("end_diamond_ore", OreBase::new);
     public static final RegistryObject<OreBase> END_EMERALD_ORE = BLOCKS.register("end_emerald_ore", OreBase::new);
     //integration
-    public static final RegistryObject<ModOreBase> NETHER_COPPER_ORE = DimOreConfig.allowIntegration.get().equals(true) /*&& ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")*/ ? BLOCKS.register("nether_copper_ore", ModOreBase::new) : null;
-    public static final RegistryObject<ModOreBase> NETHER_TIN_ORE = DimOreConfig.allowIntegration.get().equals(true) /*&& ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")*/ ? BLOCKS.register("nether_tin_ore", ModOreBase::new) : null;
-    public static final RegistryObject<ModOreBase> END_COPPER_ORE = DimOreConfig.allowIntegration.get().equals(true) /*&& ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")*/ ? BLOCKS.register("end_copper_ore", ModOreBase::new) : null;
-    public static final RegistryObject<ModOreBase> END_TIN_ORE = DimOreConfig.allowIntegration.get().equals(true) /*&& ModList.get().isLoaded("thermal_foundation") || ModList.get().isLoaded("mekanism") || ModList.get().isLoaded("immersiveengineering")*/ ? BLOCKS.register("end_tin_ore", ModOreBase::new) : null;
+    public static final RegistryObject<ModOreBase> NETHER_COPPER_ORE = DimOreConfig.allowIntegration.get().equals(true) ? BLOCKS.register("nether_copper_ore", ModOreBase::new) : null;
+    public static final RegistryObject<ModOreBase> NETHER_TIN_ORE = DimOreConfig.allowIntegration.get().equals(true)  ? BLOCKS.register("nether_tin_ore", ModOreBase::new) : null;
+    public static final RegistryObject<ModOreBase> END_COPPER_ORE = DimOreConfig.allowIntegration.get().equals(true) ? BLOCKS.register("end_copper_ore", ModOreBase::new) : null;
+    public static final RegistryObject<ModOreBase> END_TIN_ORE = DimOreConfig.allowIntegration.get().equals(true) ? BLOCKS.register("end_tin_ore", ModOreBase::new) : null;
 }

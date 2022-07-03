@@ -84,27 +84,11 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    // flatDir {
-    //     dir 'api'
-    // }
-    maven {
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
-    }
+    
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_dependency}"
-
-    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
-    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-
-
 
     annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 }

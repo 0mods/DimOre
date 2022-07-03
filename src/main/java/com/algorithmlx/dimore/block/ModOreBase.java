@@ -1,11 +1,10 @@
 package com.algorithmlx.dimore.block;
 
-import net.minecraft.block.OreBlock;
-import net.minecraft.block.material.Material;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.material.Material;
 
 public class ModOreBase extends OreBlock {
     public ModOreBase() {
-        super(Properties.of(Material.STONE).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().strength(2f, 2f));
+        super(Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(2f, 2f));
     }
 }

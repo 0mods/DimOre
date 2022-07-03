@@ -23,34 +23,36 @@
  */
 package com.algorithmlx.dimore;
 
-import com.algorithmlx.dimore.setup.*;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.algorithmlx.dimore.setup.DimOreConfig;
+import com.algorithmlx.dimore.setup.DimOreCore;
+import com.algorithmlx.dimore.setup.DimOreReg;
+
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod(DimOre.ModId)
 @Mod.EventBusSubscriber(modid = DimOre.ModId, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DimOre {
     public static final String ModId = "dimore";
 
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LoggerFactory.getLogger(ModId);
 
     public DimOre() {
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> DimOreClientCore::new);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DimOreConfig.GEN, "dimore_config.toml");
+        ModLoadingContext.get().registerConfig(Type.COMMON, DimOreConfig.GEN, "dimore_config.toml");
         FMLJavaModLoadingContext.get().getModEventBus().addListener(DimOreCore::commonInit);
         DimOreReg.init();
     }
+
     @SubscribeEvent
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
         DimOreReg.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
