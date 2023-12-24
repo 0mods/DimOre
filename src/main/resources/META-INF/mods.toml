@@ -1,27 +1,29 @@
-modLoader = "javafml"
-loaderVersion = "[36,)"
-license = "MIT"
+modLoader="kotlinforforge"
+loaderVersion="[3.12,)"
+license="MIT"
 
 [[mods]]
-modId = "dimore"
-version = "${file.jarVersion}"
-displayName = "DimensionalOres"
-updateJSONURL= "https://raw.githubusercontent.com/AlgorithmLX-Team/ModUpdateRepo/main/dimore/1.16-repo.json"
-authors = "AlgorithmLX"
-description = '''
-Add end and nether ore from your world!
-'''
-
+    modId="dimore"
+    version="${file.jarVersion}"
+    displayName="Dimensional Ores"
+    displayURL="https://0mods.team"
+    authors="AlgorithmLX"
+    description='''Ore in dimensions'''
 [[dependencies.dimore]]
-modId = "forge"
-mandatory = true
-versionRange = "[36,)"
-ordering = "NONE"
-side = "BOTH"
-
+    modId="forge"
+    mandatory=true
+    versionRange="[41.0.1,44.0.0)"
+    ordering="NONE"
+    side="BOTH"#
 [[dependencies.dimore]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.16.5,1.17)"
-ordering = "NONE"
-side = "BOTH"
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19,1.19.3)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.dimore]]
+    modId="kotlinforforge"
+    mandatory=true
+    versionRange="[3.12.0,)"
+    ordering="NONE"
+    side="BOTH"

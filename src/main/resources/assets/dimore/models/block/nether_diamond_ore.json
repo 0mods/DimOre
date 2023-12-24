@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "dimore:block/nether_diamond_ore"
-  }
-}

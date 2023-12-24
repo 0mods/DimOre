@@ -1,29 +1,18 @@
 {
-  "itemGroup.dimore.dimore_tab": "Dimore: All ores",
+  "itemGroup.dimore": "Dimensional Ore",
 
-  "block.dimore.quartz_ore": "Quartz Ore",
   "block.dimore.nether_coal_ore": "Nether Coal Ore",
   "block.dimore.nether_iron_ore": "Nether Iron Ore",
-  "block.dimore.nether_lapis_lazuli_ore": "Nether Lapis Lazuli Ore",
+  "block.dimore.nether_lapis_ore": "Nether Lapis Lazuli Ore",
   "block.dimore.nether_redstone_ore": "Nether Redstone Ore",
   "block.dimore.nether_diamond_ore": "Nether Diamond Ore",
   "block.dimore.nether_emerald_ore": "Nether Emerald Ore",
   "block.dimore.end_quartz_ore": "End Quartz Ore",
   "block.dimore.end_coal_ore": "End Coal Ore",
   "block.dimore.end_iron_ore": "End Iron Ore",
-  "block.dimore.end_golden_ore": "End Golden Ore",
-  "block.dimore.end_lapis_lazuli_ore": "End Lapis Lazuli Ore",
+  "block.dimore.end_gold_ore": "End Gold Ore",
+  "block.dimore.end_lapis_ore": "End Lapis Lazuli Ore",
   "block.dimore.end_redstone_ore": "End Redstone Ore",
   "block.dimore.end_diamond_ore": "End Diamond Ore",
-  "block.dimore.end_emerald_ore": "End Emerald Ore",
-  "block.dimore.nether_copper_ore": "Nether Copper Ore",
-  "block.dimore.nether_tin_ore": "Nether Tin Ore",
-  "block.dimore.end_copper_ore": "End Copper Ore",
-  "block.dimore.end_tin_ore": "End Tin Ore",
-
-  "update.dimore.update_message": "§9[DimOre] §fA new version is available (%s), please update!",
-  "update.dimore.changelog": "§eChangelog: ",
-  "update.dimore.change": "- %s",
-  "update.dimore.update_message2": "And more...",
-  "update.dimore.not_released": "§9[DimOre] §fVersion not released yet"
+  "block.dimore.end_emerald_ore": "End Emerald Ore"
 }
