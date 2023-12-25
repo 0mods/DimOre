@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "dimore:nether_coal_ore",
+    "dimore:end_coal_ore"
+  ]
+}

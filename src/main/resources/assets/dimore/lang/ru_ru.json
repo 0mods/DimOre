@@ -7,12 +7,12 @@
   "block.dimore.nether_redstone_ore": "Незераковая Редстоуновая руда",
   "block.dimore.nether_diamond_ore": "Незераковая Алмазная руда",
   "block.dimore.nether_emerald_ore": "Незераковая Изумрудная руда",
-  "block.dimore.end_quartz_ore": "End Quartz Ore",
-  "block.dimore.end_coal_ore": "End Coal Ore",
-  "block.dimore.end_iron_ore": "End Iron Ore",
-  "block.dimore.end_gold_ore": "End Gold Ore",
-  "block.dimore.end_lapis_ore": "End Lapis Lazuli Ore",
-  "block.dimore.end_redstone_ore": "End Redstone Ore",
-  "block.dimore.end_diamond_ore": "End Diamond Ore",
-  "block.dimore.end_emerald_ore": "End Emerald Ore"
+  "block.dimore.end_quartz_ore": "Эндернякоая Кварцевая руда",
+  "block.dimore.end_coal_ore": "Эндерняковая Угольная руда",
+  "block.dimore.end_iron_ore": "Эндерняковая Железная руда",
+  "block.dimore.end_gold_ore": "Эндерняковая Золотая руда",
+  "block.dimore.end_lapis_ore": "Эндерняковая Лазуритовая руда",
+  "block.dimore.end_redstone_ore": "Эндерняковая Редстоуновая руда",
+  "block.dimore.end_diamond_ore": "Эндерняковая Алмазная руда",
+  "block.dimore.end_emerald_ore": "Эндерняковая Изумрудная руда"
 }

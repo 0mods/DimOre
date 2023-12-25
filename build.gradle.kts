@@ -113,7 +113,11 @@ configure<MixinExtension> {
 
 repositories {
     mavenCentral()
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
+    maven("https://thedarkcolour.github.io/KotlinForForge/") {
+        content {
+            includeGroup("thedarkcolour")
+        }
+    }
 }
 
 dependencies {
@@ -121,11 +125,11 @@ dependencies {
 
     val kffVersion: String by project
 
-    jarJar(fg.deobf("thedarkcolour:kotlinforforge:${kffVersion}")) {
+    implementation("thedarkcolour:kotlinforforge:${kffVersion}")
+
+    jarJar("thedarkcolour:kotlinforforge:${kffVersion}") {
         jarJar.ranged(this, "[$kffVersion,)")
     }
-
-    implementation(fg.deobf("thedarkcolour:kotlinforforge:${kffVersion}"))
 
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     implementation(kotlin("stdlib"))

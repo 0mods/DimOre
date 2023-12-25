@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:ores/emerald"
+  },
+  "result": {
+    "item": "minecraft:emerald"
+  },
+  "experience": 1,
+  "cookingtime": 100
+}

@@ -1,5 +1,6 @@
 package com.algorithmlx.dimore.worldgen
 
+import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.init.DORegistry
 import com.algorithmlx.dimore.init.config.DimOreCommon
@@ -21,45 +22,46 @@ object DOConfFeatures {
     
     fun init(bus: IEventBus) {
         configured.register(bus)
+        LOGGER.info("Configuration Features initialized")
     }
 
     val netherFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("nether_ores") {
         ConfiguredFeature(Feature.ORE, OreConfiguration(Suppliers.memoize {
-            if (DimOreCommon.generateNetherOres.get()) listOf(
+            listOf(
                 netherReplaces(DORegistry.netherCoal),
                 netherReplaces(DORegistry.netherIron),
                 netherReplaces(DORegistry.netherLapis),
                 netherReplaces(DORegistry.netherRedstone)
-            ) else listOf()
+            )
         }.get(), 4))
     }
     val netherRareFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("nether_rare_ores") {
         ConfiguredFeature(Feature.ORE, OreConfiguration(Suppliers.memoize {
-            if (DimOreCommon.generateNetherOres.get()) listOf(
+             listOf(
                 netherReplaces(DORegistry.netherDiamond),
                 netherReplaces(DORegistry.netherEmerald)
-            ) else listOf()
+            )
         }.get(), 4))
     }
     val endFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("nether_iron_ore") {
         ConfiguredFeature(Feature.ORE, OreConfiguration(Suppliers.memoize {
-            if (DimOreCommon.generateEndOres.get()) listOf(
+            listOf(
                 endReplaces(DORegistry.endQuartz),
                 endReplaces(DORegistry.endCoal),
                 endReplaces(DORegistry.endIron),
                 endReplaces(DORegistry.endLapis),
                 endReplaces(DORegistry.endRedstone),
-            ) else listOf()
+            )
         }.get(), 4))
     }
 
     val endRareFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("end_rare_ore") {
         ConfiguredFeature(Feature.ORE, OreConfiguration(Suppliers.memoize {
-            if (DimOreCommon.generateEndOres.get()) listOf(
+            listOf(
                 endReplaces(DORegistry.endGold),
                 endReplaces(DORegistry.endDiamond),
                 endReplaces(DORegistry.endEmerald)
-            ) else listOf()
+            )
         }.get(), 4))
     }
 

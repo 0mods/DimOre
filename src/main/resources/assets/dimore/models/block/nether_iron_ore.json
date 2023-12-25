@@ -1,0 +1,6 @@
+{
+  "parent": "dimore:block/template/netherrack",
+  "textures": {
+    "layer1": "dimore:block/iron_ore"
+  }
+}

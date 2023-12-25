@@ -1,0 +1,7 @@
+{
+  "parent": "dimore:block/template/multilayered",
+  "textures": {
+    "all": "block/netherrack",
+    "additionalLayer": "#layer1"
+  }
+}

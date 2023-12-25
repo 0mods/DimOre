@@ -1,5 +1,6 @@
 package com.algorithmlx.dimore.worldgen
 
+import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endRareFeature
@@ -10,15 +11,17 @@ import net.minecraft.world.level.levelgen.VerticalAnchor
 import net.minecraft.world.level.levelgen.placement.*
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.RegistryObject
 
 object DOPlacedFeatures {
     private val placed = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, ModId)
 
     fun init(bus: IEventBus) {
         placed.register(bus)
+        LOGGER.info("Placed Features initialized")
     }
 
-    val netherPlaced = placed.register("nether_placed") {
+    val netherPlaced: RegistryObject<PlacedFeature> = placed.register("nether_placed") {
         PlacedFeature(
             netherFeature.holder.get(),
             commonOrePlacement(
@@ -31,7 +34,7 @@ object DOPlacedFeatures {
         )
     }
 
-    val netherRarePlaced = placed.register("nether_rare_placed") {
+    val netherRarePlaced: RegistryObject<PlacedFeature> = placed.register("nether_rare_placed") {
         PlacedFeature(
             netherRareFeature.holder.get(),
             rareOrePlacement(
@@ -44,7 +47,7 @@ object DOPlacedFeatures {
         )
     }
 
-    val endPlaced = placed.register("end_placed") {
+    val endPlaced: RegistryObject<PlacedFeature> = placed.register("end_placed") {
         PlacedFeature(
             endFeature.holder.get(),
             commonOrePlacement(
@@ -57,7 +60,7 @@ object DOPlacedFeatures {
         )
     }
 
-    val endRarePlaced = placed.register("end_rare_placed") {
+    val endRarePlaced: RegistryObject<PlacedFeature> = placed.register("end_rare_placed") {
         PlacedFeature(
             endRareFeature.holder.get(),
             rareOrePlacement(
