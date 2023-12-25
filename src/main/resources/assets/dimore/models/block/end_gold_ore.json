@@ -1,6 +1,6 @@
 {
-  "parent": "dimore:block/template/endstone",
+  "parent": "block/cube_all",
   "textures": {
-    "layer1": "dimore:block/gold_ore"
+    "all": "dimore:block/end_gold_ore"
   }
 }

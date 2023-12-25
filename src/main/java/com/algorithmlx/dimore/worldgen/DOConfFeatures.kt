@@ -31,9 +31,10 @@ object DOConfFeatures {
                 netherReplaces(DORegistry.netherCoal),
                 netherReplaces(DORegistry.netherIron),
                 netherReplaces(DORegistry.netherLapis),
-                netherReplaces(DORegistry.netherRedstone)
+                netherReplaces(DORegistry.netherRedstone),
+                netherReplaces(DORegistry.netherCopper)
             )
-        }.get(), 4))
+        }.get(), 32))
     }
     val netherRareFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("nether_rare_ores") {
         ConfiguredFeature(Feature.ORE, OreConfiguration(Suppliers.memoize {
@@ -41,7 +42,7 @@ object DOConfFeatures {
                 netherReplaces(DORegistry.netherDiamond),
                 netherReplaces(DORegistry.netherEmerald)
             )
-        }.get(), 4))
+        }.get(), 16))
     }
     val endFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("nether_iron_ore") {
         ConfiguredFeature(Feature.ORE, OreConfiguration(Suppliers.memoize {
@@ -51,8 +52,9 @@ object DOConfFeatures {
                 endReplaces(DORegistry.endIron),
                 endReplaces(DORegistry.endLapis),
                 endReplaces(DORegistry.endRedstone),
+                endReplaces(DORegistry.endCopper)
             )
-        }.get(), 4))
+        }.get(), 32))
     }
 
     val endRareFeature: RegistryObject<ConfiguredFeature<*, *>> = configured.register("end_rare_ore") {
@@ -62,7 +64,7 @@ object DOConfFeatures {
                 endReplaces(DORegistry.endDiamond),
                 endReplaces(DORegistry.endEmerald)
             )
-        }.get(), 4))
+        }.get(), 16))
     }
 
     private fun <T: Block> netherReplaces(block: RegistryObject<T>) =

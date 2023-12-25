@@ -2,6 +2,7 @@ package com.algorithmlx.dimore.worldgen
 
 import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
+import com.algorithmlx.dimore.init.config.DimOreCommon
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endRareFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.netherFeature
@@ -25,7 +26,7 @@ object DOPlacedFeatures {
         PlacedFeature(
             netherFeature.holder.get(),
             commonOrePlacement(
-                4,
+                16,
                 HeightRangePlacement.uniform(
                     VerticalAnchor.aboveBottom(-64),
                     VerticalAnchor.aboveBottom(319)
@@ -38,7 +39,7 @@ object DOPlacedFeatures {
         PlacedFeature(
             netherRareFeature.holder.get(),
             rareOrePlacement(
-                2,
+                8,
                 HeightRangePlacement.uniform(
                     VerticalAnchor.aboveBottom(-64),
                     VerticalAnchor.aboveBottom(319)
@@ -51,7 +52,7 @@ object DOPlacedFeatures {
         PlacedFeature(
             endFeature.holder.get(),
             commonOrePlacement(
-                4,
+                16,
                 HeightRangePlacement.uniform(
                     VerticalAnchor.aboveBottom(-64),
                     VerticalAnchor.aboveBottom(319)
@@ -64,7 +65,7 @@ object DOPlacedFeatures {
         PlacedFeature(
             endRareFeature.holder.get(),
             rareOrePlacement(
-                2,
+                8,
                 HeightRangePlacement.uniform(
                     VerticalAnchor.aboveBottom(-64),
                     VerticalAnchor.aboveBottom(319)

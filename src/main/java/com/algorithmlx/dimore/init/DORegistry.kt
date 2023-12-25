@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.DropExperienceBlock
 import net.minecraft.world.level.block.RedStoneOreBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.level.material.Material
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
@@ -36,59 +37,86 @@ object DORegistry {
     }
 
     val netherCoal = block("nether_coal_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val netherIron = block("nether_iron_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val netherLapis = block("nether_lapis_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
-    val netherRedstone = block("nether_redstone_ore", {
-            RedStoneOreBlock(Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never))
+    val netherRedstone = block(
+        "nether_redstone_ore", {
+            RedStoneOreBlock(
+                Properties.of(Material.STONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3F, 3F)
+                    .noOcclusion()
+                    .lightLevel { if (it.getValue(BlockStateProperties.LIT)) 9 else 0 }
+                    .randomTicks()
+            )
         }, Item.Properties()
     )
     val netherDiamond = block("nether_diamond_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val netherEmerald = block("nether_emerald_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
+        UniformInt.of(0, 2)
+    ) }, Item.Properties())
+    val netherCopper = block("nether_copper_ore", { DropExperienceBlock(
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
 
     val endQuartz = block("end_quartz_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val endCoal = block("end_coal_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val endIron = block("end_iron_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val endGold = block("end_gold_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val endLapis = block("end_lapis_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
-    val endRedstone = block("end_redstone_ore", { RedStoneOreBlock(Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never)) },
+    val endRedstone = block(
+        "end_redstone_ore",
+        {
+            RedStoneOreBlock(
+                Properties.of(Material.STONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3F, 3F)
+                    .noOcclusion()
+                    .lightLevel { if (it.getValue(BlockStateProperties.LIT)) 9 else 0 }
+                    .randomTicks()
+            )
+        },
         Item.Properties()
     )
     val endDiamond = block("end_diamond_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
     val endEmerald = block("end_emerald_ore", { DropExperienceBlock(
-        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion().isViewBlocking(this::never).isSuffocating(this::never),
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
+        UniformInt.of(0, 2)
+    ) }, Item.Properties())
+    val endCopper = block("end_copper_ore", { DropExperienceBlock(
+        Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3F, 3F).noOcclusion(),
         UniformInt.of(0, 2)
     ) }, Item.Properties())
 

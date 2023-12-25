@@ -1,6 +1,6 @@
 {
-  "parent": "dimore:block/template/netherrack",
+  "parent": "block/cube_all",
   "textures": {
-    "layer1": "dimore:block/redstone_ore"
+    "all": "dimore:block/nether_redstone_ore"
   }
 }

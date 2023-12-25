@@ -1,7 +1,0 @@
-{
-  "parent": "dimore:block/template/multilayered",
-  "textures": {
-    "all": "block/end_stone",
-    "additionalLayer": "#layer1"
-  }
-}

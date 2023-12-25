@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "dimore:nether_coal_ore",
+    "dimore:nether_iron_ore",
+    "dimore:nether_lapis_ore",
+    "dimore:nether_redstone_ore",
+    "dimore:nether_diamond_ore",
+    "dimore:nether_emerald_ore",
+    "dimore:end_quartz_ore",
+    "dimore:end_coal_ore",
+    "dimore:end_iron_ore",
+    "dimore:end_gold_ore",
+    "dimore:end_lapis_ore",
+    "dimore:end_redstone_ore",
+    "dimore:end_diamond_ore",
+    "dimore:end_emerald_ore"
+  ]
+}
