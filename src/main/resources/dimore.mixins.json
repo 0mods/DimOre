@@ -1,13 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "team._0mods.dimore.mixin",
+  "package": "com.algorithmlx.dimore.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "DimOre.refmap.json",
   "mixins": [
   ],
-  "client": [
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
