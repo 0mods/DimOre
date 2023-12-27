@@ -45,25 +45,25 @@ object DOPlacedFeatures {
     * Copper - 16
     */
 
-    val netherCoalPlace = place("nether_coal", netherCoalFeature, 20)
-    val netherIronPlace = place("nether_iron", netherIronFeature, 10)
-    val netherLapisPlace = place("nether_lapis", netherLapisFeature, 4)
-    val netherRedstonePlace = place("nether_redstone", netherRedStoneFeature, 8)
-    val netherCopperPlace = place("nether_copper", netherCopperFeature, 16)
-    val netherDiamondPlace = place("nether_diamond", netherDiamondFeature, 7)
-    val netherEmeraldPlace = place("nether_emerald", netherEmeraldFeature, 4)
+    val netherCoalPlace: RegistryObject<PlacedFeature> = place("nether_coal", netherCoalFeature, 20)
+    val netherIronPlace: RegistryObject<PlacedFeature> = place("nether_iron", netherIronFeature, 10)
+    val netherLapisPlace: RegistryObject<PlacedFeature> = place("nether_lapis", netherLapisFeature, 4)
+    val netherRedstonePlace: RegistryObject<PlacedFeature> = place("nether_redstone", netherRedStoneFeature, 8)
+    val netherCopperPlace: RegistryObject<PlacedFeature> = place("nether_copper", netherCopperFeature, 16)
+    val netherDiamondPlace: RegistryObject<PlacedFeature> = place("nether_diamond", netherDiamondFeature, 7)
+    val netherEmeraldPlace: RegistryObject<PlacedFeature> = place("nether_emerald", netherEmeraldFeature, 4)
 
-    val endCoalPlace = place("end_coal", endCoalFeature, 7)
-    val endIronPlace = place("end_iron", endIronFeature, 5)
-    val endLapisPlace = place("end_lapis", endLapisFeature, 4)
-    val endRedstonePlace = place("end_redstone", endRedStoneFeature, 8)
-    val endCopperPlace = place("end_copper", endCopperFeature, 8)
-    val endDiamondPlace = place("end_diamond", endDiamondFeature, 7)
-    val endEmeraldPlace = place("end_emerald", endEmeraldFeature, 4)
-    val endGoldPlace = place("end_gold", endGoldFeature, 4)
-    val endQuartzPlace = place("end_quartz", endQuartzFeature, 8)
+    val endCoalPlace: RegistryObject<PlacedFeature> = place("end_coal", endCoalFeature, 7)
+    val endIronPlace: RegistryObject<PlacedFeature> = place("end_iron", endIronFeature, 5)
+    val endLapisPlace: RegistryObject<PlacedFeature> = place("end_lapis", endLapisFeature, 4)
+    val endRedstonePlace: RegistryObject<PlacedFeature> = place("end_redstone", endRedStoneFeature, 8)
+    val endCopperPlace: RegistryObject<PlacedFeature> = place("end_copper", endCopperFeature, 8)
+    val endDiamondPlace: RegistryObject<PlacedFeature> = place("end_diamond", endDiamondFeature, 7)
+    val endEmeraldPlace: RegistryObject<PlacedFeature> = place("end_emerald", endEmeraldFeature, 4)
+    val endGoldPlace: RegistryObject<PlacedFeature> = place("end_gold", endGoldFeature, 4)
+    val endQuartzPlace: RegistryObject<PlacedFeature> = place("end_quartz", endQuartzFeature, 8)
 
-    fun <T: RegistryObject<ConfiguredFeature<*, *>>> place(id: String, holder: T, size: Int) =
+    private fun <T: RegistryObject<ConfiguredFeature<*, *>>> place(id: String, holder: T, size: Int) =
         placed.register(id) {
             PlacedFeature(
                 holder.holder.get(),
@@ -77,25 +77,11 @@ object DOPlacedFeatures {
             )
         }
 
-    fun <T: RegistryObject<ConfiguredFeature<*, *>>> rarePlace(id: String, holder: T, size: Int) =
-        placed.register(id) {
-            PlacedFeature(
-                holder.holder.get(),
-                rareOrePlacement(
-                    size,
-                    HeightRangePlacement.uniform(
-                        VerticalAnchor.absolute(-16),
-                        VerticalAnchor.absolute(480)
-                    )
-                )
-            )
-        }
-
-    fun orePlacement(sizeModifier: PlacementModifier, heightPlacement: PlacementModifier) = listOf(
+    private fun orePlacement(sizeModifier: PlacementModifier, heightPlacement: PlacementModifier) = listOf(
         sizeModifier, InSquarePlacement.spread(), heightPlacement, BiomeFilter.biome()
     )
 
-    fun commonOrePlacement(size: Int, height: PlacementModifier) = orePlacement(CountPlacement.of(size), height)
+    private fun commonOrePlacement(size: Int, height: PlacementModifier) = orePlacement(CountPlacement.of(size), height)
 
-    fun rareOrePlacement(size: Int, height: PlacementModifier) = orePlacement(RarityFilter.onAverageOnceEvery(size), height)
+    private fun rareOrePlacement(size: Int, height: PlacementModifier) = orePlacement(RarityFilter.onAverageOnceEvery(size), height)
 }
