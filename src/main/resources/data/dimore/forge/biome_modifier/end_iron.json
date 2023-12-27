@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_end",
+  "features": "dimore:end_iron",
+  "step": "underground_ores"
+}

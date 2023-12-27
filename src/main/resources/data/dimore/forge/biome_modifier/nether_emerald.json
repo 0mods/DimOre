@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": "#minecraft:is_nether",
-  "features": "dimore:nether_rare_placed",
+  "features": "dimore:nether_emerald",
   "step": "underground_ores"
 }
