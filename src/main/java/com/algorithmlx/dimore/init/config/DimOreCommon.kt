@@ -3,8 +3,10 @@ package com.algorithmlx.dimore.init.config
 import net.minecraftforge.common.ForgeConfigSpec
 
 object DimOreCommon {
-    val dimoreConfig = ForgeConfigSpec.Builder()
+    @JvmField
     val spec: ForgeConfigSpec
+    @JvmField
+    val dimoreConfig = ForgeConfigSpec.Builder()
 
     init {
         dimoreConfig.push("Dimensional Ores Config")

@@ -13,10 +13,10 @@ class RedstoneWorldedOreBlock(val dim: IDimensionOreType): RedStoneOreBlock(
         .strength(3F, 3F)
         .noOcclusion()
 ) {
-    override fun getDescriptionId(): String = createAppend(dim.getDimBlock(), Blocks.REDSTONE_ORE).string
+    override fun getDescriptionId(): String = createAppend(dim.getDimBlock()).string
 
-    private fun createAppend(material: Block, ore: Block)=
+    private fun createAppend(material: Block) =
         Component.translatable(material.descriptionId)
             .append("-")
-            .append(Component.translatable(ore.descriptionId))
+            .append(Component.translatable(Blocks.REDSTONE_ORE.descriptionId))
 }
