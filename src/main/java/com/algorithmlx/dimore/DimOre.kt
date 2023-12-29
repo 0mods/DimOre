@@ -1,19 +1,22 @@
 package com.algorithmlx.dimore
 
+import com.algorithmlx.dimore.api.config.ConfigLoader
 import com.algorithmlx.dimore.init.DORegistry
-import com.algorithmlx.dimore.init.config.DimOreCommon
+import com.algorithmlx.dimore.init.config.DOConfigCommon
 import com.algorithmlx.dimore.worldgen.DOConfFeatures
 import com.algorithmlx.dimore.worldgen.DOPlacedFeatures
-import net.minecraftforge.fml.LoadingFailedException
+import net.minecraftforge.eventbus.api.EventPriority
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.ModLoadingContext
+import net.minecraftforge.fml.ModLoadingException
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.slf4j.Marker
 import org.slf4j.MarkerFactory
+import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
-import kotlin.random.Random
 
 const val ModId = "dimore"
 @JvmField
@@ -29,20 +32,52 @@ class DimOre {
         "Hello HollowHorizon!",
         "Fix Me, please",
         "TODO: Don't worry! or wori?",
-        "Hello LGameStudio! I love you! But<comma/><space/>I'mer01110010<space/>01101111<space/>0111010"
+        "Hello LGameStudio! I love you! But<comma/><space/>I'm\\ner01110010<space/>01101111<space/>0111010",
+        """
+            failed to load method: 
+            \"fun `findInAZaz0-9`(errorMessage: String) {
+                val pattern = Pattern.compile("[a-zA-Z0-9]")
+                val matcher = pattern.matcher(errorMessage)
+                if (matcher.matches()) {
+                    LOGGER.info(errorMessage)
+                }
+            }\"
+            
+            Reason: HAHAHHHHAHAHAHAHHAAHHHAHAHHAHAHAHAHAHAHAHAHAHAHHAAHHHAHHA YOU HAVE BEEN TROLLED XD
+            
+            but.. crash is real...
+            
+        """.trimIndent()
     )
 
     init {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DimOreCommon.spec, "dimensional_ores/common.toml")
+        ConfigLoader.startMagic()
         LOGGER.info("Starting the mod!")
         try {
+            FORGE_BUS.register(this)
             DORegistry.init(MOD_BUS)
-            DOConfFeatures.init(MOD_BUS)
-            DOPlacedFeatures.init(MOD_BUS)
-        } catch (e: LoadingFailedException) {
-            val rand = Random(crashMessages.size)
-            val mess = crashMessages[rand.nextInt() - 1]
-            LOGGER.info(FATAL_MARKER, "Failed to start mod...\n${mess}", e)
+        } catch (e: ModLoadingException) {
+            LOGGER.error(FATAL_MARKER, "Failed to start mod...\n$setupMessage", e)
         }
     }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    fun genSetup(evt: FMLCommonSetupEvent) {
+        DOConfFeatures.init(MOD_BUS)
+        DOPlacedFeatures.init(MOD_BUS)
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    fun highestSetup(evt: FMLCommonSetupEvent) {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DOConfigCommon.spec, "dimensional_ores/common.toml")
+    }
+
+    private val setupMessage: String
+        get() {
+            var intFull = 0
+            for (i in crashMessages.indices) {
+                intFull++
+            }
+            return crashMessages[intFull - 1]
+        }
 }

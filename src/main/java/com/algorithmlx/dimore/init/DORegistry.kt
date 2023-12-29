@@ -2,25 +2,16 @@ package com.algorithmlx.dimore.init
 
 import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
-import com.algorithmlx.dimore.api.DimensionOreType
-import com.algorithmlx.dimore.api.OreType
+import com.algorithmlx.dimore.api.dimension.DimensionOreType
+import com.algorithmlx.dimore.api.ore.OreType
 import com.algorithmlx.dimore.block.RedstoneWorldedOreBlock
 import com.algorithmlx.dimore.block.WorldedOreBlock
-import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
-import net.minecraft.util.valueproviders.UniformInt
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.DropExperienceBlock
-import net.minecraft.world.level.block.RedStoneOreBlock
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.world.level.material.Material
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
