@@ -1,9 +1,8 @@
 package com.algorithmlx.dimore.block
 
-import com.algorithmlx.dimore.api.IDimensionOreType
-import com.algorithmlx.dimore.api.IOreType
+import com.algorithmlx.dimore.api.dimension.IDimensionOreType
+import com.algorithmlx.dimore.api.ore.IOreType
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
 import net.minecraft.util.valueproviders.UniformInt
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.DropExperienceBlock

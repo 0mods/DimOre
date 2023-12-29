@@ -2,7 +2,7 @@ package com.algorithmlx.dimore.init.config
 
 import net.minecraftforge.common.ForgeConfigSpec
 
-object DimOreCommon {
+object DOConfigCommon {
     @JvmField
     val spec: ForgeConfigSpec
     @JvmField

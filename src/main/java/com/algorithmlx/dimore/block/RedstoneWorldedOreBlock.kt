@@ -1,6 +1,6 @@
 package com.algorithmlx.dimore.block
 
-import com.algorithmlx.dimore.api.IDimensionOreType
+import com.algorithmlx.dimore.api.dimension.IDimensionOreType
 import net.minecraft.network.chat.Component
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
