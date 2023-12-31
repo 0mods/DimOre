@@ -2,7 +2,7 @@ package com.algorithmlx.dimore.worldgen
 
 import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
-import com.algorithmlx.dimore.init.config.DOConfigCommon
+import com.algorithmlx.dimore.init.config.DOCommonConfig
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endCoalFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endCopperFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endDiamondFeature
@@ -46,23 +46,29 @@ object DOPlacedFeatures {
     * Copper - 16
     */
 
-    val netherCoalPlace: RegistryObject<PlacedFeature>? = place("nether_coal", netherCoalFeature, 20, DOConfigCommon.generateNetherOres.get())
-    val netherIronPlace: RegistryObject<PlacedFeature>? = place("nether_iron", netherIronFeature, 10, DOConfigCommon.generateNetherOres.get())
-    val netherLapisPlace: RegistryObject<PlacedFeature>? = place("nether_lapis", netherLapisFeature, 4, DOConfigCommon.generateNetherOres.get())
-    val netherRedStonePlace: RegistryObject<PlacedFeature>? = place("nether_redstone", netherRedStoneFeature, 8, DOConfigCommon.generateNetherOres.get())
-    val netherCopperPlace: RegistryObject<PlacedFeature>? = place("nether_copper", netherCopperFeature, 16, DOConfigCommon.generateNetherOres.get())
-    val netherDiamondPlace: RegistryObject<PlacedFeature>? = place("nether_diamond", netherDiamondFeature, 7, DOConfigCommon.generateNetherOres.get())
-    val netherEmeraldPlace: RegistryObject<PlacedFeature>? = place("nether_emerald", netherEmeraldFeature, 4, DOConfigCommon.generateNetherOres.get())
+    val netherCoalPlace: RegistryObject<PlacedFeature> = nether("nether_coal", netherCoalFeature, 20)
+    val netherIronPlace: RegistryObject<PlacedFeature> = nether("nether_iron", netherIronFeature, 10)
+    val netherLapisPlace: RegistryObject<PlacedFeature> = nether("nether_lapis", netherLapisFeature, 4)
+    val netherRedStonePlace: RegistryObject<PlacedFeature> = nether("nether_redstone", netherRedStoneFeature, 8)
+    val netherCopperPlace: RegistryObject<PlacedFeature> = nether("nether_copper", netherCopperFeature, 16)
+    val netherDiamondPlace: RegistryObject<PlacedFeature> = nether("nether_diamond", netherDiamondFeature, 7)
+    val netherEmeraldPlace: RegistryObject<PlacedFeature> = nether("nether_emerald", netherEmeraldFeature, 4)
 
-    val endCoalPlace: RegistryObject<PlacedFeature>? = place("end_coal", endCoalFeature, 7, DOConfigCommon.generateEndOres.get())
-    val endIronPlace: RegistryObject<PlacedFeature>? = place("end_iron", endIronFeature, 5, DOConfigCommon.generateEndOres.get())
-    val endLapisPlace: RegistryObject<PlacedFeature>? = place("end_lapis", endLapisFeature, 4, DOConfigCommon.generateEndOres.get())
-    val endRedStonePlace: RegistryObject<PlacedFeature>? = place("end_redstone", endRedStoneFeature, 8, DOConfigCommon.generateEndOres.get())
-    val endCopperPlace: RegistryObject<PlacedFeature>? = place("end_copper", endCopperFeature, 8, DOConfigCommon.generateEndOres.get())
-    val endDiamondPlace: RegistryObject<PlacedFeature>? = place("end_diamond", endDiamondFeature, 7, DOConfigCommon.generateEndOres.get())
-    val endEmeraldPlace: RegistryObject<PlacedFeature>? = place("end_emerald", endEmeraldFeature, 4, DOConfigCommon.generateEndOres.get())
-    val endGoldPlace: RegistryObject<PlacedFeature>? = place("end_gold", endGoldFeature, 4, DOConfigCommon.generateEndOres.get())
-    val endQuartzPlace: RegistryObject<PlacedFeature>? = place("end_quartz", endQuartzFeature, 8, DOConfigCommon.generateEndOres.get())
+    val endCoalPlace: RegistryObject<PlacedFeature> = end("end_coal", endCoalFeature, 7)
+    val endIronPlace: RegistryObject<PlacedFeature> = end("end_iron", endIronFeature, 5)
+    val endLapisPlace: RegistryObject<PlacedFeature> = end("end_lapis", endLapisFeature, 4)
+    val endRedStonePlace: RegistryObject<PlacedFeature> = end("end_redstone", endRedStoneFeature, 8)
+    val endCopperPlace: RegistryObject<PlacedFeature> = end("end_copper", endCopperFeature, 8)
+    val endDiamondPlace: RegistryObject<PlacedFeature> = end("end_diamond", endDiamondFeature, 7)
+    val endEmeraldPlace: RegistryObject<PlacedFeature> = end("end_emerald", endEmeraldFeature, 4)
+    val endGoldPlace: RegistryObject<PlacedFeature> = end("end_gold", endGoldFeature, 4)
+    val endQuartzPlace: RegistryObject<PlacedFeature> = end("end_quartz", endQuartzFeature, 8)
+
+    private fun <T: RegistryObject<ConfiguredFeature<*, *>>> nether(id: String, holder: T, size: Int, gen: Boolean = true) =
+        place(id, holder, size, DOCommonConfig.generateNetherOres.get() && gen)
+
+    private fun <T: RegistryObject<ConfiguredFeature<*, *>>> end(id: String, holder: T, size: Int, gen: Boolean = true) =
+        place(id, holder, size, DOCommonConfig.generateEndOres.get() && gen)
 
     private fun <T: RegistryObject<ConfiguredFeature<*, *>>> place(id: String, holder: T, size: Int, gen: Boolean = true) =
         if (gen) placed.register(id) {

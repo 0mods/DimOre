@@ -5,7 +5,7 @@ import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.api.dimension.DimensionOreType
 import com.algorithmlx.dimore.api.dimension.IDimensionOreType
 import com.algorithmlx.dimore.init.DORegistry
-import com.algorithmlx.dimore.init.config.DOConfigCommon
+import com.algorithmlx.dimore.init.config.DOCommonConfig
 import com.google.common.base.Suppliers
 import net.minecraft.core.Registry
 import net.minecraft.data.worldgen.features.OreFeatures
@@ -58,19 +58,27 @@ object DOConfFeatures {
     val endQuartzFeature = end("end_quartz_ores", DORegistry.endQuartz, 14)
 
     private fun <T: Block> end(id: String, t: RegistryObject<T>, size: Int, bool: Boolean = true) =
-        feature(id, t, size, bool && DOConfigCommon.generateEndOres.get(), DimensionOreType.END)
+        feature(id, t, size, bool && DOCommonConfig.generateEndOres.get(), DimensionOreType.END)
 
     private fun <T: Block> nether(id: String, t: RegistryObject<T>, size: Int, bool: Boolean = true) =
-        feature(id, t, size, bool && DOConfigCommon.generateNetherOres.get(), DimensionOreType.NETHER)
+        feature(id, t, size, bool && DOCommonConfig.generateNetherOres.get(), DimensionOreType.NETHER)
 
     private fun <T: Block> feature(id: String, t: RegistryObject<T>, size: Int, bool: Boolean = true, dim: IDimensionOreType = DimensionOreType.OVERWORLD):
             RegistryObject<ConfiguredFeature<*, *>> =
-        configured.register(id) {
+        if (bool) configured.register(id) {
             ConfiguredFeature(
                 Feature.ORE,
                 OreConfiguration(
                     Suppliers.memoize { listOf(dim.getReplacementSettings(t.get().defaultBlockState())) }.get(),
-                    if (bool) size else 0
+                    size
+                )
+            )
+        } else configured.register(id) {
+            ConfiguredFeature(
+                Feature.ORE,
+                OreConfiguration(
+                    Suppliers.memoize { listOf(dim.getReplacementSettings(dim.getDimBlock().defaultBlockState())) }.get(),
+                    size
                 )
             )
         }
