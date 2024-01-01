@@ -16,6 +16,8 @@ import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegistryObject
+import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
+import thedarkcolour.kotlinforforge.forge.registerObject
 import java.util.function.Supplier
 
 object DORegistry {
@@ -52,11 +54,11 @@ object DORegistry {
     val endEmerald = block("end_emerald_ore") { WorldedOreBlock(OreType.EMERALD, DimensionOreType.END) }
     val endCopper = block("end_copper_ore") { WorldedOreBlock(OreType.COPPER, DimensionOreType.END) }
 
-    val overworldQuartz = block("overworld_quartz_ore") { WorldedOreBlock(OreType.QUARTZ, DimensionOreType.OVERWORLD) }
+    val stoneQuartz = block("stone_quartz_ore") { WorldedOreBlock(OreType.QUARTZ, DimensionOreType.OVERWORLD) }
 
-    private fun <T: Block> block(id: String, b: Supplier<T>): RegistryObject<T> {
-        val block = this.block.register(id, b)
-        items.register(id) { BlockItem(block.get(), Item.Properties().tab(dimoreTab)) }
+    private fun <T: Block> block(id: String, b: () -> T): ObjectHolderDelegate<T> {
+        val block = this.block.registerObject(id, b)
+        items.registerObject(id) { BlockItem(block.get(), Item.Properties().tab(dimoreTab)) }
         return block
     }
 }
