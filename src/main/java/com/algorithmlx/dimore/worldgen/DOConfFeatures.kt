@@ -5,7 +5,7 @@ import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.api.dimension.DimensionOreType
 import com.algorithmlx.dimore.api.dimension.IDimensionOreType
 import com.algorithmlx.dimore.init.DORegistry
-import com.algorithmlx.dimore.init.config.DOConfigCommon
+import com.algorithmlx.dimore.init.config.DOCommonConfig
 import com.google.common.base.Suppliers
 import net.minecraft.core.Registry
 import net.minecraft.data.worldgen.features.OreFeatures
@@ -18,6 +18,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegistryObject
+import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
+import thedarkcolour.kotlinforforge.forge.registerObject
 
 object DOConfFeatures {
     private val configured = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, ModId)
@@ -27,63 +29,59 @@ object DOConfFeatures {
         LOGGER.info("Configuration Features initialized")
     }
 
-    /*
-    * Quartz - 14
-    * Coal - 17
-    * Iron - 9
-    * Gold - 9
-    * Redstone - 8
-    * Diamond - 8
-    * Lapis Lazuli - 7
-    * Emerald - 3
-    * Copper - 10
-    */
+    val netherCoalFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherIronFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherLapisFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherRedStoneFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherCopperFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherDiamondFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherEmeraldFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
 
-    val netherCoalFeature = nether("nether_coal_ores", DORegistry.netherCoal, 17)
-    val netherIronFeature = nether("nether_iron_ores", DORegistry.netherIron, 9)
-    val netherLapisFeature = nether("nether_lapis_ores", DORegistry.netherLapis, 7)
-    val netherRedStoneFeature = nether("nether_redstone_ores", DORegistry.netherRedstone, 8)
-    val netherCopperFeature = nether("nether_copper_ores", DORegistry.netherCopper, 10)
-    val netherDiamondFeature = nether("nether_diamond_ores", DORegistry.netherDiamond, 8)
-    val netherEmeraldFeature = nether("nether_emerald_ores", DORegistry.netherEmerald, 3)
+    val endCoalFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endIronFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endLapisFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endRedStoneFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endCopperFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endDiamondFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endEmeraldFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endGoldFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endQuartzFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
 
-    val endCoalFeature = end("end_coal_ores", DORegistry.endCoal, 17)
-    val endIronFeature = end("end_iron_ores", DORegistry.endIron, 9)
-    val endLapisFeature = end("end_lapis_ores", DORegistry.endLapis, 7)
-    val endRedStoneFeature = end("end_redstone_ores", DORegistry.endRedstone, 8)
-    val endCopperFeature = end("end_copper_ores", DORegistry.endCopper, 10)
-    val endDiamondFeature = end("end_diamond_ores", DORegistry.endDiamond, 8)
-    val endEmeraldFeature = end("end_emerald_ores", DORegistry.endEmerald, 3)
-    val endGoldFeature = end("end_quartz_ores", DORegistry.endGold, 9)
-    val endQuartzFeature = end("end_quartz_ores", DORegistry.endQuartz, 14)
+    init {
+        netherCoalFeature = nether("nether_coal", DORegistry.netherCoal, 32)
+        netherIronFeature = nether("nether_iron", DORegistry.netherIron, 18)
+        netherLapisFeature = nether("nether_lapis", DORegistry.netherLapis, 14)
+        netherRedStoneFeature = nether("nether_redstone", DORegistry.netherRedstone, 16)
+        netherCopperFeature = nether("nether_copper", DORegistry.netherCopper, 20)
+        netherDiamondFeature = nether("nether_diamond", DORegistry.netherDiamond, 16)
+        netherEmeraldFeature= nether("nether_emerald", DORegistry.netherEmerald, 12)
 
-    private fun <T: Block> end(id: String, t: RegistryObject<T>, size: Int, bool: Boolean = true) =
-        feature(id, t, size, bool && DOConfigCommon.generateEndOres.get(), DimensionOreType.END)
+        endCoalFeature = end("end_coal", DORegistry.endCoal, 32)
+        endIronFeature = end("end_iron", DORegistry.endIron, 18)
+        endLapisFeature = end("end_lapis", DORegistry.endLapis, 14)
+        endRedStoneFeature = end("end_redstone", DORegistry.endRedstone, 16)
+        endCopperFeature = end("end_copper", DORegistry.endCopper, 20)
+        endDiamondFeature = end("end_diamond", DORegistry.endDiamond, 16)
+        endEmeraldFeature = end("end_emerald", DORegistry.endEmerald, 12)
+        endGoldFeature = end("end_gold", DORegistry.endGold, 18)
+        endQuartzFeature = end("end_quartz", DORegistry.endQuartz, 28)
+    }
 
-    private fun <T: Block> nether(id: String, t: RegistryObject<T>, size: Int, bool: Boolean = true) =
-        feature(id, t, size, bool && DOConfigCommon.generateNetherOres.get(), DimensionOreType.NETHER)
+    private fun <T: Block> end(id: String, t: ObjectHolderDelegate<T>, size: Int) =
+        feature(id, t, size, DimensionOreType.END)
 
-    private fun <T: Block> feature(id: String, t: RegistryObject<T>, size: Int, bool: Boolean = true, dim: IDimensionOreType = DimensionOreType.OVERWORLD):
-            RegistryObject<ConfiguredFeature<*, *>> =
-        configured.register(id) {
+    private fun <T: Block> nether(id: String, t: ObjectHolderDelegate<T>, size: Int) =
+        feature(id, t, size, DimensionOreType.NETHER)
+
+    private fun <T: Block> feature(id: String, t: ObjectHolderDelegate<T>, size: Int, dim: IDimensionOreType = DimensionOreType.OVERWORLD):
+            ObjectHolderDelegate<ConfiguredFeature<*, *>> =
+        configured.registerObject(id) {
             ConfiguredFeature(
                 Feature.ORE,
                 OreConfiguration(
                     Suppliers.memoize { listOf(dim.getReplacementSettings(t.get().defaultBlockState())) }.get(),
-                    if (bool) size else 0
+                    size
                 )
             )
         }
-
-    private fun <T: Block> netherReplaces(block: RegistryObject<T>) =
-        OreConfiguration.target(OreFeatures.NETHER_ORE_REPLACEABLES, block.get().defaultBlockState())
-
-    private fun <T: Block> endReplaces(block: RegistryObject<T>) =
-        OreConfiguration.target(BlockMatchTest(Blocks.END_STONE), block.get().defaultBlockState())
-
-    private fun <T: Block> overReplaces(block: RegistryObject<T>) =
-        OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, block.get().defaultBlockState())
-
-    private fun <T: Block> overDeepReplaces(block: RegistryObject<T>) =
-        OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, block.get().defaultBlockState())
 }

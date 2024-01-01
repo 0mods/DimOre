@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.DropExperienceBlock
 import net.minecraft.world.level.material.Material
 
-class WorldedOreBlock(val oreType: IOreType, val dimensionType: IDimensionOreType): DropExperienceBlock(
+class WorldedOreBlock(private val oreType: IOreType, private val dimensionType: IDimensionOreType): DropExperienceBlock(
     Properties.of(Material.STONE)
         .requiresCorrectToolForDrops()
         .strength(3F, 3F)

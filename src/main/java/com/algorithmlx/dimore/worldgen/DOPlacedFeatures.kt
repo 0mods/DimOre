@@ -2,7 +2,7 @@ package com.algorithmlx.dimore.worldgen
 
 import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
-import com.algorithmlx.dimore.init.config.DOConfigCommon
+import com.algorithmlx.dimore.init.config.DOCommonConfig
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endCoalFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endCopperFeature
 import com.algorithmlx.dimore.worldgen.DOConfFeatures.endDiamondFeature
@@ -26,6 +26,8 @@ import net.minecraft.world.level.levelgen.placement.*
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegistryObject
+import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
+import thedarkcolour.kotlinforforge.forge.registerObject
 
 object DOPlacedFeatures {
     private val placed = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, ModId)
@@ -34,56 +36,40 @@ object DOPlacedFeatures {
         placed.register(bus)
         LOGGER.info("Placed Features initialized")
     }
-    /*
-    * Quartz - 16
-    * Coal - 20
-    * Iron - 10
-    * Gold - 4
-    * Redstone - 8
-    * Diamond - 7
-    * Lapis Lazuli - 4
-    * Emerald - 4
-    * Copper - 16
-    */
 
-    val netherCoalPlace: RegistryObject<PlacedFeature>? = place("nether_coal", netherCoalFeature, 20, DOConfigCommon.generateNetherOres.get())
-    val netherIronPlace: RegistryObject<PlacedFeature>? = place("nether_iron", netherIronFeature, 10, DOConfigCommon.generateNetherOres.get())
-    val netherLapisPlace: RegistryObject<PlacedFeature>? = place("nether_lapis", netherLapisFeature, 4, DOConfigCommon.generateNetherOres.get())
-    val netherRedStonePlace: RegistryObject<PlacedFeature>? = place("nether_redstone", netherRedStoneFeature, 8, DOConfigCommon.generateNetherOres.get())
-    val netherCopperPlace: RegistryObject<PlacedFeature>? = place("nether_copper", netherCopperFeature, 16, DOConfigCommon.generateNetherOres.get())
-    val netherDiamondPlace: RegistryObject<PlacedFeature>? = place("nether_diamond", netherDiamondFeature, 7, DOConfigCommon.generateNetherOres.get())
-    val netherEmeraldPlace: RegistryObject<PlacedFeature>? = place("nether_emerald", netherEmeraldFeature, 4, DOConfigCommon.generateNetherOres.get())
+    val netherCoalPlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_coal", netherCoalFeature, 20)
+    val netherIronPlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_iron", netherIronFeature, 10)
+    val netherLapisPlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_lapis", netherLapisFeature, 4)
+    val netherRedStonePlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_redstone", netherRedStoneFeature, 8)
+    val netherCopperPlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_copper", netherCopperFeature, 16)
+    val netherDiamondPlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_diamond", netherDiamondFeature, 7)
+    val netherEmeraldPlace: ObjectHolderDelegate<PlacedFeature> = nether("nether_emerald", netherEmeraldFeature, 4)
 
-    val endCoalPlace: RegistryObject<PlacedFeature>? = place("end_coal", endCoalFeature, 7, DOConfigCommon.generateEndOres.get())
-    val endIronPlace: RegistryObject<PlacedFeature>? = place("end_iron", endIronFeature, 5, DOConfigCommon.generateEndOres.get())
-    val endLapisPlace: RegistryObject<PlacedFeature>? = place("end_lapis", endLapisFeature, 4, DOConfigCommon.generateEndOres.get())
-    val endRedStonePlace: RegistryObject<PlacedFeature>? = place("end_redstone", endRedStoneFeature, 8, DOConfigCommon.generateEndOres.get())
-    val endCopperPlace: RegistryObject<PlacedFeature>? = place("end_copper", endCopperFeature, 8, DOConfigCommon.generateEndOres.get())
-    val endDiamondPlace: RegistryObject<PlacedFeature>? = place("end_diamond", endDiamondFeature, 7, DOConfigCommon.generateEndOres.get())
-    val endEmeraldPlace: RegistryObject<PlacedFeature>? = place("end_emerald", endEmeraldFeature, 4, DOConfigCommon.generateEndOres.get())
-    val endGoldPlace: RegistryObject<PlacedFeature>? = place("end_gold", endGoldFeature, 4, DOConfigCommon.generateEndOres.get())
-    val endQuartzPlace: RegistryObject<PlacedFeature>? = place("end_quartz", endQuartzFeature, 8, DOConfigCommon.generateEndOres.get())
+    val endCoalPlace: ObjectHolderDelegate<PlacedFeature> = end("end_coal", endCoalFeature, 7)
+    val endIronPlace: ObjectHolderDelegate<PlacedFeature> = end("end_iron", endIronFeature, 5)
+    val endLapisPlace: ObjectHolderDelegate<PlacedFeature> = end("end_lapis", endLapisFeature, 4)
+    val endRedStonePlace: ObjectHolderDelegate<PlacedFeature> = end("end_redstone", endRedStoneFeature, 8)
+    val endCopperPlace: ObjectHolderDelegate<PlacedFeature> = end("end_copper", endCopperFeature, 8)
+    val endDiamondPlace: ObjectHolderDelegate<PlacedFeature> = end("end_diamond", endDiamondFeature, 7)
+    val endEmeraldPlace: ObjectHolderDelegate<PlacedFeature> = end("end_emerald", endEmeraldFeature, 4)
+    val endGoldPlace: ObjectHolderDelegate<PlacedFeature> = end("end_gold", endGoldFeature, 4)
+    val endQuartzPlace: ObjectHolderDelegate<PlacedFeature> = end("end_quartz", endQuartzFeature, 8)
 
-    private fun <T: RegistryObject<ConfiguredFeature<*, *>>> place(id: String, holder: T, size: Int, gen: Boolean = true) =
-        if (gen) placed.register(id) {
+    private fun <T: ObjectHolderDelegate<ConfiguredFeature<*, *>>> nether(id: String, holder: T, size: Int) =
+        place(id, holder, size)
+
+    private fun <T: ObjectHolderDelegate<ConfiguredFeature<*, *>>> end(id: String, holder: T, size: Int) =
+        place(id, holder, size)
+
+    private fun <T: ObjectHolderDelegate<ConfiguredFeature<*, *>>> place(id: String, holder: T, size: Int) =
+        placed.registerObject(id) {
             PlacedFeature(
-                holder.holder.get(),
+                holder.registryObject.holder.get(),
                 commonOrePlacement(
                     size,
                     HeightRangePlacement.uniform(
                         VerticalAnchor.absolute(-16),
                         VerticalAnchor.absolute(480)
-                    )
-                )
-            )
-        } else placed.register(id) {
-            PlacedFeature(
-                holder.holder.get(),
-                commonOrePlacement(
-                    0,
-                    HeightRangePlacement.uniform(
-                        VerticalAnchor.absolute(Int.MIN_VALUE),
-                        VerticalAnchor.absolute(Int.MIN_VALUE)
                     )
                 )
             )
