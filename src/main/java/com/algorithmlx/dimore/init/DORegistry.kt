@@ -6,27 +6,15 @@ import com.algorithmlx.dimore.api.dimension.DimensionOreType
 import com.algorithmlx.dimore.api.ore.OreType
 import com.algorithmlx.dimore.block.RedstoneWorldedOreBlock
 import com.algorithmlx.dimore.block.WorldedOreBlock
-import net.minecraft.network.chat.Component
 import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraftforge.registries.RegistryObject
-import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
-import thedarkcolour.kotlinforforge.forge.registerObject
-import java.util.function.Supplier
 
 object DORegistry {
-    val dimoreTab: CreativeModeTab = object : CreativeModeTab(ModId) {
-        override fun makeIcon(): ItemStack = ItemStack(netherDiamond.get())
-
-        override fun getDisplayName(): Component = Component.literal("Dimensional Ores")
-    }
-
     private val items = DeferredRegister.create(ForgeRegistries.ITEMS, ModId)
     private val block = DeferredRegister.create(ForgeRegistries.BLOCKS, ModId)
 
@@ -55,10 +43,11 @@ object DORegistry {
     val endCopper = block("end_copper_ore") { WorldedOreBlock(OreType.COPPER, DimensionOreType.END) }
 
     val stoneQuartz = block("stone_quartz_ore") { WorldedOreBlock(OreType.QUARTZ, DimensionOreType.OVERWORLD) }
+    val deepslateQuartz = block("deepslate_quartz_ore") { WorldedOreBlock(OreType.QUARTZ, DimensionOreType.OVERWORLD_DEEPSLATE) }
 
-    private fun <T: Block> block(id: String, b: () -> T): ObjectHolderDelegate<T> {
-        val block = this.block.registerObject(id, b)
-        items.registerObject(id) { BlockItem(block.get(), Item.Properties().tab(dimoreTab)) }
+    private fun <T: Block> block(id: String, b: () -> T): RegistryObject<T> {
+        val block = this.block.register(id, b)
+        items.register(id) { BlockItem(block.get(), Item.Properties()) }
         return block
     }
 }

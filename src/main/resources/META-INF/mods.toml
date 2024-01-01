@@ -1,5 +1,5 @@
 modLoader="kotlinforforge"
-loaderVersion="[3.12,)"
+loaderVersion="[4.10,)"
 license="MIT"
 
 [[mods]]
@@ -12,18 +12,18 @@ license="MIT"
 [[dependencies.dimore]]
     modId="forge"
     mandatory=true
-    versionRange="[41.0.1,44.0.0)"
+    versionRange="[44.1.0,45.0.0)"
     ordering="NONE"
     side="BOTH"#
 [[dependencies.dimore]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19,1.19.3)"
+    versionRange="[1.19.3,1.19.4)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.dimore]]
     modId="kotlinforforge"
     mandatory=true
-    versionRange="[3.12.0,)"
+    versionRange="[4.10.0,)"
     ordering="NONE"
     side="BOTH"

@@ -5,16 +5,12 @@ import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.api.dimension.DimensionOreType
 import com.algorithmlx.dimore.api.dimension.IDimensionOreType
 import com.algorithmlx.dimore.init.DORegistry
-import com.algorithmlx.dimore.init.config.DOCommonConfig
 import com.google.common.base.Suppliers
-import net.minecraft.core.Registry
-import net.minecraft.data.worldgen.features.OreFeatures
+import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.feature.Feature
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.RegistryObject
@@ -22,30 +18,30 @@ import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
 import thedarkcolour.kotlinforforge.forge.registerObject
 
 object DOConfFeatures {
-    private val configured = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, ModId)
+    private val configured = DeferredRegister.create(Registries.CONFIGURED_FEATURE, ModId)
     
     fun init(bus: IEventBus) {
         configured.register(bus)
         LOGGER.info("Configuration Features initialized")
     }
 
-    val netherCoalFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val netherIronFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val netherLapisFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val netherRedStoneFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val netherCopperFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val netherDiamondFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val netherEmeraldFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val netherCoalFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val netherIronFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val netherLapisFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val netherRedStoneFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val netherCopperFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val netherDiamondFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val netherEmeraldFeature: RegistryObject<ConfiguredFeature<*, *>>
 
-    val endCoalFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endIronFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endLapisFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endRedStoneFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endCopperFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endDiamondFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endEmeraldFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endGoldFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
-    val endQuartzFeature: ObjectHolderDelegate<ConfiguredFeature<*, *>>
+    val endCoalFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endIronFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endLapisFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endRedStoneFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endCopperFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endDiamondFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endEmeraldFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endGoldFeature: RegistryObject<ConfiguredFeature<*, *>>
+    val endQuartzFeature: RegistryObject<ConfiguredFeature<*, *>>
 
     init {
         netherCoalFeature = nether("nether_coal", DORegistry.netherCoal, 32)
@@ -54,7 +50,7 @@ object DOConfFeatures {
         netherRedStoneFeature = nether("nether_redstone", DORegistry.netherRedstone, 16)
         netherCopperFeature = nether("nether_copper", DORegistry.netherCopper, 20)
         netherDiamondFeature = nether("nether_diamond", DORegistry.netherDiamond, 16)
-        netherEmeraldFeature= nether("nether_emerald", DORegistry.netherEmerald, 12)
+        netherEmeraldFeature = nether("nether_emerald", DORegistry.netherEmerald, 12)
 
         endCoalFeature = end("end_coal", DORegistry.endCoal, 32)
         endIronFeature = end("end_iron", DORegistry.endIron, 18)
@@ -67,15 +63,15 @@ object DOConfFeatures {
         endQuartzFeature = end("end_quartz", DORegistry.endQuartz, 28)
     }
 
-    private fun <T: Block> end(id: String, t: ObjectHolderDelegate<T>, size: Int) =
+    private fun <T: Block> end(id: String, t: RegistryObject<T>, size: Int) =
         feature(id, t, size, DimensionOreType.END)
 
-    private fun <T: Block> nether(id: String, t: ObjectHolderDelegate<T>, size: Int) =
+    private fun <T: Block> nether(id: String, t: RegistryObject<T>, size: Int) =
         feature(id, t, size, DimensionOreType.NETHER)
 
-    private fun <T: Block> feature(id: String, t: ObjectHolderDelegate<T>, size: Int, dim: IDimensionOreType = DimensionOreType.OVERWORLD):
-            ObjectHolderDelegate<ConfiguredFeature<*, *>> =
-        configured.registerObject(id) {
+    private fun <T: Block> feature(id: String, t: RegistryObject<T>, size: Int, dim: IDimensionOreType = DimensionOreType.OVERWORLD):
+            RegistryObject<ConfiguredFeature<*, *>> =
+        configured.register(id) {
             ConfiguredFeature(
                 Feature.ORE,
                 OreConfiguration(
