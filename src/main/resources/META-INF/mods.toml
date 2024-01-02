@@ -12,13 +12,13 @@ license="MIT"
 [[dependencies.dimore]]
     modId="forge"
     mandatory=true
-    versionRange="[44.1.0,45.0.0)"
+    versionRange="[45.2.8,46.0.0)"
     ordering="NONE"
     side="BOTH"#
 [[dependencies.dimore]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.19.4)"
+    versionRange="[1.19.4,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.dimore]]

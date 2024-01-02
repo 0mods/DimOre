@@ -21,9 +21,7 @@ class DimOre {
     init {
         LOGGER.info("Starting the mod!")
         try {
-            FORGE_BUS.register(this)
             DORegistry.init(MOD_BUS)
-
             MOD_BUS.addListener(this::registerTabs)
         } catch (e: ModLoadingException) {
             e.printStackTrace()
@@ -35,7 +33,7 @@ class DimOre {
             it.icon { ItemStack(DORegistry.netherDiamond.get()) }
                 .noScrollBar()
                 .title(Component.literal("Dimensional Ores"))
-                .displayItems { _, pOutput, _ ->
+                .displayItems { _, pOutput ->
                     pOutput.accept(DORegistry.netherCoal.get())
                     pOutput.accept(DORegistry.netherIron.get())
                     pOutput.accept(DORegistry.netherLapis.get())

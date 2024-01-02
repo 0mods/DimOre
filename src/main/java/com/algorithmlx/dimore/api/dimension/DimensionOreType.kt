@@ -1,6 +1,5 @@
 package com.algorithmlx.dimore.api.dimension
 
-import net.minecraft.data.worldgen.features.OreFeatures
 import net.minecraft.tags.BlockTags
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
