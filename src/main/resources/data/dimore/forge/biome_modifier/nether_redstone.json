@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#minecraft:is_nether",
-  "features": "dimore:nether_redstone",
-  "step": "underground_ores"
-}

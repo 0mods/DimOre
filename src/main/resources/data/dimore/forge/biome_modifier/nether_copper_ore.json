@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "dimore:nether_copper_ore",
+  "step": "underground_ores"
+}

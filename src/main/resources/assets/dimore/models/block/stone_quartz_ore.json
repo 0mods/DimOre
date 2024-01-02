@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "dimore:block/stone_quartz_ore"
+  }
+}

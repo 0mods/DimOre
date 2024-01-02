@@ -1,9 +1,7 @@
 package com.algorithmlx.dimore.init.config
 
 import net.minecraftforge.common.ForgeConfigSpec
-import net.minecraftforge.fml.common.Mod
 
-@Mod.EventBusSubscriber
 object DOCommonConfig {
     @JvmField
     val commonConfig: ForgeConfigSpec

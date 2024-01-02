@@ -16,6 +16,8 @@
     "dimore:end_redstone_ore",
     "dimore:end_diamond_ore",
     "dimore:end_emerald_ore",
-    "dimore:end_copper_ore"
+    "dimore:end_copper_ore",
+    "dimore:stone_quartz_ore",
+    "dimore:deepslate_quartz_ore"
   ]
 }
