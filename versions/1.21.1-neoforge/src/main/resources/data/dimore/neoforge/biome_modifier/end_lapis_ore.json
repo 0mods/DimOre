@@ -1,0 +1,6 @@
+{
+  "type": "dimore:conditional_ore",
+  "biomes": "#minecraft:is_end",
+  "features": "dimore:end_lapis_ore",
+  "required_values": ["generate_end_ores", "generate_end_lapis"]
+}

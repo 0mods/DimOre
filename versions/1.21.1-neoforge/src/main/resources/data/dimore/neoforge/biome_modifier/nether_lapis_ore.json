@@ -1,0 +1,6 @@
+{
+  "type": "dimore:conditional_ore",
+  "biomes": "#minecraft:is_nether",
+  "features": "dimore:nether_lapis_ore",
+  "required_values": ["generate_nether_ores", "generate_nether_lapis"]
+}

@@ -1,11 +1,17 @@
 pluginManagement {
     repositories {
-        mavenCentral()
         gradlePluginPortal()
-        maven("https://maven.minecraftforge.net/")
-        maven("https://repo.spongepowered.org/repository/maven-public/")
+        mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
         maven("https://maven.parchmentmc.org")
+        maven("https://maven.fabricmc.net/")
+        maven("https://repo.spongepowered.org/repository/maven-public/")
+        maven("https://maven.neoforged.net/releases")
+        maven("https://maven.architectury.dev")
+        maven("https://maven.minecraftforge.net")
+        maven("https://maven.kikugie.dev/snapshots")
     }
+
     val kotlinVersion: String by settings
     plugins {
         kotlin("jvm") version kotlinVersion
@@ -14,7 +20,23 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+    id("dev.kikugie.stonecutter") version "0.7.7-beta.2"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-rootProject.name = "DimOre"
+stonecutter {
+    kotlinController = true
+    centralScript = "build.gradle.kts"
+
+    shared {
+        rootProject.projectDir.resolve("versions")
+            .listFiles()
+            .filter { it.isDirectory }
+            .filter { !it.resolve(".build-ignore").exists() }
+            .forEach { version(it.name) }
+    }
+    create(rootProject)
+}
+
+val archivesName: String by settings
+rootProject.name = archivesName
