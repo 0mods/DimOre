@@ -1,6 +1,6 @@
 package com.algorithmlx.dimore.init
 
-import com.algorithmlx.dimore.DimensionalOres
+import com.algorithmlx.dimore.ModId
 import com.google.common.base.Supplier
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -14,7 +14,7 @@ import com.algorithmlx.dimore.worldgen.ConfigurableOreModifier
 object CodecRegistry {
     private val biomeModifiers = DeferredRegister.create(
         NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS,
-        DimensionalOres.ModId
+        ModId
     )
 
     val codec = biomeModifiers.register(

@@ -27,7 +27,10 @@ val container = ModProject(
     entryPoints = mapOf(
         "main" to listOf("com.algorithmlx.dimore.Mod::onInitialize")
     ),
-    dependencies = mapOf()
+    dependencies = mapOf(
+        "neoforge" to mapOf("kotlinforforge" to "5.3.0"),
+        "fabric" to mapOf("fabric-language-kotlin" to "1.13.4+kotlin.2.2.0")
+    )
 )
 
 setupEnviroment(container, kotlinVersion, includeKotlin = true)

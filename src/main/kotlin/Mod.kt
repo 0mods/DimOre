@@ -13,7 +13,7 @@ import net.neoforged.fml.common.Mod
 const val ModId: String = "dimore"
 
 //? if neoforge {
-/*@Mod(DimensionalOres.ModId)
+/*@Mod(ModId)
 class Mod(bus: IEventBus) {
     init {
         ConfigManager.load()
