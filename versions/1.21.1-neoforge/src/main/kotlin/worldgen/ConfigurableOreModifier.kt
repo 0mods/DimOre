@@ -28,5 +28,5 @@ data class ConfigurableOreModifier(
             builder.generationSettings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, this.feature)
     }
 
-    override fun codec(): MapCodec<out BiomeModifier?>? = CodecRegistry.codec.get()
+    override fun codec(): MapCodec<out BiomeModifier> = CodecRegistry.codec.get()
 }
