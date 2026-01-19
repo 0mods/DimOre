@@ -1,6 +1,8 @@
 package com.algorithmlx.dimore
 
 import com.algorithmlx.dimore.init.BlockRegistry
+//? if neoforge
+/*import com.algorithmlx.dimore.init.CodecRegistry*/
 import com.algorithmlx.dimore.init.config.ConfigManager
 //? if fabric
 import com.algorithmlx.dimore.worldgen.OreConfig
@@ -18,6 +20,7 @@ class Mod(bus: IEventBus) {
     init {
         ConfigManager.load()
         BlockRegistry.init(bus)
+        CodecRegistry.init(bus)
     }
 }
 *///?} else {
