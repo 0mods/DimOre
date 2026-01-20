@@ -1,6 +1,7 @@
 package com.algorithmlx.dimore.worldgen
 
-import com.algorithmlx.dimore.ModId
+//? if fabric {
+/*import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.init.config.ConfigManager
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
@@ -71,3 +72,4 @@ object OreConfig {
         ResourceLocation.fromNamespaceAndPath(ModId, id)
     )
 }
+*///?}

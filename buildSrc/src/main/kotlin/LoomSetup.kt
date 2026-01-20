@@ -63,13 +63,13 @@ object LoomSetup {
         }
 
         project.dependencies {
-            setupLoader(loom, modPlatform, minecraftVersion)
+            setupLoader(loom, modPlatform, minecraftVersion, modProject)
         }
     }
 
-    private fun DependencyHandlerScope.setupLoader(loom: LoomGradleExtensionAPI, loader: String, version: String) {
+    private fun DependencyHandlerScope.setupLoader(loom: LoomGradleExtensionAPI, loader: String, version: String, modProject: ModProject) {
         minecraft(version)
-        "mappings"(loom.setupMappings(version))
+        "mappings"(loom.setupMappings(version, modProject))
 
         "compileOnly"("io.github.llamalad7:mixinextras-common:0.4.1")
 
@@ -79,7 +79,7 @@ object LoomSetup {
             "neoforge" -> NeoForgeSetup
             else -> error("Unsupported loader $loader")
         }.apply {
-            setup(version)
+            setup(version, modProject)
         }
     }
 }

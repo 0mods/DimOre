@@ -13,6 +13,7 @@ plugins {
     id("me.fallenbreath.yamlang")
     kotlin("jvm")
     kotlin("plugin.serialization")
+    id("me.shedaniel.unified-publishing") version "0.1.+"
 }
 
 val String.fromProperties
@@ -48,4 +49,55 @@ dependencies {
     neoforgeImplementation(stonecutter, "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 }
 
+stonecutter {
+    filters {
+        if (stonecutter.modPlatform == "fabric") {
+            exclude("**/neoforge/**")
+            exclude("**/forge/**")
+        }
+    }
+}
+
 kotlin.compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
+
+unifiedPublishing {
+    project {
+        gameVersions = listOf(stonecutter.minecraftVersion)
+        gameLoaders = listOf(stonecutter.modPlatform)
+        releaseType = "release"
+
+        mainPublication(tasks.remapJar.get())
+
+        val curseToken = System.getenv("CURSE_TOKEN")
+        val curseProject = System.getenv("CURSE_PROJECT")
+        val modrinthToken = System.getenv("MODRINTH_TOKEN")
+        val modrinthProject = System.getenv("MODRINTH_PROJECT")
+
+        if (curseToken != null && curseProject != null) curseforge {
+            token = curseToken
+            id = curseProject
+            displayName = "[${stonecutter.modPlatform}] ${container.modName} (v.${container.modVersion})"
+            relations {
+                if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
+                else {
+                    depends("fabric-api")
+                    depends("fabric-language-kotlin")
+                }
+            }
+        }
+
+
+        if (modrinthToken != null && modrinthProject != null) modrinth {
+            token = modrinthToken
+            id = modrinthProject
+            displayName = "[${stonecutter.modPlatform}] ${container.modName} (v.${container.modVersion})"
+            relations {
+                if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
+                else {
+                    depends("fabric-api")
+                    depends("fabric-language-kotlin")
+                }
+            }
+        }
+    }
+}

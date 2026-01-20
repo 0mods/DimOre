@@ -31,8 +31,8 @@ object FabricModGenerator {
 
         doLast {
             val defaultFabric = mapOf(
-                "fabricloader" to FabricSetup.fabricLoader(minecraftVersion).greaterEqual(),
-                "fabric-api" to FabricSetup.fabricApi(minecraftVersion).greaterEqual(),
+                "fabricloader" to FabricSetup.fabricLoader(minecraftVersion, modProject).greaterEqual(),
+                "fabric-api" to FabricSetup.fabricApi(minecraftVersion, modProject).greaterEqual(),
                 "minecraft" to minecraftVersion,
                 "java" to ">=17"
             )

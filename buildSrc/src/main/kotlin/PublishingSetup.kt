@@ -1,4 +1,3 @@
-import net.fabricmc.loom.util.ModPlatform
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication

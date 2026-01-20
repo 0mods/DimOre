@@ -8,30 +8,30 @@ import com.algorithmlx.dimore.util.OreDimensionTypes
 import com.algorithmlx.dimore.util.OreType
 import com.algorithmlx.dimore.util.OreTypes
 //? if fabric {
-import net.minecraft.core.Registry
+/*import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-//?}
+*///?}
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 //? if neoforge {
-/*import net.neoforged.bus.api.IEventBus
+import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.function.Supplier
-*///?}
+//?}
 
 object BlockRegistry {
     //? if neoforge {
-    /*fun init(bus: IEventBus) {
+    fun init(bus: IEventBus) {
         blockRegistry.register(bus)
         itemRegistry.register(bus)
-    *///?} else {
-    fun init() {
-    //?}
+    //?} else {
+    /*fun init() {
+    *///?}
         // Nether Ores
         OreTypes.netherOres.forEach {
             val id = "nether_${it.name.lowercase()}_ore"
@@ -64,7 +64,7 @@ object BlockRegistry {
     }
 
     //? if neoforge {
-    /*private val blockRegistry = DeferredRegister.createBlocks(ModId)
+    private val blockRegistry = DeferredRegister.createBlocks(ModId)
     private val itemRegistry = DeferredRegister.createItems(ModId)
 
     private fun registerOre(id: String, oreType: OreType, oreDimensionType: OreDimensionType) = registerBlock(
@@ -80,9 +80,9 @@ object BlockRegistry {
         itemRegistry.register(id, Supplier { item(bl.get()) })
         return bl
     }
-    *///?} else {
+    //?} else {
 
-    private fun registerOre(id: String, oreType: OreType, oreDimensionType: OreDimensionType) = registerBlock(
+    /*private fun registerOre(id: String, oreType: OreType, oreDimensionType: OreDimensionType) = registerBlock(
         id, DimensionalOreBlock(oreType, oreDimensionType)
     ) { b -> BlockItem(b, Item.Properties()) }
 
@@ -104,5 +104,5 @@ object BlockRegistry {
 
     private fun <T> key(key: ResourceKey<Registry<T>>, id: String): ResourceKey<T> =
         ResourceKey.create(key, ResourceLocation.fromNamespaceAndPath(ModId, id))
-    //?}
+    *///?}
 }

@@ -36,7 +36,7 @@ object NeoForgeModGenerator {
                 [[dependencies.${modProject.modId}]]
                 modId = "neoforge"
                 type = "required"
-                versionRange = "[${NeoForgeSetup.forgeVersion(minecraftVersion)},)"
+                versionRange = "[${NeoForgeSetup.forgeVersion(minecraftVersion, modProject)},)"
                 ordering = "NONE"
                 side = "BOTH"
                 [[dependencies.${modProject.modId}]]

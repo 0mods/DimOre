@@ -28,19 +28,12 @@ fun DependencyHandlerScope.install(path: String, includeInJar: Boolean = true, i
 fun DependencyHandlerScope.minecraft(version: String) = "minecraft"("com.mojang:minecraft:$version")
 
 @Suppress("UnstableApiUsage")
-fun LoomGradleExtensionAPI.setupMappings(version: String): Dependency = layered {
+fun LoomGradleExtensionAPI.setupMappings(version: String, modProject: ModProject): Dependency = layered {
     officialMojangMappings()
-    val mappingsVer = when (version) {
-        "1.21.1" -> "2024.11.17"
-        "1.21" -> "2024.07.28"
-        "1.20.1" -> "2023.09.03"
-        "1.19.2" -> "2022.11.27"
-        else -> throw IllegalStateException("Unknown mappings for version $version!")
-    }
-    parchment("org.parchmentmc.data:parchment-$version:$mappingsVer")
+    val mappingsVer = modProject.mappingsVersion[version] ?: ""
+    if (mappingsVer.isNotEmpty())
+        parchment("org.parchmentmc.data:parchment-$version:$mappingsVer")
 }
-
-
 
 val SourceSetContainer.main get() = named<SourceSet>("main")
 

@@ -3,4 +3,4 @@ plugins {
     id("co.uzzu.dotenv.gradle") version "4.0.0"
     id("me.modmuss50.mod-publish-plugin") version "0.5.+" apply false
 }
-stonecutter active "1.21.1-fabric" /* [SC] DO NOT EDIT */
+stonecutter active "1.21.9-neoforge" /* [SC] DO NOT EDIT */

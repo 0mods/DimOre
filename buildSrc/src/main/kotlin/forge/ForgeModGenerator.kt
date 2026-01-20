@@ -36,7 +36,7 @@ object ForgeModGenerator {
                 [[dependencies.${modProject.modId}]]
                 modId = "forge"
                 mandatory = true
-                versionRange = "[${ForgeSetup.forgeVersion(minecraftVersion)},)"
+                versionRange = "[${ForgeSetup.forgeVersion(minecraftVersion, modProject)},)"
                 ordering = "NONE"
                 side = "BOTH"
                 [[dependencies.${modProject.modId}]]

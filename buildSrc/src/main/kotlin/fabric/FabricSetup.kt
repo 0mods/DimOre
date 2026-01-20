@@ -1,45 +1,25 @@
 package fabric
 
+import ModProject
 import common.DependencySetup
 import install
-import modImplementation
 import modImplementation
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object FabricSetup: DependencySetup {
-    override fun DependencyHandlerScope.setup(minecraftVersion: String) {
-        modImplementation("net.fabricmc:fabric-loader:0.17.0")
-        when (minecraftVersion) {
-            "1.21.1" -> {
-                modImplementation("net.fabricmc.fabric-api:fabric-api:0.116.4+$minecraftVersion")
-            }
-
-            "1.21" -> {
-                modImplementation("net.fabricmc.fabric-api:fabric-api:0.102.0+$minecraftVersion")
-            }
-
-            "1.20.1" -> {
-                modImplementation("net.fabricmc.fabric-api:fabric-api:0.92.2+$minecraftVersion")
-            }
-
-            "1.19.2" -> {
-                modImplementation("net.fabricmc.fabric-api:fabric-api:0.77.0+$minecraftVersion")
-            }
-
-            else -> throw IllegalStateException("Unsupported Fabric version $minecraftVersion!")
-        }
+    override fun DependencyHandlerScope.setup(minecraftVersion: String, modProject: ModProject) {
+        modImplementation("net.fabricmc:fabric-loader:${fabricLoader(minecraftVersion, modProject)}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${fabricApi(minecraftVersion, modProject)}")
         install("io.github.llamalad7:mixinextras-fabric:0.4.1")
     }
 
-    fun fabricLoader(minecraftVersion: String) = when(minecraftVersion) {
-        "1.21.1" -> "0.17.0"
-        else -> "0.15.11"
+    fun fabricLoader(minecraftVersion: String, modProject: ModProject): String {
+        val modLoaderVersions = modProject.modLoaderVersions[ModProject.ModPlatform.FABRIC] ?: return "0.17.0"
+        val version = modLoaderVersions["${minecraftVersion}-loader"] ?: modLoaderVersions["loader"] ?: return "0.17.0"
+        return version
     }
-    fun fabricApi(minecraftVersion: String) = when(minecraftVersion) {
-        "1.21.1" -> "0.116.4+$minecraftVersion"
-        "1.21" -> "0.102.0+$minecraftVersion"
-        "1.20.1" -> "0.92.2+$minecraftVersion"
-        "1.19.2" -> "0.77.0+$minecraftVersion"
-        else -> error("Unsupported fabric api version for $minecraftVersion")
-    }
+
+    fun fabricApi(minecraftVersion: String, modProject: ModProject) =
+        modProject.modLoaderVersions[ModProject.ModPlatform.FABRIC]?.get("$minecraftVersion-api")
+            ?: error("Unsupported forge version for $minecraftVersion")
 }
