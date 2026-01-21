@@ -26,7 +26,7 @@ jobs:
         with:
           gradle-version: '8.14.2'
       - name: Build Mod
-        run: gradle unifiedPublishing
+        run: gradle publishUnified
         env:
           CURSE_TOKEN: ${{ secrets.CURSE_TOKEN }}
           CURSE_PROJECT: ${{ secrets.CURSE_PROJECT }}
