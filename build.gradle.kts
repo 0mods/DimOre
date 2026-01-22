@@ -1,5 +1,7 @@
+import me.shedaniel.unifiedpublishing.PublicationRelations
+
 val modId = "mod_id".fromProperties
-val modName = "archivesName".fromProperties
+val modName = "mod_name".fromProperties
 val modVersion = "mod_version".fromProperties
 val kotlinVersion: String by rootProject
 val license = "mod_license".fromProperties
@@ -62,9 +64,16 @@ kotlin.compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
 
 unifiedPublishing {
     project {
+        fun PublicationRelations.deps() = if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
+        else {
+            depends("fabric-api")
+            depends("fabric-language-kotlin")
+        }
+
         gameVersions = listOf(stonecutter.minecraftVersion)
         gameLoaders = listOf(stonecutter.modPlatform)
         releaseType = "release"
+        displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${container.modName} (v.${container.modVersion})"
 
         mainPublication(tasks.remapJar.get())
 
@@ -76,28 +85,14 @@ unifiedPublishing {
         if (curseToken != null && curseProject != null) curseforge {
             token = curseToken
             id = curseProject
-            displayName = "[${stonecutter.modPlatform}] ${container.modName} (v.${container.modVersion})"
-            relations {
-                if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
-                else {
-                    depends("fabric-api")
-                    depends("fabric-language-kotlin")
-                }
-            }
+            relations { deps() }
         }
-
 
         if (modrinthToken != null && modrinthProject != null) modrinth {
             token = modrinthToken
             id = modrinthProject
-            displayName = "[${stonecutter.modPlatform}] ${container.modName} (v.${container.modVersion})"
-            relations {
-                if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
-                else {
-                    depends("fabric-api")
-                    depends("fabric-language-kotlin")
-                }
-            }
+            version = "${stonecutter.modPlatform}-${stonecutter.minecraftVersion}_v.${container.modVersion}"
+            relations { deps() }
         }
     }
 }
