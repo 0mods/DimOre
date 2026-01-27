@@ -62,10 +62,8 @@ stonecutter {
 
 kotlin.compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
 
-val curseProject: String? = System.getenv("CURSE_PROJECT")
-println("CurseForge Project Id: ${curseProject}")
-val modrinthProject: String? = System.getenv("MODRINTH_PROJECT")
-println("Modrinth Project Id: ${modrinthProject}")
+val curseProject: String? = rootProject.properties["curseforge_project"]
+val modrinthProject: String? = rootProject.properties["modrinth_project"]
 
 unifiedPublishing {
     project {
@@ -81,9 +79,6 @@ unifiedPublishing {
         displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${container.modName} (v.${container.modVersion})"
 
         mainPublication(tasks.remapJar.get())
-
-        val curseToken = System.getenv("CURSE_TOKEN")
-        val modrinthToken = System.getenv("MODRINTH_TOKEN")
 
         if (curseToken != null && curseProject != null) curseforge {
             token = curseToken
