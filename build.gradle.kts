@@ -62,6 +62,11 @@ stonecutter {
 
 kotlin.compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
 
+val curseProject: String? = System.getenv("CURSE_PROJECT")
+println("CurseForge Project Id: ${curseProject}")
+val modrinthProject: String? = System.getenv("MODRINTH_PROJECT")
+println("Modrinth Project Id: ${modrinthProject}")
+
 unifiedPublishing {
     project {
         fun PublicationRelations.deps() = if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
@@ -78,9 +83,7 @@ unifiedPublishing {
         mainPublication(tasks.remapJar.get())
 
         val curseToken = System.getenv("CURSE_TOKEN")
-        val curseProject = System.getenv("CURSE_PROJECT")
         val modrinthToken = System.getenv("MODRINTH_TOKEN")
-        val modrinthProject = System.getenv("MODRINTH_PROJECT")
 
         if (curseToken != null && curseProject != null) curseforge {
             token = curseToken
