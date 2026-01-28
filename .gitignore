@@ -3,3 +3,4 @@ run/
 .gradle/
 build/
 merged/
+.architectury-transformer/
