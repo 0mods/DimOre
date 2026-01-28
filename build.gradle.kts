@@ -5,6 +5,9 @@ val modName = "mod_name".fromProperties
 val modVersion = "mod_version".fromProperties
 val kotlinVersion: String by rootProject
 val license = "mod_license".fromProperties
+val flkVersion = "flk_version".fromProperties
+val klfVersion = "klf_version".fromProperties
+val klfLoaderVersion = "klf_loader_version".fromProperties
 
 plugins {
     java
@@ -31,8 +34,8 @@ val container = ModProject(
         "main" to listOf("com.algorithmlx.dimore.Mod::onInitialize")
     ),
     dependencies = mapOf(
-        "neoforge" to mapOf("kotlinforforge" to "5.3.0"),
-        "fabric" to mapOf("fabric-language-kotlin" to "1.13.4+kotlin.2.2.0")
+        "neoforge" to mapOf("klf" to "$klfVersion-k$kotlinVersion-$klfLoaderVersion+neoforge"),
+        "fabric" to mapOf("fabric-language-kotlin" to "$flkVersion+kotlin.$kotlinVersion")
     )
 )
 
@@ -40,12 +43,12 @@ setupEnviroment(container, kotlinVersion, includeKotlin = true)
 
 repositories {
     mavenCentral()
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
+    maven("https://repo.nyon.dev/releases")
 }
 
 dependencies {
-    fabricModImplementation(stonecutter, "net.fabricmc:fabric-language-kotlin:1.13.4+kotlin.2.2.0")
-    neoforgeModImplementation(stonecutter, "thedarkcolour:kotlinforforge-neoforge:5.3.0")
+    fabricModImplementation(stonecutter, "net.fabricmc:fabric-language-kotlin:$flkVersion+kotlin.$kotlinVersion")
+    neoforgeModImplementation(stonecutter, "dev.nyon:KotlinLangForge:$klfVersion-k$kotlinVersion-$klfLoaderVersion+neoforge")
     neoforgeImplementation(stonecutter, "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     neoforgeImplementation(stonecutter, "org.jetbrains.kotlinx:kotlinx-serialization-core:1.9.0")
     neoforgeImplementation(stonecutter, "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
@@ -67,8 +70,15 @@ val modrinthProject: String? = rootProject.properties["modrinth_project"]?.toStr
 
 unifiedPublishing {
     project {
-        fun PublicationRelations.deps() = if (stonecutter.modPlatform == "neoforge") depends("kotlin-for-forge")
-        else {
+        if (project.file("nopub").exists()) {
+            println("No publish file exists (${project.name}/nopub). Skipping")
+            return@project
+        }
+
+        fun PublicationRelations.deps(isCurseForge: Boolean = false) = if (stonecutter.modPlatform.contains("forge")) {
+            if (!isCurseForge) depends("kotlin-lang-forge")
+            else depends("kotlinlangforge")
+        } else {
             depends("fabric-api")
             depends("fabric-language-kotlin")
         }
@@ -88,7 +98,7 @@ unifiedPublishing {
         if (curseToken != null && curseProject != null) curseforge {
             token = curseToken
             id = curseProject
-            relations { deps() }
+            relations { deps(true) }
         }
 
         if (modrinthToken != null && modrinthProject != null) modrinth {
