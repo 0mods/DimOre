@@ -73,7 +73,11 @@ object OreConfig {
 
     private fun key(id: String) = ResourceKey.create(
         Registries.PLACED_FEATURE,
+        //? if <1.21.11 {
         ResourceLocation.fromNamespaceAndPath(ModId, id)
+        //?} else {
+        /*Identifier.fromNamespaceAndPath(ModId, id)
+        *///?}
     )
 }
 *///?}
