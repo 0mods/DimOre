@@ -8,7 +8,11 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
+//? if <1.21.11 {
 import net.minecraft.resources.ResourceLocation
+//?} else {
+/*net.minecraft.resources.Identifier
+*///?}
 import net.minecraft.world.level.levelgen.GenerationStep
 import java.util.function.Predicate
 
