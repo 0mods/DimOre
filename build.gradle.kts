@@ -78,6 +78,8 @@ unifiedPublishing {
         releaseType = "release"
         displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${container.modName} (v.${container.modVersion})"
 
+        description = "Pushed via Auto Compile. View changelog here: https://github.com/AlgorithmLX/DimOre"
+
         mainPublication(tasks.remapJar.get())
 
         val curseToken = System.getenv("CURSE_TOKEN")

@@ -2,5 +2,5 @@
   "type": "dimore:conditional_ore",
   "biomes": "#minecraft:is_nether",
   "features": "dimore:nether_copper_ore",
-  "required_values": ["generate_nether_ores", "generate_nether_copper"]
+  "required_values": ["nether_ores.enabled", "nether_ores.copper"]
 }

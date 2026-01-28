@@ -1,0 +1,60 @@
+name: Publish mod to platforms
+on:
+  push:
+    branches: [ "stonecutter" ]
+
+jobs:
+  curseforge:
+    name: CurseForge Publish
+    strategy:
+      matrix:
+        java: [ 21 ]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    if: |
+      contains(github.event.head_commit.message, '[cf]')
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: setup jdk ${{ matrix.java }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: Prepare Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          gradle-version: '8.14.2'
+      - name: Build Mod
+        run: gradle publishUnified
+        env:
+          CURSE_TOKEN: ${{ secrets.CURSE_TOKEN }}
+          CURSE_PROJECT: ${{ secrets.CURSE_PROJECT }}
+  modrinth:
+    name: Modrinth Publish
+    strategy:
+      matrix:
+        java: [ 21 ]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    if: |
+      contains(github.event.head_commit.message, '[mr]')
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: setup jdk ${{ matrix.java }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: Prepare Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          gradle-version: '8.14.2'
+      - name: Build Mod
+        run: gradle publishUnified
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_PROJECT: ${{ secrets.MODRINTH_PROJECT }}

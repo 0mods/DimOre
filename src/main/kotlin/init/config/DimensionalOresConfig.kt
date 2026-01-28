@@ -6,51 +6,121 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DimensionalOresConfig(
     // Nether Ores
-    @SerialName("generate_nether_ores")
-    val generateNetherOres: Boolean = true,
+    @JsonComment([
+        "Configures ore generation in The Nether"
+    ])
+    @SerialName("nether_ores")
+    val netherOres: NetherOres = NetherOres(),
 
-    @SerialName("generate_nether_coal")
-    val generateNetherCoal: Boolean = true,
-    @SerialName("generate_nether_copper")
-    val generateNetherCopper: Boolean = true,
-    @SerialName("generate_nether_iron")
-    val generateNetherIron: Boolean = true,
-    @SerialName("generate_nether_lapis")
-    val generateNetherLapis: Boolean = true,
-    @SerialName("generate_nether_diamond")
-    val generateNetherDiamond: Boolean = true,
-    @SerialName("generate_nether_emerald")
-    val generateNetherEmerald: Boolean = true,
-    @SerialName("generate_nether_redstone")
-    val generateNetherRedstone: Boolean = true,
-    
     // Overworld Ores
-    @SerialName("generate_overworld_ores")
-    val generateOverworldOres: Boolean = true,
+    @JsonComment([
+        "Configures ore generation in Overworld"
+    ])
+    @SerialName("overworld_ores")
+    val overworldOres: OverworldOres = OverworldOres(),
 
-    @SerialName("generate_quartz")
-    val generateQuartz: Boolean = true,
-    
     // End Ores
-    @SerialName("generate_end_ores")
-    val generateEndOres: Boolean = true,
+    @JsonComment([
+        "Configures ore generation in The End"
+    ])
+    @SerialName("end_ores")
+    val endOres: EndOres = EndOres()
+) {
+    @Serializable
+    data class NetherOres(
+        @JsonComment([
+            "Enables/disables ore generation in The Nether.",
+            "If false, no ore will be generated."
+        ], multiline = true)
+        @SerialName("enabled")
+        val generateOres: Boolean = true,
 
-    @SerialName("generate_end_quartz")
-    val generateEndQuartz: Boolean = true,
-    @SerialName("generate_end_coal")
-    val generateEndCoal: Boolean = true,
-    @SerialName("generate_end_copper")
-    val generateEndCopper: Boolean = true,
-    @SerialName("generate_end_iron")
-    val generateEndIron: Boolean = true,
-    @SerialName("generate_end_gold")
-    val generateEndGold: Boolean = true,
-    @SerialName("generate_end_lapis")
-    val generateEndLapis: Boolean = true,
-    @SerialName("generate_end_diamond")
-    val generateEndDiamond: Boolean = true,
-    @SerialName("generate_end_emerald")
-    val generateEndEmerald: Boolean = true,
-    @SerialName("generate_end_redstone")
-    val generateEndRedstone: Boolean = true
-)
+        @JsonComment(["Enables/disables Coal generation in The Nether."])
+        @SerialName("coal")
+        val generateCoal: Boolean = true,
+
+        @JsonComment(["Enables/disables Copper generation in The Nether."])
+        @SerialName("copper")
+        val generateCopper: Boolean = true,
+
+        @JsonComment(["Enables/disables Iron generation in The Nether."])
+        @SerialName("iron")
+        val generateIron: Boolean = true,
+
+        @JsonComment(["Enables/disables Lapis Lazuli generation in The Nether."])
+        @SerialName("lapis")
+        val generateLapis: Boolean = true,
+
+        @JsonComment(["Enables/disables Diamond generation in The Nether."])
+        @SerialName("diamond")
+        val generateDiamond: Boolean = true,
+
+        @JsonComment(["Enables/disables Emerald generation in The Nether."])
+        @SerialName("emerald")
+        val generateEmerald: Boolean = true,
+
+        @JsonComment(["Enables/disables Redstone generation in The Nether."])
+        @SerialName("redstone")
+        val generateRedstone: Boolean = true
+    )
+
+    @Serializable
+    data class OverworldOres(
+        @JsonComment([
+            "Enables/disables ore generation in Overworld.",
+            "If false, no ore will be generated."
+        ], multiline = true)
+        @SerialName("enabled")
+        val generateOres: Boolean = true,
+
+        @JsonComment(["Enables/disables Quartz generation in Overworld."])
+        @SerialName("quartz")
+        val generateQuartz: Boolean = true
+    )
+
+    @Serializable
+    data class EndOres(
+        @JsonComment([
+            "Enables/disables ore generation in The End.",
+            "If false, no ore will be generated."
+        ], multiline = true)
+        @SerialName("enabled")
+        val generateOres: Boolean = true,
+
+        @JsonComment(["Enables/disables Quartz generation in The End."])
+        @SerialName("quartz")
+        val generateQuartz: Boolean = true,
+
+        @JsonComment(["Enables/disables Coal generation in The End."])
+        @SerialName("coal")
+        val generateCoal: Boolean = true,
+
+        @JsonComment(["Enables/disables Copper generation in The End."])
+        @SerialName("copper")
+        val generateCopper: Boolean = true,
+
+        @JsonComment(["Enables/disables Iron generation in The End."])
+        @SerialName("iron")
+        val generateIron: Boolean = true,
+
+        @JsonComment(["Enables/disables Gold generation in The End."])
+        @SerialName("gold")
+        val generateGold: Boolean = true,
+
+        @JsonComment(["Enables/disables Lapis Lazuli generation in The End."])
+        @SerialName("lapis")
+        val generateLapis: Boolean = true,
+
+        @JsonComment(["Enables/disables Diamond generation in The End."])
+        @SerialName("diamond")
+        val generateDiamond: Boolean = true,
+
+        @JsonComment(["Enables/disables Emerald generation in The End."])
+        @SerialName("emerald")
+        val generateEmerald: Boolean = true,
+
+        @JsonComment(["Enables/disables Redstone generation in The End."])
+        @SerialName("redstone")
+        val generateRedstone: Boolean = true
+    )
+}

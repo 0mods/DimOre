@@ -2,5 +2,5 @@
   "type": "dimore:conditional_ore",
   "biomes": "#minecraft:is_end",
   "features": "dimore:end_emerald_ore",
-  "required_values": ["generate_end_ores", "generate_end_emerald"]
+  "required_values": ["end_ores.enabled", "end_ores.emerald"]
 }
