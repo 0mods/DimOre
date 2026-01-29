@@ -1,7 +1,7 @@
 package com.algorithmlx.dimore.init
 
 //? if neoforge {
-import com.algorithmlx.dimore.ModId
+/*import com.algorithmlx.dimore.ModId
 import com.google.common.base.Supplier
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -38,4 +38,4 @@ object CodecRegistry {
         biomeModifiers.register(bus)
     }
 }
-//?}
+*///?}

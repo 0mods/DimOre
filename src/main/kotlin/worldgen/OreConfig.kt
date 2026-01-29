@@ -1,17 +1,17 @@
 package com.algorithmlx.dimore.worldgen
 
 //? if fabric {
-/*import com.algorithmlx.dimore.ModId
+import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.init.config.ConfigManager
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-//? if <1.21.11 {
-import net.minecraft.resources.ResourceLocation
+//? if >1.21.10 {
+import com.algorithmlx.dimore.util.ResourceLocation
 //?} else {
-/*net.minecraft.resources.Identifier
+/*import net.minecraft.resources.ResourceLocation
 *///?}
 import net.minecraft.world.level.levelgen.GenerationStep
 import java.util.function.Predicate
@@ -73,11 +73,7 @@ object OreConfig {
 
     private fun key(id: String) = ResourceKey.create(
         Registries.PLACED_FEATURE,
-        //? if <1.21.11 {
         ResourceLocation.fromNamespaceAndPath(ModId, id)
-        //?} else {
-        /*Identifier.fromNamespaceAndPath(ModId, id)
-        *///?}
     )
 }
-*///?}
+//?}

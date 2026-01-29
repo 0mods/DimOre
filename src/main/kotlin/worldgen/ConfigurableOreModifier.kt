@@ -1,7 +1,7 @@
 package com.algorithmlx.dimore.worldgen
 
 //? if neoforge {
-import com.algorithmlx.dimore.init.CodecRegistry
+/*import com.algorithmlx.dimore.init.CodecRegistry
 import com.algorithmlx.dimore.init.config.ConfigManager
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.Holder
@@ -31,4 +31,4 @@ data class ConfigurableOreModifier(
 
     override fun codec(): MapCodec<out BiomeModifier> = CodecRegistry.codec.get()
 }
-//?}
+*///?}
