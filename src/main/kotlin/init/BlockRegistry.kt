@@ -95,18 +95,22 @@ object BlockRegistry {
     ) { b -> BlockItem(b, Item.Properties()) }
 
     private fun <T: Block> registerBlock(id: String, register: T, item: ((T) -> Item)? = { BlockItem(it, Item.Properties()) }): T {
-        val key = key(Registries.BLOCK, id)
+        val key = ResourceKey.create(
+            Registries.BLOCK,
+            ResourceLocation.fromNamespaceAndPath(ModId, id)
+        )
         val b = Registry.register(BuiltInRegistries.BLOCK, key, register)
         if (item != null) registerItem(id, item(b))
         return b
     }
 
     private fun <T: Item> registerItem(id: String, register: T): T {
-        val key = key(Registries.ITEM, id)
+        val key = ResourceKey.create(
+            Registries.ITEM,
+            ResourceLocation.fromNamespaceAndPath(ModId, id)
+        )
         return Registry.register(BuiltInRegistries.ITEM, key, register)
     }
 
-    private fun <T> key(key: ResourceKey<Registry<T>>, id: String): ResourceKey<T> =
-        ResourceKey.create(key, ResourceLocation.fromNamespaceAndPath(ModId, id))
     //?}
 }
