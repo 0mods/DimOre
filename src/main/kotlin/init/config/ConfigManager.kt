@@ -84,22 +84,44 @@ object ConfigManager {
         return m
     }
 
-    private fun injectComments(jsonDecoded: String, configObject: KClass<*>): String {
-        var r = jsonDecoded
-        val commMap = buildCommentMap(configObject)
-        commMap.forEach { (k, c) ->
-            val regex = Regex("""^(\s*)"${Regex.escape(k)}"\s*:""", RegexOption.MULTILINE)
-            r = regex.replace(r) { mr ->
-                val ind = mr.groupValues[1]
-                val intdC = c.lines().joinToString("\n") { "$ind$it" }
-                "$intdC\n${mr.value}"
+    private fun injectComments(jsonString: String, rootClass: KClass<*>): String {
+        val comMap = buildCommentMap(rootClass)
+
+        val lines = jsonString.lines()
+        val pathStack = arrayListOf<String>()
+
+        val keyRegex = Regex("""^(\s*)"(.+?)"\s*:""")
+
+        val sb = buildString {
+            lines.forEach {
+                val match = keyRegex.find(it)
+                if (match != null) {
+                    val indent = match.groupValues[1]
+                    val key = match.groupValues[2]
+                    val indentL = indent.length / 2
+
+                    while (pathStack.size >= indentL) {
+                        pathStack.removeAt(pathStack.lastIndex)
+                    }
+
+                    val curr = if (pathStack.isEmpty()) key else "${pathStack.joinToString(".")}.$key"
+
+                    val comment = comMap[curr]
+                    if (comment != null)
+                        append(comment.lines().joinToString("\n") { jts -> "$indent$jts" }).append("\n")
+
+                    if (it.trimEnd().endsWith("{"))
+                        pathStack.add(key)
+                }
+
+                append(it).append("\n")
             }
         }
 
-        return r
+        return sb.trimEnd()
     }
 
-    private fun buildCommentMap(kClass: KClass<*>, visited: MutableSet<KClass<*>> = mutableSetOf()): Map<String, String> {
+    private fun buildCommentMap(kClass: KClass<*>, prefix: String = "", visited: MutableSet<KClass<*>> = mutableSetOf()): Map<String, String> {
         if (!visited.add(kClass)) return emptyMap()
         val m = mutableMapOf<String, String>()
 
@@ -107,16 +129,18 @@ object ConfigManager {
             val ann = p.findAnnotation<JsonComment>()
             val serial = p.findAnnotation<SerialName>()?.value ?: p.name
 
+            val fullKey = if (prefix.isEmpty()) serial else "$prefix.$serial"
+
             if (ann != null)
-                m[serial] = formatComment(ann)
+                m[fullKey] = formatComment(ann)
 
             val rtc = p.returnType.classifier as? KClass<*>
             if (rtc != null) {
                 val isSerializable = rtc.hasAnnotation<Serializable>()
-                val isNotPrimitive = !rtc.qualifiedName!!.startsWith("kotlin")
+                val isNotPrimitive = !rtc.qualifiedName!!.startsWith("kotlin.")
 
                 if (isSerializable && isNotPrimitive)
-                    m.putAll(buildCommentMap(rtc, visited))
+                    m.putAll(buildCommentMap(rtc, fullKey, visited))
             }
         }
 

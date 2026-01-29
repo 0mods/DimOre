@@ -2,8 +2,6 @@ package forge
 
 import ModProject
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension
-import dev.kikugie.stonecutter.controller.StonecutterControllerExtension
-import kotlinx.serialization.json.Json
 import minecraftVersion
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -22,8 +20,8 @@ object ForgeModGenerator {
 
         doLast {
             val forgeMod = """
-                modLoader = "javafml"
-                loaderVersion = "[43,)"
+                modLoader = "${modProject.forgeLoaderName.ifEmpty { "javafml" }}"
+                loaderVersion = "${modProject.forgeLoaderVersion.ifEmpty { "[43,)" }}"
                 license = "${modProject.license}"
                 [[mods]]
                 modId = "${modProject.modId}"

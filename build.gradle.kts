@@ -34,9 +34,11 @@ val container = ModProject(
         "main" to listOf("com.algorithmlx.dimore.Mod::onInitialize")
     ),
     dependencies = mapOf(
-        "neoforge" to mapOf("klf" to "$klfVersion-k$kotlinVersion-$klfLoaderVersion+neoforge"),
         "fabric" to mapOf("fabric-language-kotlin" to "$flkVersion+kotlin.$kotlinVersion")
-    )
+    ),
+
+    neoforgeLoaderName = "klf",
+    neoforgeLoaderVersion = "[${klfVersion},)"
 )
 
 setupEnviroment(container, kotlinVersion, includeKotlin = true)

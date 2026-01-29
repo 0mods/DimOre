@@ -69,6 +69,11 @@ class ModProject(
 
     val modLoaderVersions: Map<ModPlatform, Map<String, String>> = defaultModLoaderVersions,
     val mappingsVersion: Map<String, String> = defaultMappingsVersion,
+    val forgeLoaderName: String = "javafml",
+    val forgeLoaderVersion: String = "[47,)",
+
+    val neoforgeLoaderName: String = "javafml",
+    val neoforgeLoaderVersion: String = "[2,)",
 
     val username: String = "Player259"
 ) {

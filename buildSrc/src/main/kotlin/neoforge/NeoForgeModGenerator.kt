@@ -20,8 +20,8 @@ object NeoForgeModGenerator {
 
         doLast {
             val forgeMod = """
-                modLoader = "javafml"
-                loaderVersion = "[2,)"
+                modLoader = "${modProject.neoforgeLoaderName.ifEmpty { "javafml" }}"
+                loaderVersion = "${modProject.neoforgeLoaderVersion.ifEmpty { "[2,)" }}"
                 license = "${modProject.license}"
                 [[mods]]
                 modId = "${modProject.modId}"
