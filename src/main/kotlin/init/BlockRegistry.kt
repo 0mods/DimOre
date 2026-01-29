@@ -111,6 +111,5 @@ object BlockRegistry {
         )
         return Registry.register(BuiltInRegistries.ITEM, key, register)
     }
-
     //?}
 }
