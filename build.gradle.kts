@@ -94,7 +94,10 @@ unifiedPublishing {
         releaseType = "release"
         displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${container.modName} (v.${container.modVersion})"
 
-        changelog = "Pushed via Auto Compile. View changelog here: https://github.com/AlgorithmLX/DimOre"
+        if (rootProject.file("CHANGELOG.md").exists()) {
+            val changes = rootProject.file("CHANGELOG.md")?.readText()
+            changelog = "Pushed via Auto Compile.\n\n${changes}"
+        } else changelog = "Pushed via Auto Compile."
 
         mainPublication(tasks.remapJar.get())
 
