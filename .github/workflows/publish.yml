@@ -14,12 +14,6 @@ jobs:
         uses: smichard/conventional_changelog@2.0.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Update CHANGELOG
-        id: changelog
-        uses: requarks/changelog-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
       - name: Create Release
         uses: ncipollo/release-action@v1.20.0
         with:
