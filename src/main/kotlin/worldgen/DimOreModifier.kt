@@ -85,7 +85,6 @@ class DimOreModifier: BiomeModifier {
                 if (deepslateFeature != null) builder.generationSettings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, deepslateFeature)
             }
         }
-
     }
 
     override fun codec(): MapCodec<out BiomeModifier> = codec

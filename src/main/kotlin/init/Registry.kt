@@ -28,16 +28,16 @@ import java.util.function.Supplier
 *///?}
 //? if >1.21.10 {
 import com.algorithmlx.dimore.util.ResourceLocation
-//? if fabric
+//?} else {
+/*import net.minecraft.resources.ResourceLocation
+*///?}
+//? if fabric {
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
-
-//?} else {
-/*import net.minecraft.resources.ResourceLocation
-*///?}
+//?}
 
 object Registry {
     //? if neoforge {
@@ -256,14 +256,6 @@ object Registry {
         }
 
         return Registry.register(BuiltInRegistries.BLOCK, blockKey, b)
-    }
-
-    private fun <T: Item> registerItem(id: String, register: T): T {
-        val key = ResourceKey.create(
-            Registries.ITEM,
-            ResourceLocation.fromNamespaceAndPath(ModId, id)
-        )
-        return Registry.register(BuiltInRegistries.ITEM, key, register)
     }
     //?}
 }
