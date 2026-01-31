@@ -26,29 +26,30 @@ object OreConfig {
     }
 
     private fun generateOverworldOres() {
-        generateOverworld(config.overworldOres.generateQuartz, "overworld_quartz_ore")
+        generateOverworld(config.overworldOres.quartzSettings.generate, "stone_quartz_ore")
+        generateOverworld(config.overworldOres.quartzSettings.generate, "deepslate_quartz_ore")
     }
 
     private fun generateNetherOres() {
-        generateNether(config.netherOres.generateCoal, "nether_coal_ore")
-        generateNether(config.netherOres.generateCopper, "nether_copper_ore")
-        generateNether(config.netherOres.generateDiamond, "nether_diamond_ore")
-        generateNether(config.netherOres.generateEmerald, "nether_emerald_ore")
-        generateNether(config.netherOres.generateIron, "nether_iron_ore")
-        generateNether(config.netherOres.generateLapis, "nether_lapis_ore")
-        generateNether(config.netherOres.generateRedstone, "nether_redstone_ore")
+        generateNether(config.netherOres.coalSettings.generate, "nether_coal_ore")
+        generateNether(config.netherOres.copperSettings.generate, "nether_copper_ore")
+        generateNether(config.netherOres.diamondSettings.generate, "nether_diamond_ore")
+        generateNether(config.netherOres.emeraldSettings.generate, "nether_emerald_ore")
+        generateNether(config.netherOres.ironSettings.generate, "nether_iron_ore")
+        generateNether(config.netherOres.lapisSettings.generate, "nether_lapis_ore")
+        generateNether(config.netherOres.redstoneSettings.generate, "nether_redstone_ore")
     }
 
     private fun generateEndOres() {
-        generateEnd(config.endOres.generateCoal, "end_coal_ore")
-        generateEnd(config.endOres.generateCopper, "end_copper_ore")
-        generateEnd(config.endOres.generateDiamond, "end_diamond_ore")
-        generateEnd(config.endOres.generateEmerald, "end_emerald_ore")
-        generateEnd(config.endOres.generateGold, "end_gold_ore")
-        generateEnd(config.endOres.generateIron, "end_iron_ore")
-        generateEnd(config.endOres.generateLapis, "end_lapis_ore")
-        generateEnd(config.endOres.generateQuartz, "end_quartz_ore")
-        generateEnd(config.endOres.generateRedstone, "end_redstone_ore")
+        generateEnd(config.endOres.coalSettings.generate, "end_coal_ore")
+        generateEnd(config.endOres.copperSettings.generate, "end_copper_ore")
+        generateEnd(config.endOres.diamondSettings.generate, "end_diamond_ore")
+        generateEnd(config.endOres.emeraldSettings.generate, "end_emerald_ore")
+        generateEnd(config.endOres.goldSettings.generate, "end_gold_ore")
+        generateEnd(config.endOres.ironSettings.generate, "end_iron_ore")
+        generateEnd(config.endOres.lapisSettings.generate, "end_lapis_ore")
+        generateEnd(config.endOres.quartzSettings.generate, "end_quartz_ore")
+        generateEnd(config.endOres.redstoneSettings.generate, "end_redstone_ore")
     }
 
     private fun generateOverworld(shouldGenerate: Boolean, id: String) =

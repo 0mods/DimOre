@@ -1,6 +1,0 @@
-{
-  "type": "dimore:conditional_ore",
-  "biomes": "#minecraft:is_nether",
-  "features": "dimore:nether_emerald_ore",
-  "required_values": ["nether_ores.enabled", "nether_ores.emerald"]
-}

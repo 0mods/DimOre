@@ -38,7 +38,11 @@ val container = ModProject(
     ),
 
     neoforgeLoaderName = "klf",
-    neoforgeLoaderVersion = "[${klfVersion},)"
+    neoforgeLoaderVersion = "[${klfVersion},)",
+
+    modLoaderVersions = defaultModLoaderVersions.apply {
+        this[ModProject.ModPlatform.FABRIC]?.put("1.21.11-loader", "0.17.3")
+    }
 )
 
 setupEnviroment(container, kotlinVersion, includeKotlin = true)
@@ -90,7 +94,7 @@ unifiedPublishing {
         releaseType = "release"
         displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${container.modName} (v.${container.modVersion})"
 
-        description = "Pushed via Auto Compile. View changelog here: https://github.com/AlgorithmLX/DimOre"
+        changelog = "Pushed via Auto Compile. View changelog here: https://github.com/AlgorithmLX/DimOre"
 
         mainPublication(tasks.remapJar.get())
 

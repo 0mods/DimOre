@@ -11,5 +11,13 @@ interface DimensionOre {
     // todo: but have problems in some languages like arabic, or where it is incorrect...
     // but i'm too stupid (stupid russian ha-ha-hah) to make it normally
     fun buildName(): MutableComponent =
-        Component.translatable(oreDimensionType.dimensionBlock.descriptionId, oreType.parentOreBlock.descriptionId)
+        Component.translatable(oreDimensionType.dimensionBlock().descriptionId, oreType.parentOreBlock().descriptionId)
+}
+
+interface DimensionOreConfig {
+    val generate: Boolean
+    val size: Int
+    val count: Int
+    val minHeight: Int
+    val maxHeight: Int
 }

@@ -1,16 +1,12 @@
 package com.algorithmlx.dimore
 
-import com.algorithmlx.dimore.init.BlockRegistry
-//? if neoforge
-/*import com.algorithmlx.dimore.init.CodecRegistry*/
 import com.algorithmlx.dimore.init.config.ConfigManager
-//? if fabric
-import com.algorithmlx.dimore.worldgen.OreConfig
-
+import com.algorithmlx.dimore.init.Registry
 //? if neoforge {
 /*import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
-*///?}
+*///?} else if fabric
+import com.algorithmlx.dimore.worldgen.OreConfig
 
 const val ModId: String = "dimore"
 
@@ -19,8 +15,7 @@ const val ModId: String = "dimore"
 class Mod(bus: IEventBus) {
     init {
         ConfigManager.load()
-        BlockRegistry.init(bus)
-        CodecRegistry.init(bus)
+        Registry.init(bus)
     }
 }
 *///?} else {
@@ -28,7 +23,7 @@ object Mod {
     @JvmStatic
     fun onInitialize() {
         ConfigManager.load()
-        BlockRegistry.init()
+        Registry.init()
         OreConfig.init()
     }
 }

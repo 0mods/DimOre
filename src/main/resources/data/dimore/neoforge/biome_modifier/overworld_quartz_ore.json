@@ -1,6 +1,0 @@
-{
-  "type": "dimore:conditional_ore",
-  "biomes": "#minecraft:is_overworld",
-  "features": "dimore:overworld_quartz_ore",
-  "required_values": ["overworld_ores.enabled", "overworld_ores.quartz"]
-}
