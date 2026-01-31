@@ -10,10 +10,6 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
-      - name: Generate Changelog
-        uses: smichard/conventional_changelog@2.0.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Release
         uses: ncipollo/release-action@v1.20.0
         with:
@@ -24,6 +20,10 @@ jobs:
           token: ${{ github.token }}
           tag: "latest"
           generateReleaseNotes: true
+      - name: Generate Changelog
+        uses: smichard/conventional_changelog@2.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set Git User Info
         run: |
           git config user.name 'GitHub Actions Bot'
