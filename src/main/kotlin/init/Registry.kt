@@ -4,6 +4,7 @@ import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.block.DimensionalOreBlock
 import com.algorithmlx.dimore.block.DimensionalRedstoneOre
 import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.item.NamedBlockItem
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreDimensionType
 import com.algorithmlx.dimore.util.OreDimensionTypes
@@ -13,7 +14,6 @@ import com.algorithmlx.dimore.util.OreTypes
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -136,7 +136,7 @@ object Registry {
         if (shouldRegisterItem) {
             //? if >1.21.1 {
             itemRegistry.register(id) { rk ->
-                BlockItem(
+                NamedBlockItem(
                     bl.get(),
                     Item.Properties()
                         .setId(ResourceKey.create(Registries.ITEM, rk))
@@ -144,7 +144,7 @@ object Registry {
                 )
             }
             //?} else
-            /^itemRegistry.register(id, Supplier { BlockItem(bl.get(), Item.Properties()) })^/
+            /^itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })^/
         }
 
         blockHolders[id] = bl
@@ -251,7 +251,7 @@ object Registry {
             val itemKey = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ModId, id))
             //? if >1.21.1
             props.setId(itemKey).useBlockDescriptionPrefix()
-            val blockItem = BlockItem(b, props)
+            val blockItem = NamedBlockItem(b, props)
             Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem)
         }
 

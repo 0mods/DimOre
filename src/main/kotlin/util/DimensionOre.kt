@@ -11,7 +11,10 @@ interface DimensionOre {
     // todo: but have problems in some languages like arabic, or where it is incorrect...
     // but i'm too stupid (stupid russian ha-ha-hah) to make it normally
     fun buildName(): MutableComponent =
-        Component.translatable(oreDimensionType.dimensionBlock().descriptionId, oreType.parentOreBlock().descriptionId)
+        Component.empty()
+            .append(oreDimensionType.dimensionBlock().name)
+            .append("-")
+            .append(oreType.parentOreBlock().name)
 }
 
 interface DimensionOreConfig {
