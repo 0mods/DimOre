@@ -16,10 +16,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] Name display fix [`dec8030`](https://github.com/AlgorithmLX/DimOre/commit/dec8030)
 - Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`4493f36`](https://github.com/AlgorithmLX/DimOre/commit/4493f36)
 - [mr] [cf] Name display fix [`a1450c0`](https://github.com/AlgorithmLX/DimOre/commit/a1450c0)
-- ops [`1085e63`](https://github.com/AlgorithmLX/DimOre/commit/1085e63)
-- ops [`f0dd20b`](https://github.com/AlgorithmLX/DimOre/commit/f0dd20b)
-- test [`834bfca`](https://github.com/AlgorithmLX/DimOre/commit/834bfca)
-- test [`ac5501a`](https://github.com/AlgorithmLX/DimOre/commit/ac5501a)
 
 ## latest (2026-01-31)
 
