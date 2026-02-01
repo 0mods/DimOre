@@ -7,9 +7,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased changes
 
 ### Documentation
+- :robot: changelog file generated [`1e76579`](https://github.com/AlgorithmLX/DimOre/commit/1e76579)
+- :robot: changelog file generated [`ee5d9c1`](https://github.com/AlgorithmLX/DimOre/commit/ee5d9c1)
+- :robot: changelog file generated [`841672b`](https://github.com/AlgorithmLX/DimOre/commit/841672b)
+- :robot: changelog file generated [`bfd7dd7`](https://github.com/AlgorithmLX/DimOre/commit/bfd7dd7)
 - :robot: changelog file generated [`ee06659`](https://github.com/AlgorithmLX/DimOre/commit/ee06659)
 
 ### Other
+- Update publish.yml [`118bd74`](https://github.com/AlgorithmLX/DimOre/commit/118bd74)
+- Update CHANGELOG.md [`5b23778`](https://github.com/AlgorithmLX/DimOre/commit/5b23778)
+- Update publish.yml [`429fe90`](https://github.com/AlgorithmLX/DimOre/commit/429fe90)
+- [mr] [cf] Name display fix [`dec8030`](https://github.com/AlgorithmLX/DimOre/commit/dec8030)
 - Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`4493f36`](https://github.com/AlgorithmLX/DimOre/commit/4493f36)
 - [mr] [cf] Name display fix [`a1450c0`](https://github.com/AlgorithmLX/DimOre/commit/a1450c0)
 - ops [`1085e63`](https://github.com/AlgorithmLX/DimOre/commit/1085e63)
