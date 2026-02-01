@@ -6,7 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased changes
 
+### Feature
+- 26.1-snap 5 support [mr] [cf] [`68bc40e`](https://github.com/AlgorithmLX/DimOre/commit/68bc40e)
+- 26.1-snap 5 support [mr] [cf] [`2494b99`](https://github.com/AlgorithmLX/DimOre/commit/2494b99)
+
 ### Documentation
+- :robot: changelog file generated/updated [`febdc3f`](https://github.com/AlgorithmLX/DimOre/commit/febdc3f)
 - :robot: changelog file generated [`1e76579`](https://github.com/AlgorithmLX/DimOre/commit/1e76579)
 - :robot: changelog file generated [`ee5d9c1`](https://github.com/AlgorithmLX/DimOre/commit/ee5d9c1)
 - :robot: changelog file generated [`841672b`](https://github.com/AlgorithmLX/DimOre/commit/841672b)
@@ -14,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - :robot: changelog file generated [`ee06659`](https://github.com/AlgorithmLX/DimOre/commit/ee06659)
 
 ### Other
+- Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`016b0fd`](https://github.com/AlgorithmLX/DimOre/commit/016b0fd)
 - Update publish.yml [`118bd74`](https://github.com/AlgorithmLX/DimOre/commit/118bd74)
 - Update CHANGELOG.md [`5b23778`](https://github.com/AlgorithmLX/DimOre/commit/5b23778)
 - Update publish.yml [`429fe90`](https://github.com/AlgorithmLX/DimOre/commit/429fe90)
