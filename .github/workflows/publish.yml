@@ -57,7 +57,7 @@ jobs:
         with:
           gradle-version: '8.14.2'
       - name: Build Mod
-        run: gradle publishUnified
+        run: gradle publishMods
         env:
           CURSE_TOKEN: ${{ secrets.CURSE_TOKEN }}
           CURSE_PROJECT: ${{ secrets.CURSE_PROJECT }}
@@ -85,7 +85,7 @@ jobs:
         with:
           gradle-version: '8.14.2'
       - name: Build Mod
-        run: gradle publishUnified
+        run: gradle publishMods
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT: ${{ secrets.MODRINTH_PROJECT }}
