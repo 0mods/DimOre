@@ -10,7 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - 26.1-snap 5 support [mr] [cf] [`68bc40e`](https://github.com/AlgorithmLX/DimOre/commit/68bc40e)
 - 26.1-snap 5 support [mr] [cf] [`2494b99`](https://github.com/AlgorithmLX/DimOre/commit/2494b99)
 
+### Bug Fixes
+- gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
+
 ### Documentation
+- :robot: changelog file generated/updated [`d00fdf8`](https://github.com/AlgorithmLX/DimOre/commit/d00fdf8)
 - :robot: changelog file generated/updated [`febdc3f`](https://github.com/AlgorithmLX/DimOre/commit/febdc3f)
 - :robot: changelog file generated [`1e76579`](https://github.com/AlgorithmLX/DimOre/commit/1e76579)
 - :robot: changelog file generated [`ee5d9c1`](https://github.com/AlgorithmLX/DimOre/commit/ee5d9c1)
