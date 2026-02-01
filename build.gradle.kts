@@ -174,6 +174,7 @@ publishMods {
         else -> ReleaseType.STABLE
     }
 
+    displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${modstitch.metadata.modName.get()} (v.${project.properties["mod_version"].toString()})"
     modLoaders.add(stonecutter.modPlatform)
 
     val modrinthProject: String? = rootProject.properties["modrinth_project"]?.toString()
@@ -185,7 +186,6 @@ publishMods {
     if (modrinthToken != null && modrinthProject != null) modrinth {
         projectId = modrinthProject
         accessToken = modrinthToken
-        version = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${modstitch.metadata.modName.get()} (v.${project.properties["mod_version"].toString()})"
 
         if (modstitch.isLoom)
             requires("fabric-api", "fabric-language-kotlin")
@@ -197,7 +197,6 @@ publishMods {
     if (curseToken != null && curseProject != null) curseforge {
         projectId = curseProject
         accessToken = curseToken
-        displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${modstitch.metadata.modName.get()} (v.${project.properties["mod_version"].toString()})"
 
         if (modstitch.isLoom)
             requires("fabric-api", "fabric-language-kotlin")
