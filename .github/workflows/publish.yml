@@ -3,6 +3,7 @@ on:
   push:
     branches: [ "stonecutter" ]
 
+
 jobs:
   changelog:
     name: Generate changelog
@@ -37,8 +38,9 @@ jobs:
     name: CurseForge Publish
     strategy:
       matrix:
-        java: [ 21 ]
+        java: [ 25 ]
         os: [ ubuntu-latest ]
+        gradle-version: [ 9.2.1 ]
     runs-on: ${{ matrix.os }}
     if: |
       contains(github.event.head_commit.message, '[cf]')
@@ -55,7 +57,7 @@ jobs:
       - name: Prepare Gradle
         uses: gradle/actions/setup-gradle@v5
         with:
-          gradle-version: '8.14.2'
+          gradle-version: ${{ matrix.gradle-version }}
       - name: Build Mod
         run: gradle publishMods
         env:
@@ -65,8 +67,9 @@ jobs:
     name: Modrinth Publish
     strategy:
       matrix:
-        java: [ 21 ]
+        java: [ 25 ]
         os: [ ubuntu-latest ]
+        gradle-version: [ 9.2.1 ]
     runs-on: ${{ matrix.os }}
     if: |
       contains(github.event.head_commit.message, '[mr]')
@@ -83,7 +86,7 @@ jobs:
       - name: Prepare Gradle
         uses: gradle/actions/setup-gradle@v5
         with:
-          gradle-version: '8.14.2'
+          gradle-version: ${{ matrix.gradle-version }}
       - name: Build Mod
         run: gradle publishMods
         env:
