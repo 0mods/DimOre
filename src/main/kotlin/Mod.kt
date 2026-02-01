@@ -20,7 +20,6 @@ class Mod(bus: IEventBus) {
 }
 *///?} else {
 object Mod {
-    @JvmStatic
     fun onInitialize() {
         ConfigManager.load()
         Registry.init()

@@ -10,6 +10,7 @@ pluginManagement {
         maven("https://maven.architectury.dev")
         maven("https://maven.minecraftforge.net")
         maven("https://maven.kikugie.dev/snapshots")
+        maven("https://maven.isxander.dev/releases")
     }
 
     val kotlinVersion: String by settings
@@ -20,7 +21,7 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.kikugie.stonecutter") version "0.7.7-beta.2"
+    id("dev.kikugie.stonecutter") version "0.8+"
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
