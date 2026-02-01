@@ -164,8 +164,6 @@ publishMods {
         println("No publish file exists (${project.name}/nopub). Skipping")
         return@publishMods
     }
-
-    displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${modstitch.metadata.modName.get()} (v.${project.properties["mod_version"].toString()})"
     file = modstitch.finalJarTask.flatMap { it.archiveFile }
 
     changelog = rootProject.file("CHANGELOG.md").readText()
@@ -187,6 +185,7 @@ publishMods {
     if (modrinthToken != null && modrinthProject != null) modrinth {
         projectId = modrinthProject
         accessToken = modrinthToken
+        version = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${modstitch.metadata.modName.get()} (v.${project.properties["mod_version"].toString()})"
 
         if (modstitch.isLoom)
             requires("fabric-api", "fabric-language-kotlin")
@@ -198,11 +197,19 @@ publishMods {
     if (curseToken != null && curseProject != null) curseforge {
         projectId = curseProject
         accessToken = curseToken
+        displayName = "[${stonecutter.modPlatform}-${stonecutter.minecraftVersion}] ${modstitch.metadata.modName.get()} (v.${project.properties["mod_version"].toString()})"
 
         if (modstitch.isLoom)
             requires("fabric-api", "fabric-language-kotlin")
         else requires("kotlinlangforge")
 
-        minecraftVersions.add(stonecutter.minecraftVersion)
+        if (stonecutter.minecraftVersion.contains("snapshot")) {
+            val modifiedVersion = buildString {
+                val oldVersion = stonecutter.minecraftVersion
+                val splitted = oldVersion.split("-")
+                append(splitted[0] + "-snapshot")
+            }
+            minecraftVersions.add(modifiedVersion)
+        } else minecraftVersions.add(stonecutter.minecraftVersion)
     }
 }
