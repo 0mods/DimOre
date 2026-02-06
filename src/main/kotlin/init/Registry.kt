@@ -3,14 +3,12 @@ package com.algorithmlx.dimore.init
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.block.DimensionalOreBlock
 import com.algorithmlx.dimore.block.DimensionalRedstoneOre
-import com.algorithmlx.dimore.init.config.ConfigManager
 import com.algorithmlx.dimore.item.NamedBlockItem
-import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreDimensionType
 import com.algorithmlx.dimore.util.OreDimensionTypes
-import com.algorithmlx.dimore.util.OreGeneratorFactory
 import com.algorithmlx.dimore.util.OreType
 import com.algorithmlx.dimore.util.OreTypes
+import com.algorithmlx.dimore.util.ResLoc
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -26,12 +24,10 @@ import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import java.util.function.Supplier
 *///?}
-//? if >1.21.10 {
-import com.algorithmlx.dimore.util.ResourceLocation
-//?} else {
-/*import net.minecraft.resources.ResourceLocation
-*///?}
 //? if fabric {
+import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.util.DimensionOreConfig
+import com.algorithmlx.dimore.util.OreGeneratorFactory
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -126,7 +122,7 @@ object Registry {
         shouldRegisterItem: Boolean
     ): DeferredBlock<B> {
         //? if >1.21.1 {
-        val blockKey = { it: ResourceLocation -> ResourceKey.create(Registries.BLOCK, it) }
+        val blockKey = { it: ResLoc -> ResourceKey.create(Registries.BLOCK, it) }
         val bl = blockRegistry.register(id) { rk ->
             block(properties.setId(blockKey(rk)))
         }
@@ -162,11 +158,11 @@ object Registry {
                 val id = "nether_${type.name.lowercase()}_ore"
                 val config = OreTypes.configByTypeNether[type] ?: return@forEach
                 //? if >1.21.1 {
-                val block = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, id))
+                val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
                     .orElseThrow()
                     .value()
                 //?} else {
-                /*val block = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, id))
+                /*val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
                 *///?}
 
                 createFeature(cfReg, pfReg, id, block, OreDimensionTypes.NETHER, config)
@@ -180,16 +176,16 @@ object Registry {
                 val config = OreTypes.configByTypeOverworld[type] ?: return@forEach
 
                 //? if >1.21.1 {
-                val stoneBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, stoneId))
+                val stoneBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, stoneId))
                     .orElseThrow()
                     .value()
                 val deepslateBlock =
-                    BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, deepslateId))
+                    BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, deepslateId))
                         .orElseThrow()
                         .value()
                 //?} else {
-                /*val stoneBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, stoneId))
-                val deepslateBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, deepslateId))
+                /*val stoneBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, stoneId))
+                val deepslateBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, deepslateId))
                 *///?}
 
                 createFeature(cfReg, pfReg, stoneId, stoneBlock, OreDimensionTypes.OVERWORLD, config)
@@ -202,11 +198,11 @@ object Registry {
                 val id = "end_${type.name.lowercase()}_ore"
                 val config = OreTypes.configByTypeEnd[type] ?: return@forEach
                 //? if >1.21.1 {
-                val block = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, id))
+                val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
                     .orElseThrow()
                     .value()
                 //?} else {
-                /*val block = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(ModId, id))
+                /*val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
                 *///?}
 
                 createFeature(cfReg, pfReg, id, block, OreDimensionTypes.END, config)
@@ -222,7 +218,7 @@ object Registry {
         dimType: OreDimensionType,
         settings: DimensionOreConfig
     ) {
-        val location = ResourceLocation.fromNamespaceAndPath(ModId, id)
+        val location = ResLoc.fromNamespaceAndPath(ModId, id)
 
         val configured = OreGeneratorFactory.createConfigured(dimType, block, settings.size)
         Registry.register(cfReg, location, configured)
@@ -239,7 +235,7 @@ object Registry {
     }
 
     private fun registerBlock(id: String, factory: (BlockBehaviour.Properties) -> Block, properties: BlockBehaviour.Properties, shouldRegisterItem: Boolean): Block {
-        val blockKey = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(ModId, id))
+        val blockKey = ResourceKey.create(Registries.BLOCK, ResLoc.fromNamespaceAndPath(ModId, id))
         //? if >1.21.1 {
         val b = factory(properties.setId(blockKey))
         //?} else {
@@ -248,7 +244,7 @@ object Registry {
 
         if (shouldRegisterItem) {
             val props = Item.Properties()
-            val itemKey = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ModId, id))
+            val itemKey = ResourceKey.create(Registries.ITEM, ResLoc.fromNamespaceAndPath(ModId, id))
             //? if >1.21.1
             props.setId(itemKey).useBlockDescriptionPrefix()
             val blockItem = NamedBlockItem(b, props)

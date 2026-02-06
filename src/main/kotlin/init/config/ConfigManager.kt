@@ -22,7 +22,7 @@ object ConfigManager {
         allowComments = true
         encodeDefaults = true
     }
-    private val configFile = File("config/dimore.json")
+    private val configFile = File("config/dimore/dimore.json")
 
     var config = DimensionalOresConfig()
         private set

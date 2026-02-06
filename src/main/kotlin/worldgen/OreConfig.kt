@@ -8,11 +8,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-//? if >1.21.10 {
-import com.algorithmlx.dimore.util.ResourceLocation
-//?} else {
-/*import net.minecraft.resources.ResourceLocation
-*///?}
+import com.algorithmlx.dimore.util.ResLoc
 import net.minecraft.world.level.levelgen.GenerationStep
 import java.util.function.Predicate
 
@@ -74,7 +70,7 @@ object OreConfig {
 
     private fun key(id: String) = ResourceKey.create(
         Registries.PLACED_FEATURE,
-        ResourceLocation.fromNamespaceAndPath(ModId, id)
+        ResLoc.fromNamespaceAndPath(ModId, id)
     )
 }
 //?}
