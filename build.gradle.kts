@@ -19,6 +19,13 @@ plugins {
     id("me.modmuss50.mod-publish-plugin")
 }
 
+base.archivesName = "${modName}-${stonecutter.modPlatform}"
+version = "${stonecutter.minecraftVersion}-${project.properties["mod_version"].toString()}${when {
+    isBeta -> "-B"
+    isAlpha -> "-A"
+    else -> ""
+}}"
+
 val StonecutterBuildExtension.modPlatform get() = current.project.substringAfterLast('-')
 val StonecutterBuildExtension.minecraftVersion get() = project.properties["minecraft_version"]?.toString() ?: current.project.substringBeforeLast('-')
 
@@ -60,6 +67,10 @@ modstitch {
         fabricLoaderVersion = verArr["${stonecutter.minecraftVersion}-loader"]
             ?: verArr["loader"]
                     ?: error("Failed to find loader version for ${stonecutter.minecraftVersion} on fabric")
+
+        configureLoom {
+            mixin.useLegacyMixinAp = false
+        }
     }
 
     moddevgradle {
@@ -75,11 +86,7 @@ modstitch {
 
     metadata {
         modId = project.properties["mod_id"].toString()
-        modVersion = "${stonecutter.modPlatform}-${stonecutter.minecraftVersion}-${project.properties["mod_version"].toString()}${when {
-            isBeta -> "-B"
-            isAlpha -> "-A"
-            else -> ""
-        }}"
+        modVersion = project.properties["mod_version"].toString()
         modName = project.properties["mod_name"].toString()
         modGroup = "com.algorithmlx"
         modLicense = project.properties["mod_license"].toString()
@@ -103,6 +110,11 @@ modstitch {
             replacementProperties.put("neoforge_version", modLoaderVersions["neoforge"]!![stonecutter.minecraftVersion]!!)
             replacementProperties.put("klf_version", klfVersion)
         }
+    }
+
+    mixin {
+        addMixinsToModManifest = true
+        configs.register(modId)
     }
 }
 

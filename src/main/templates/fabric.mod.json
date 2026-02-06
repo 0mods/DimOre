@@ -19,6 +19,7 @@
     "fabric-api": ">=${fabric_api}",
     "fabric-language-kotlin": ">=${flk_version}"
   },
+  "mixins": [ "dimore.mixins.json" ],
   "entrypoints": {
     "main": [
       {

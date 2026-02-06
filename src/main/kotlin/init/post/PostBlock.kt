@@ -46,7 +46,13 @@ data class PostBlock(
         val target: TargetType
     ): OreDimensionType {
         @Transient
-        override val dimensionBlock: () -> Block = { BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement)) }
+        override val dimensionBlock: () -> Block = {
+            //? if >1.21.1 {
+            BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement))
+            //?} else {
+            /*BuiltInRegistries.BLOCK.get(ResLoc.parse(replacement))
+            *///?}
+        }
 
         override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
             OreConfiguration.target(target.asRuleTest(), block)
@@ -65,7 +71,7 @@ data class PostBlock(
                 TagMatchTest(TagKey.create(Registries.BLOCK, ResLoc.parse(into)))
             else {
                 val blockId = ResLoc.parse(into)
-                val block = BuiltInRegistries.BLOCK.getValue(blockId)
+                val block = /*? if >1.21.1 {*/BuiltInRegistries.BLOCK.getValue(blockId)/*?} else {*//*BuiltInRegistries.BLOCK.get(blockId)*//*?}*/
                 BlockMatchTest(block)
             }
         }
@@ -110,8 +116,6 @@ data class PostBlock(
         val dynamicShape: Boolean = false,
         @SerialName("no_loot_table")
         val noLootTable: Boolean = false,
-        @SerialName("override_loot_table")
-        val overrideLootTable: String = "",
         @SerialName("ignited_by_lava")
         val ignitedByLava: Boolean = false,
         val liquid: Boolean = false,
@@ -126,7 +130,12 @@ data class PostBlock(
         val displayName: String = ""
     ) {
         fun asBlockBehaviourProperties(): BlockBehaviour.Properties = BlockBehaviour.Properties.of().apply {
+            // noCollission
+            //? if >1.21.1 {
             if (noCollision) this.noCollision()
+            //?} else {
+            /*if (noCollision) this.noCollission()
+            *///?}
             if (noOcclusion) this.noOcclusion()
             if (friction != 0F) this.friction(friction)
             if (speedFactor != 0F) this.speedFactor(speedFactor)
@@ -138,9 +147,6 @@ data class PostBlock(
             if (randomTicks) this.randomTicks()
             if (dynamicShape) this.dynamicShape()
             if (noLootTable) this.noLootTable()
-            if (overrideLootTable.isNotEmpty()) this.overrideLootTable(Optional.of(ResourceKey.create(
-                Registries.LOOT_TABLE, ResLoc.parse(overrideLootTable)
-            )))
             if (ignitedByLava) this.ignitedByLava()
             if (liquid) this.liquid()
             if (forceSolidOn) this.forceSolidOn()

@@ -127,7 +127,7 @@ object Registry {
             block(properties.setId(blockKey(rk)))
         }
         //?} else
-        /*val bl = blockRegistry.register(id, Supplier { block(properties) })*/
+        //val bl = blockRegistry.register(id, Supplier { block(properties) })
 
         if (shouldRegisterItem) {
             //? if >1.21.1 {
@@ -140,7 +140,7 @@ object Registry {
                 )
             }
             //?} else
-            /*itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })*/
+            //itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })
         }
 
         blockHolders[id] = bl

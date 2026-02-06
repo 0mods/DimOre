@@ -34,6 +34,3 @@ object Mod {
     }
 }
 //?}
-
-
-//Interpretator

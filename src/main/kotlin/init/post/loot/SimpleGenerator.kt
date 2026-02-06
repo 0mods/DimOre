@@ -34,7 +34,7 @@ object SimpleGenerator {
             allowTrailingComma = true
         }
 
-        val generativeConfigPath = Path("config/dimore/drops")
+        val generativeConfigPath = Path("config/$ModId/drops")
         val generativeConfigFile = generativeConfigPath.toFile()
 
         if (!generativeConfigPath.exists()) {
@@ -53,7 +53,7 @@ object SimpleGenerator {
 
                 val exitPath = if (hasKubeJS)
                     Path("kubejs/data/$encodeModId/loot_tables/blocks/")
-                else Path("dimore_generated/data/$encodeModId/loot_tables/blocks/")
+                else Path("${ModId}_generated/data/$encodeModId/loot_tables/blocks/")
 
                 val exitAsFile = exitPath.toFile()
                 if (!exitPath.exists()) {
@@ -66,7 +66,7 @@ object SimpleGenerator {
         }
 
         if (!hasKubeJS) return // skipping moving
-        val generatedPath = Path("dimore_generated/")
+        val generatedPath = Path("${ModId}_generated/")
         if (!generatedPath.exists()) return
         val target = Path("kubejs/data/")
 
