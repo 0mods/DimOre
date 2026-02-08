@@ -21,7 +21,7 @@ class DimOreResourcePack(location: PackLocationInfo, root: Path) : PathPackResou
     private val packMetadata: String = JsonObject().apply {
         add("pack", JsonObject().apply {
             addProperty("description", "$ModId Directory Pack Resources")
-            addProperty("pack_format", 48)
+            addProperty("pack_format", 34)
         })
     }.toString()
 
