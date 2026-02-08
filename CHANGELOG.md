@@ -7,17 +7,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased changes
 
 ### Feature
+- datapack loader fix: crash with version error [`7b36bd7`](https://github.com/AlgorithmLX/DimOre/commit/7b36bd7)
 - add interpreter from simple loot table to mc loot table [`393421d`](https://github.com/AlgorithmLX/DimOre/commit/393421d)
 - starting write a configurable custom ores [`62e5d80`](https://github.com/AlgorithmLX/DimOre/commit/62e5d80)
 - 26.1-snap 5 support [mr] [cf] [`68bc40e`](https://github.com/AlgorithmLX/DimOre/commit/68bc40e)
 - 26.1-snap 5 support [mr] [cf] [`2494b99`](https://github.com/AlgorithmLX/DimOre/commit/2494b99)
 
 ### Bug Fixes
+- 7b36bd7 feat: datapack loader fix: crash with version error [`7b36bd7`](https://github.com/AlgorithmLX/DimOre/commit/7b36bd7)
 - rollback [`27801e9`](https://github.com/AlgorithmLX/DimOre/commit/27801e9)
 - curse publish [`3b3b379`](https://github.com/AlgorithmLX/DimOre/commit/3b3b379)
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`6189ed6`](https://github.com/AlgorithmLX/DimOre/commit/6189ed6)
 - :robot: changelog file generated/updated [`70bdc33`](https://github.com/AlgorithmLX/DimOre/commit/70bdc33)
 - :robot: changelog file generated/updated [`785301c`](https://github.com/AlgorithmLX/DimOre/commit/785301c)
 - :robot: changelog file generated/updated [`597c170`](https://github.com/AlgorithmLX/DimOre/commit/597c170)
