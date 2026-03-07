@@ -14,12 +14,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - 26.1-snap 5 support [mr] [cf] [`2494b99`](https://github.com/AlgorithmLX/DimOre/commit/2494b99)
 
 ### Bug Fixes
+- [mr] [cf] drops [`50d94a8`](https://github.com/AlgorithmLX/DimOre/commit/50d94a8)
 - 7b36bd7 feat: datapack loader fix: crash with version error [`7b36bd7`](https://github.com/AlgorithmLX/DimOre/commit/7b36bd7)
 - rollback [`27801e9`](https://github.com/AlgorithmLX/DimOre/commit/27801e9)
 - curse publish [`3b3b379`](https://github.com/AlgorithmLX/DimOre/commit/3b3b379)
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`4e2e312`](https://github.com/AlgorithmLX/DimOre/commit/4e2e312)
 - :robot: changelog file generated/updated [`42e18d7`](https://github.com/AlgorithmLX/DimOre/commit/42e18d7)
 - :robot: changelog file generated/updated [`6189ed6`](https://github.com/AlgorithmLX/DimOre/commit/6189ed6)
 - :robot: changelog file generated/updated [`70bdc33`](https://github.com/AlgorithmLX/DimOre/commit/70bdc33)
