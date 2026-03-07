@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`1310867`](https://github.com/AlgorithmLX/DimOre/commit/1310867)
 - :robot: changelog file generated/updated [`4e2e312`](https://github.com/AlgorithmLX/DimOre/commit/4e2e312)
 - :robot: changelog file generated/updated [`42e18d7`](https://github.com/AlgorithmLX/DimOre/commit/42e18d7)
 - :robot: changelog file generated/updated [`6189ed6`](https://github.com/AlgorithmLX/DimOre/commit/6189ed6)
@@ -35,6 +36,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - :robot: changelog file generated [`841672b`](https://github.com/AlgorithmLX/DimOre/commit/841672b)
 - :robot: changelog file generated [`bfd7dd7`](https://github.com/AlgorithmLX/DimOre/commit/bfd7dd7)
 - :robot: changelog file generated [`ee06659`](https://github.com/AlgorithmLX/DimOre/commit/ee06659)
+
+### Chore
+- [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
 - Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`d538394`](https://github.com/AlgorithmLX/DimOre/commit/d538394)
