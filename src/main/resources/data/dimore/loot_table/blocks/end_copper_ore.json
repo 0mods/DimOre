@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -9,34 +10,16 @@
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
-                        }
-                      }
-                    ]
-                  }
-                }
-              ],
-              "name": "dimore:end_copper_ore"
-            },
-            {
-              "type": "minecraft:item",
+              "name": "minecraft:raw_copper",
               "functions": [
                 {
-                  "add": false,
+                  "function": "minecraft:set_count",
                   "count": {
                     "type": "minecraft:uniform",
                     "max": 5.0,
                     "min": 2.0
                   },
-                  "function": "minecraft:set_count"
+                  "add": false
                 },
                 {
                   "enchantment": "minecraft:fortune",
@@ -46,13 +29,27 @@
                 {
                   "function": "minecraft:explosion_decay"
                 }
-              ],
-              "name": "minecraft:raw_copper"
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "dimore:end_copper_ore",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "components": {
+                      "minecraft:enchantments": {
+                        "minecraft:silk_touch": 1
+                      }
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ],
   "random_sequence": "minecraft:blocks/copper_ore"

@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -9,25 +10,23 @@
           "children": [
             {
               "type": "minecraft:item",
+              "name": "dimore:end_redstone_ore",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
-                        }
+                    "components": {
+                      "minecraft:enchantments": {
+                        "minecraft:silk_touch": 1
                       }
-                    ]
+                    }
                   }
                 }
-              ],
-              "name": "dimore:end_redstone_ore"
+              ]
             },
             {
               "type": "minecraft:item",
+              "name": "minecraft:redstone",
               "functions": [
                 {
                   "add": false,
@@ -49,13 +48,11 @@
                 {
                   "function": "minecraft:explosion_decay"
                 }
-              ],
-              "name": "minecraft:redstone"
+              ]
             }
           ]
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ],
   "random_sequence": "minecraft:blocks/redstone_ore"
