@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`6b08d10`](https://github.com/AlgorithmLX/DimOre/commit/6b08d10)
 - :robot: changelog file generated/updated [`77580d7`](https://github.com/AlgorithmLX/DimOre/commit/77580d7)
 - :robot: changelog file generated/updated [`d9f4677`](https://github.com/AlgorithmLX/DimOre/commit/d9f4677)
 - :robot: changelog file generated/updated [`e504a3f`](https://github.com/AlgorithmLX/DimOre/commit/e504a3f)
@@ -44,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - :robot: changelog file generated [`ee06659`](https://github.com/AlgorithmLX/DimOre/commit/ee06659)
 
 ### Chore
+- no 26.1 at this time [mr] [cf] [`4dcde6d`](https://github.com/AlgorithmLX/DimOre/commit/4dcde6d)
 - [mr] [cf] version bump [`355f76e`](https://github.com/AlgorithmLX/DimOre/commit/355f76e)
 - push [mr] [cf] [`2577431`](https://github.com/AlgorithmLX/DimOre/commit/2577431)
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
