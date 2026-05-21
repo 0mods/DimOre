@@ -30,20 +30,19 @@ val StonecutterBuildExtension.modPlatform get() = current.project.substringAfter
 val StonecutterBuildExtension.minecraftVersion get() = project.properties["minecraft_version"]?.toString() ?: current.project.substringBeforeLast('-')
 
 val modLoaderVersions = mutableMapOf(
-    "fabric" to mutableMapOf("loader" to "0.17.0", // or can use {mc-ver}-loader
+    "fabric" to mutableMapOf("loader" to "0.19.2", // or can use {mc-ver}-loader
         "1.19.2-api" to "0.77.0+1.19.2", "1.20.1-api" to "0.92.2+1.20.1", "1.21-api" to "0.102.0+1.21",
         "1.21.1-api" to "0.116.4+1.21.1", "1.21.2-api" to "0.106.1+1.21.2", "1.21.3-api" to "0.114.1+1.21.3",
         "1.21.4-api" to "0.119.4+1.21.4", "1.21.5-api" to "0.128.2+1.21.5", "1.21.6-api" to "0.128.2+1.21.6",
         "1.21.7-api" to "0.129.0+1.21.7", "1.21.8-api" to "0.136.1+1.21.8", "1.21.9-api" to "0.134.1+1.21.9",
-        "1.21.10-api" to "0.138.4+1.21.10", "1.21.11-api" to "0.141.1+1.21.11", "26.1-snapshot-5-api" to "0.143.0+26.1",
-        "26.1-snapshot-5-loader" to "0.18.4"
+        "1.21.10-api" to "0.138.4+1.21.10", "1.21.11-api" to "0.141.1+1.21.11", "26.1-api" to "0.145.1+26.1"
     ),
     // forge is dead lol. no more versions need
     "forge" to mutableMapOf("1.19.2" to "1.19.2-43.4.2", "1.20.1" to "1.20.1-47.4.3", "1.21" to "1.21-51.0.8",),
     "neoforge" to mutableMapOf("1.21" to "21.0.167", "1.21.1" to "21.1.197", "1.21.2" to "21.2.1-beta",
         "1.21.3" to "21.3.95", "1.21.4" to "21.4.156", "1.21.5" to "21.5.96", "1.21.6" to "21.6.20-beta",
         "1.21.7" to "21.7.25-beta", "1.21.8" to "21.8.52", "1.21.9" to "21.9.16-beta", "1.21.10" to "21.10.64",
-        "1.21.11" to "21.11.36-beta"
+        "1.21.11" to "21.11.36-beta", "26.1" to "26.1.0.19-beta"
     )
 )
 
