@@ -1,2 +1,1 @@
 # Dimension Ores
-:0
