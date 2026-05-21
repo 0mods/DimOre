@@ -149,26 +149,6 @@ stonecutter {
     }
 }
 
-val buildAndCollect = project.tasks.register<Copy>("buildAndCollect") {
-    group = "build"
-    from(project.tasks.named<Jar>("remapJar").map { it.archiveFile.get().asFile })
-    into(project.rootProject.layout.buildDirectory.file("../merged"))
-
-    dependsOn("build")
-}
-
-if (stonecutter.current.isActive) {
-    project.rootProject.tasks.register("buildActive") {
-        group = "project"
-        dependsOn(buildAndCollect)
-    }
-
-    project.rootProject.tasks.register("runActive") {
-        group = "project"
-        dependsOn(project.tasks.named("runClient"))
-    }
-}
-
 publishMods {
     dryRun = false
 

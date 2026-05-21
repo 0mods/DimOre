@@ -130,12 +130,9 @@ data class PostBlock(
         val displayName: String = ""
     ) {
         fun asBlockBehaviourProperties(): BlockBehaviour.Properties = BlockBehaviour.Properties.of().apply {
-            // noCollission
-            //? if >1.21.1 {
-            if (noCollision) this.noCollision()
-            //?} else {
-            /*if (noCollision) this.noCollission()
-            *///?}
+            if (noCollision)
+                //$ if >1.21.1 'this.noCollision()' else 'this.noCollission()'
+                this.noCollision()
             if (noOcclusion) this.noOcclusion()
             if (friction != 0F) this.friction(friction)
             if (speedFactor != 0F) this.speedFactor(speedFactor)
