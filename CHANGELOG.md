@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`0f56c85`](https://github.com/AlgorithmLX/DimOre/commit/0f56c85)
 - :robot: changelog file generated/updated [`0960cc1`](https://github.com/AlgorithmLX/DimOre/commit/0960cc1)
 - :robot: changelog file generated/updated [`e539faf`](https://github.com/AlgorithmLX/DimOre/commit/e539faf)
 - :robot: changelog file generated/updated [`cf89f2d`](https://github.com/AlgorithmLX/DimOre/commit/cf89f2d)
@@ -58,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
+- [mr] [cf] 26.1-26.1.2 support [`6ac9f4c`](https://github.com/AlgorithmLX/DimOre/commit/6ac9f4c)
 - [mr] [cf] version cleanup, 1.21.11 fix [`45d85f9`](https://github.com/AlgorithmLX/DimOre/commit/45d85f9)
 - Rename gradle.properties to gradle.properties [`90e571a`](https://github.com/AlgorithmLX/DimOre/commit/90e571a)
 - Create props [`06e27c3`](https://github.com/AlgorithmLX/DimOre/commit/06e27c3)
