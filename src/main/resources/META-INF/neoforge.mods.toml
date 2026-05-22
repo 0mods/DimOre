@@ -1,0 +1,31 @@
+modLoader = "klf"
+loaderVersion = "[${klf_version},)"
+issueTrackerURL = "https://github.com/AlgorithmLX/${name}/issues"
+license = "ARR"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${name}"
+authors = "AlgorithmLX"
+description = '''
+${description}
+'''
+logoFile = "logo.png"
+
+[[dependencies.${id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neoforge_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "[${minecraftVersion},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "dimore.mixins.json"

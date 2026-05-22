@@ -9,7 +9,7 @@
     "issues": "https://github.com/AlgorithmLX/${mod_name}/issues",
     "sources": "https://github.com/AlgorithmLX/${mod_name}/"
   },
-  "icon": "${id}-logo.png",
+  "icon": "logo.png",
   "license": "All-Rights-Reserved",
   "environment": "*",
   "depends": {

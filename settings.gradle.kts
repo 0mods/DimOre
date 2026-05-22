@@ -39,7 +39,7 @@ stonecutter {
             .filter {
                 val props = Properties()
                 props.load(it.absoluteFile.inputStream())
-                !props.containsKey("build.ignore") && props["build.ignore"].toString() != "true"
+                !props.containsKey("build.ignore") || props.getProperty("build.ignore", "false") != "true"
             }.forEach {
                 val props = Properties()
                 props.load(it.absoluteFile.inputStream())
