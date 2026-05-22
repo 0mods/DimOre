@@ -6,8 +6,8 @@
   "description": "${description}",
   "authors": [ "AlgorithmLX" ],
   "contact": {
-    "issues": "https://github.com/AlgorithmLX/${mod_name}/issues",
-    "sources": "https://github.com/AlgorithmLX/${mod_name}/"
+    "issues": "https://github.com/AlgorithmLX/${name}/issues",
+    "sources": "https://github.com/AlgorithmLX/${name}/"
   },
   "icon": "logo.png",
   "license": "All-Rights-Reserved",

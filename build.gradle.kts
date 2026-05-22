@@ -25,14 +25,14 @@ dependencies {
     }
 }
 
-tasks.processResources {
-    if (mod.isFabric) expand(
-        "fabric_loader" to mod.prop("loader_version"), "java_version" to java.toolchain
-            .languageVersion.toString(), "fabric_api" to mod.prop("fabric_version"),
-        "flk_version" to "${mod.prop("flk_version")}+kotlin.$kotlinVersion"
-    ) else expand(
-        "neoforge_version" to mod.prop("loader_version"), "klf_version" to mod.prop("klf_version"),
+modSettings {
+    val replaces = mutableMapOf(
+        "fabric_loader" to mod.prop("loader_version"), "java_version" to java.toolchain.languageVersion.toString(),
+        "fabric_api" to mod.prop("fabric_version"),
+        "flk_version" to "${mod.prop("flk_version")}+kotlin.$kotlinVersion",
+        "neoforge_version" to mod.prop("loader_version"), "klf_version" to mod.prop("klf_version")
     )
+    variableReplacements.putAll(replaces)
 }
 
 fun DependencyHandlerScope.implementMod(dependencyNotation: Any) {
