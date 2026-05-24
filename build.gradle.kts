@@ -31,7 +31,7 @@ dependencies {
 
 modSettings {
     val replaces = mutableMapOf(
-        "fabric_loader" to mod.prop("loader_version"), "java_version" to java.toolchain.languageVersion.toString(),
+        "fabric_loader" to mod.prop("loader_version"), "java_version" to java.toolchain.languageVersion.get().toString(),
         "fabric_api" to mod.prop("fabric_version"),
         "flk_version" to "${mod.prop("flk_version")}+kotlin.$kotlinVersion",
         "neoforge_version" to mod.prop("loader_version"), "klf_version" to mod.prop("klf_version")
@@ -40,6 +40,14 @@ modSettings {
 }
 
 publishMods {
+    val dependType = when {
+        mod.isFabricLike -> "fabriclike"
+        mod.isForge -> "forge"
+        mod.isForgeLike -> "forgelike"
+        mod.isNeoforge -> "neoforge"
+        else -> "fabric"
+    }
+
     dryRun = false
 
     if (
@@ -72,19 +80,20 @@ publishMods {
     displayName = "[${mod.loader}-${mod.minecraftVersion}] ${mod.name} (v.${mod.version})"
     modLoaders.add(mod.loader)
 
-    val modrinthProject: String? = rootProject.properties["modrinth_project"]?.toString()
+    val modrinthProject: String? = if (mod.hasProp("publish.modrinth.project_id")) mod.prop("publish.modrinth.project_id") else null
     val modrinthToken = System.getenv("MODRINTH_TOKEN")
 
-    val curseProject: String? = rootProject.properties["curseforge_project"]?.toString()
+    val curseProject: String? = if (mod.hasProp("publish.curseforge.project_id")) mod.prop("publish.modrinth.project_id") else null
     val curseToken = System.getenv("CURSE_TOKEN")
 
     if (modrinthToken != null && modrinthProject != null) modrinth {
         projectId = modrinthProject
         accessToken = modrinthToken
 
-        if (mod.isFabricLike)
-            requires("fabric-api", "fabric-language-kotlin")
-        else requires("kotlin-lang-forge")
+        if (mod.hasProp("publish.modrinth.$dependType.depends")) {
+            val depends = mod.prop("publish.modrinth.$dependType.depends").split(',')
+            requires(*depends.toTypedArray())
+        }
 
         minecraftVersions.add(mod.minecraftVersion)
         minecraftVersions.addAll(additionalMinecraftVersions)
@@ -94,9 +103,10 @@ publishMods {
         projectId = curseProject
         accessToken = curseToken
 
-        if (mod.isFabricLike)
-            requires("fabric-api", "fabric-language-kotlin")
-        else requires("kotlinlangforge")
+        if (mod.hasProp("publish.curseforge.$dependType.depends")) {
+            val depends = mod.prop("publish.curseforge.$dependType.depends").split(',')
+            requires(*depends.toTypedArray())
+        }
 
         if (mod.minecraftVersion.contains("snapshot")) {
             val modifiedVersion = buildString {

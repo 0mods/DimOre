@@ -1,5 +1,6 @@
 package com.algorithmlx.dimore.init.post
 
+import com.algorithmlx.dimore.init.config.JsonComment
 import com.algorithmlx.dimore.util.OreDimensionType
 import com.algorithmlx.dimore.util.ResLoc
 import kotlinx.serialization.SerialName
@@ -7,7 +8,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.util.valueproviders.ConstantInt
 import net.minecraft.util.valueproviders.UniformInt
@@ -18,22 +18,49 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
-import java.util.Optional
+
+val ExampleBlock = PostBlock(
+    isRedstone = false,
+    generationSettings = PostBlock.GenerationSettings(
+        size = 1,
+        count = 12,
+        minHeight = -60,
+        maxHeight = 120,
+        oreDimensionType = PostBlock.OreReplacementRule(
+            "minecraft:stone",
+            PostBlock.TargetType(into = "minecraft:cobblestone")
+        )
+    )
+)
 
 @Serializable
 data class PostBlock(
+    @JsonComment([
+        "Makes block with redstone logic (light, interact)"
+    ])
     val isRedstone: Boolean = false,
+    @JsonComment([
+        "Block properties"
+    ])
     val properties: SimplyProperties = SimplyProperties(),
+    @JsonComment([
+        "Block generation settings"
+    ])
     val generationSettings: GenerationSettings
 ) {
     @Serializable
     data class GenerationSettings(
+        @JsonComment(["The size of a single ore vein."])
         val size: Int,
+        @JsonComment(["Number of ore veins per chunk."])
         val count: Int,
+        @JsonComment(["Minimum generation height"])
         @SerialName("min_height")
         val minHeight: Int,
+        @JsonComment(["Maximum generation height"])
         @SerialName("max_height")
         val maxHeight: Int,
+        @JsonComment(["Settings of ore generation"])
         @SerialName("ore_replacement_rule")
         val oreDimensionType: OreReplacementRule,
         @Serializable
@@ -41,17 +68,15 @@ data class PostBlock(
     )
 
     @Serializable
-    abstract class OreReplacementRule(
+    open class OreReplacementRule(
+        @JsonComment(["Block to replace"])
         val replacement: String,
         val target: TargetType
     ): OreDimensionType {
         @Transient
         override val dimensionBlock: () -> Block = {
-            //? if >1.21.1 {
+            //$ if >1.21.1 '.getValue(ResLoc.parse(replacement))' else '.get(ResLoc.parse(replacement))'
             BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement))
-            //?} else {
-            /*BuiltInRegistries.BLOCK.get(ResLoc.parse(replacement))
-            *///?}
         }
 
         override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
@@ -71,7 +96,9 @@ data class PostBlock(
                 TagMatchTest(TagKey.create(Registries.BLOCK, ResLoc.parse(into)))
             else {
                 val blockId = ResLoc.parse(into)
-                val block = /*? if >1.21.1 {*/BuiltInRegistries.BLOCK.getValue(blockId)/*?} else {*//*BuiltInRegistries.BLOCK.get(blockId)*//*?}*/
+                val block = BuiltInRegistries.BLOCK
+                    //$ if >1.21.1 '.getValue(blockId)' else '.get(blockId)'
+                    .getValue(blockId)
                 BlockMatchTest(block)
             }
         }

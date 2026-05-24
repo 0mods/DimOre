@@ -1,5 +1,7 @@
 package com.algorithmlx.dimore.init
 
+import com.algorithmlx.dimore.LOGGER
+import com.algorithmlx.dimore.Mod
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.block.DimensionalOreBlock
 import com.algorithmlx.dimore.block.DimensionalRedstoneOre
@@ -26,13 +28,20 @@ import java.util.function.Supplier
 *///?}
 //? if fabric {
 import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.post.PostBlock
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.world.level.block.RedStoneOreBlock
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import java.io.File
+
 //?}
 
 object Registry {
@@ -48,11 +57,13 @@ object Registry {
         biomeModifierSerializers.register(bus)
 
         registerOres()
+        initOresFromJSON()
 
         biomeModifierSerializers.register("dimore_modifier", Supplier { DimOreModifier.codec }) }
     *///?} else {
     fun init() {
         registerOres()
+        initOresFromJSON()
 
         DynamicRegistrySetupCallback.EVENT.register { regMgr ->
             val confReg = regMgr.getOptional(Registries.CONFIGURED_FEATURE)
@@ -64,6 +75,40 @@ object Registry {
         }
     }
     //?}
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private fun initOresFromJSON() {
+        val json = Json {
+            prettyPrint = true
+            ignoreUnknownKeys = true
+            prettyPrintIndent = "  "
+            allowComments = true
+            encodeDefaults = true
+        }
+
+        val configFiles = File("config/dimore/custom/")
+        if (!configFiles.exists()) {
+            configFiles.parentFile.mkdirs()
+            configFiles.mkdirs()
+            LOGGER.info("Custom block config is not exists. Skipping loading.")
+        }
+
+        configFiles.listFiles()
+            .filter { it.name.endsWith(".json") }
+            .filter { !it.name.startsWith("_") }
+            .filter { !it.isDirectory }
+            .forEach {
+                val config: PostBlock = json.decodeFromStream(it.inputStream())
+
+                if (!config.isRedstone) this.registerBlock(
+                    it.name, ::Block,
+                    config.properties.asBlockBehaviourProperties(), true
+                ) else this.registerBlock(
+                    it.name, ::RedStoneOreBlock,
+                    config.properties.asBlockBehaviourProperties(), true
+                )
+            }
+    }
 
     private fun registerOres() {
         // Nether Ores
