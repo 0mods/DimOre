@@ -2,7 +2,7 @@ package com.algorithmlx.dimore.worldgen
 
 //? if fabric {
 import com.algorithmlx.dimore.ModId
-import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.config.CommentedJSONManager
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.GenerationStep
 import java.util.function.Predicate
 
 object OreConfig {
-    private val config = ConfigManager.config
+    private val config = CommentedJSONManager.config
 
     fun init() {
         if (config.overworldOres.generateOres) generateOverworldOres()

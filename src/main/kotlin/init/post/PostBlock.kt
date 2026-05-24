@@ -26,10 +26,7 @@ val ExampleBlock = PostBlock(
         count = 12,
         minHeight = -60,
         maxHeight = 120,
-        oreDimensionType = PostBlock.OreReplacementRule(
-            "minecraft:stone",
-            PostBlock.TargetType(into = "minecraft:cobblestone")
-        )
+        oreTarget = PostBlock.TargetType(from = "minecraft:stone")
     )
 )
 
@@ -62,40 +59,41 @@ data class PostBlock(
         val maxHeight: Int,
         @JsonComment(["Settings of ore generation"])
         @SerialName("ore_replacement_rule")
-        val oreDimensionType: OreReplacementRule,
+        val oreTarget: TargetType,
+        @JsonComment(["Experience settings"])
         @Serializable
         val dropExperience: ExperienceRange = ExperienceRange.EMPTY
-    )
+    ) {
+        fun asDimensionType(blockId: String) = OreReplacementRule(blockId, oreTarget)
 
-    @Serializable
-    open class OreReplacementRule(
-        @JsonComment(["Block to replace"])
-        val replacement: String,
-        val target: TargetType
-    ): OreDimensionType {
-        @Transient
-        override val dimensionBlock: () -> Block = {
-            //$ if >1.21.1 '.getValue(ResLoc.parse(replacement))' else '.get(ResLoc.parse(replacement))'
-            BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement))
+        open class OreReplacementRule(
+            val replacement: String,
+            val target: TargetType
+        ): OreDimensionType {
+            override val dimensionBlock: () -> Block = {
+                //$ if >1.21.1 '.getValue(ResLoc.parse(replacement))' else '.get(ResLoc.parse(replacement))'
+                BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement))
+            }
+
+            override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
+                OreConfiguration.target(target.asRuleTest(), block)
         }
-
-        override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
-            OreConfiguration.target(target.asRuleTest(), block)
     }
 
     @Serializable
     data class TargetType(
+        @JsonComment(["Block replace type.", "Can be \"block\" and \"tag\""], multiline = true)
         val type: String = "block",
-        val into: String
+        val from: String
     ) {
         @Transient val isBlock = this.type == "block"
         @Transient val isTag = !isBlock
 
         fun asRuleTest(): RuleTest {
             return if (isTag)
-                TagMatchTest(TagKey.create(Registries.BLOCK, ResLoc.parse(into)))
+                TagMatchTest(TagKey.create(Registries.BLOCK, ResLoc.parse(from)))
             else {
-                val blockId = ResLoc.parse(into)
+                val blockId = ResLoc.parse(from)
                 val block = BuiltInRegistries.BLOCK
                     //$ if >1.21.1 '.getValue(blockId)' else '.get(blockId)'
                     .getValue(blockId)

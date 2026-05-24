@@ -1,7 +1,6 @@
 package com.algorithmlx.dimore.init
 
 import com.algorithmlx.dimore.LOGGER
-import com.algorithmlx.dimore.Mod
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.block.DimensionalOreBlock
 import com.algorithmlx.dimore.block.DimensionalRedstoneOre
@@ -27,7 +26,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries
 import java.util.function.Supplier
 *///?}
 //? if fabric {
-import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.config.CommentedJSONManager
 import com.algorithmlx.dimore.init.post.PostBlock
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
@@ -98,13 +97,14 @@ object Registry {
             .filter { !it.name.startsWith("_") }
             .filter { !it.isDirectory }
             .forEach {
+                val id = "custom.${it.name.removeSuffix(".json")}"
                 val config: PostBlock = json.decodeFromStream(it.inputStream())
 
                 if (!config.isRedstone) this.registerBlock(
-                    it.name, ::Block,
+                    id, ::Block,
                     config.properties.asBlockBehaviourProperties(), true
                 ) else this.registerBlock(
-                    it.name, ::RedStoneOreBlock,
+                    id, ::RedStoneOreBlock,
                     config.properties.asBlockBehaviourProperties(), true
                 )
             }
@@ -198,7 +198,7 @@ object Registry {
         cfReg: Registry<ConfiguredFeature<*, *>>,
         pfReg: Registry<PlacedFeature>
     ) {
-        if (ConfigManager.config.netherOres.generateOres) {
+        if (CommentedJSONManager.config.netherOres.generateOres) {
             OreTypes.netherOres.forEach { type ->
                 val id = "nether_${type.name.lowercase()}_ore"
                 val config = OreTypes.configByTypeNether[type] ?: return@forEach
@@ -214,7 +214,7 @@ object Registry {
             }
         }
 
-        if (ConfigManager.config.overworldOres.generateOres) {
+        if (CommentedJSONManager.config.overworldOres.generateOres) {
             OreTypes.overworldOres.forEach { type ->
                 val stoneId = "stone_${type.name.lowercase()}_ore"
                 val deepslateId = "deepslate_${type.name.lowercase()}_ore"
@@ -238,7 +238,7 @@ object Registry {
             }
         }
 
-        if (ConfigManager.config.endOres.generateOres) {
+        if (CommentedJSONManager.config.endOres.generateOres) {
             OreTypes.endOres.forEach { type ->
                 val id = "end_${type.name.lowercase()}_ore"
                 val config = OreTypes.configByTypeEnd[type] ?: return@forEach

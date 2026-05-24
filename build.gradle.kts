@@ -5,6 +5,10 @@ val publishType = if (mod.hasProp("build.release_type")) mod.prop("build.release
 val isBeta = publishType != null && publishType == "beta"
 val isAlpha = publishType != null && publishType == "alpha"
 val kotlinVersion: String by rootProject
+val allSupportedMC = mutableListOf(mod.minecraftVersion).apply {
+    if (mod.hasProp("minecraft_version.additional"))
+        this.addAll(mod.prop("minecraft_version.additional").split(',').map { it.trim() })
+}
 
 plugins {
     id("gg.meza.stonecraft")
@@ -65,10 +69,6 @@ publishMods {
         return@publishMods
     }
 
-    val additionalMinecraftVersions = if (mod.hasProp("minecraft_version.additional"))
-        mod.prop("minecraft_version.additional").split(',').map { it.trim() }
-    else listOf()
-
     changelog = rootProject.file("CHANGELOG.md").readText()
 
     type = when {
@@ -95,8 +95,7 @@ publishMods {
             requires(*depends.toTypedArray())
         }
 
-        minecraftVersions.add(mod.minecraftVersion)
-        minecraftVersions.addAll(additionalMinecraftVersions)
+        minecraftVersions.addAll(allSupportedMC)
     }
 
     if (curseToken != null && curseProject != null) curseforge {
@@ -116,7 +115,7 @@ publishMods {
             }
             minecraftVersions.add(modifiedVersion)
         } else minecraftVersions.add(mod.minecraftVersion)
-        minecraftVersions.addAll(additionalMinecraftVersions)
+        minecraftVersions.addAll(allSupportedMC)
     }
 }
 

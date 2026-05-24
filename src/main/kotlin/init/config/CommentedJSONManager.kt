@@ -1,5 +1,7 @@
 package com.algorithmlx.dimore.init.config
 
+import com.algorithmlx.dimore.init.post.ExampleBlock
+import com.algorithmlx.dimore.init.post.PostBlock
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import java.io.File
@@ -9,7 +11,7 @@ import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 
 @OptIn(ExperimentalSerializationApi::class)
-object ConfigManager {
+object CommentedJSONManager {
     private const val COMMENT_MULTILINE_START = "/*"
     private const val COMMENT_MULTILINE_END = "*/"
     private const val COMMENT_STAR = "*"
@@ -27,32 +29,50 @@ object ConfigManager {
         private set
 
     fun load() {
-        val configCache: MutableMap<String, Any> = mutableMapOf()
-
         val configFile = File("config/dimore/dimore.json")
-        if (!configFile.exists()) {
-            configFile.parentFile.mkdirs()
-            save(configCache, configFile, config, DimensionalOresConfig::class)
+        val defaultBlockFile = File("config/dimore/custom/_example_block.json")
+
+        config = saveOrLoad(configFile, config, DimensionalOresConfig::class)
+
+        if (!defaultBlockFile.parentFile.exists())
+            saveOrLoad(defaultBlockFile, ExampleBlock, PostBlock::class)
+    }
+
+    inline fun <reified T: Any> saveOrLoad(file: File, obj: T, clazz: KClass<T>): T {
+        val cache = mutableMapOf<String, Any>()
+        return saveOrLoad(cache, file, obj, clazz)
+    }
+
+    inline fun <reified T : Any> saveOrLoad(cache: MutableMap<String, Any>, file: File, obj: T, clazz: KClass<T>): T {
+        val value = if (!file.exists()) {
+            file.parentFile.mkdirs()
+            save(cache, file, obj, clazz)
+
+            obj
         } else {
             try {
-                config = json.decodeFromStream(configFile.inputStream())
+                json.decodeFromStream(file.inputStream())
             } catch (e: Exception) {
                 e.printStackTrace()
-                save(configCache, configFile, config, DimensionalOresConfig::class)
+                save(cache, file, obj, clazz)
+
+                obj
             }
         }
 
-        updateCache(configCache, config)
+        updateCache(cache, obj)
+
+        return value
     }
 
-    private inline fun <reified T : Any> save(cache: MutableMap<String, Any>, configFile: File, toSave: T, clazz: KClass<T>) {
+    inline fun <reified T : Any> save(cache: MutableMap<String, Any>, configFile: File, toSave: T, clazz: KClass<T>) {
         val jsonStr = json.encodeToString(toSave)
         val commentedStr = injectComments(jsonStr, clazz)
         configFile.writeText(commentedStr)
         updateCache(cache, toSave)
     }
 
-    private inline fun <reified T> updateCache(cache: MutableMap<String, Any>, config: T) {
+    inline fun <reified T> updateCache(cache: MutableMap<String, Any>, config: T) {
         val jsonObject = json.encodeToJsonElement(config).jsonObject
         val flat = flatten(jsonObject)
         cache.putAll(flat)
@@ -64,7 +84,7 @@ object ConfigManager {
     @JvmStatic
     fun getInt(cache: Map<String, Any>, key: String): Int = cache[key] as? Int ?: 0
 
-    private fun flatten(el: JsonElement, pr: String = ""): Map<String, Any> {
+    fun flatten(el: JsonElement, pr: String = ""): Map<String, Any> {
         val m = mutableMapOf<String, Any>()
         when (el) {
             is JsonObject -> {

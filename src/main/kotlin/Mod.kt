@@ -1,6 +1,6 @@
 package com.algorithmlx.dimore
 
-import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.config.CommentedJSONManager
 import com.algorithmlx.dimore.init.Registry
 import com.algorithmlx.dimore.init.post.loot.SimpleGenerator
 //? if neoforge {
@@ -33,7 +33,7 @@ object Mod {
     fun onInitialize() {
         SimpleGenerator.generateLootTables(FabricLoader.getInstance().isModLoaded("kubejs"))
 
-        ConfigManager.load()
+        CommentedJSONManager.load()
         Registry.init()
         OreConfig.init()
     }
