@@ -15,53 +15,54 @@ object ConfigManager {
     private const val COMMENT_STAR = "*"
     private const val COMMENT_SINGLETON = "//"
 
-    private val json = Json {
+    val json = Json {
         prettyPrint = true
         ignoreUnknownKeys = true
         prettyPrintIndent = "  "
         allowComments = true
         encodeDefaults = true
     }
-    private val configFile = File("config/dimore/dimore.json")
 
     var config = DimensionalOresConfig()
         private set
 
-    private var configCache: Map<String, Any> = emptyMap()
-
     fun load() {
+        val configCache: MutableMap<String, Any> = mutableMapOf()
+
+        val configFile = File("config/dimore/dimore.json")
         if (!configFile.exists()) {
             configFile.parentFile.mkdirs()
-            save()
+            save(configCache, configFile, config, DimensionalOresConfig::class)
         } else {
             try {
                 config = json.decodeFromStream(configFile.inputStream())
             } catch (e: Exception) {
                 e.printStackTrace()
-                save()
+                save(configCache, configFile, config, DimensionalOresConfig::class)
             }
         }
 
-        updateCache()
+        updateCache(configCache, config)
     }
 
-    fun save() {
-        val jsonStr = json.encodeToString(config)
-        val commentedStr = injectComments(jsonStr, DimensionalOresConfig::class)
+    private inline fun <reified T : Any> save(cache: MutableMap<String, Any>, configFile: File, toSave: T, clazz: KClass<T>) {
+        val jsonStr = json.encodeToString(toSave)
+        val commentedStr = injectComments(jsonStr, clazz)
         configFile.writeText(commentedStr)
-        updateCache()
+        updateCache(cache, toSave)
     }
 
-    private fun updateCache() {
+    private inline fun <reified T> updateCache(cache: MutableMap<String, Any>, config: T) {
         val jsonObject = json.encodeToJsonElement(config).jsonObject
-        configCache = flatten(jsonObject)
+        val flat = flatten(jsonObject)
+        cache.putAll(flat)
     }
 
     @JvmStatic
-    fun isEnable(key: String): Boolean = configCache[key] as? Boolean ?: true
+    fun isEnable(cache: Map<String, Any>, key: String): Boolean = cache[key] as? Boolean ?: true
 
     @JvmStatic
-    fun getInt(key: String): Int = configCache[key] as? Int ?: 0
+    fun getInt(cache: Map<String, Any>, key: String): Int = cache[key] as? Int ?: 0
 
     private fun flatten(el: JsonElement, pr: String = ""): Map<String, Any> {
         val m = mutableMapOf<String, Any>()
@@ -84,7 +85,7 @@ object ConfigManager {
         return m
     }
 
-    private fun injectComments(jsonString: String, rootClass: KClass<*>): String {
+    fun injectComments(jsonString: String, rootClass: KClass<*>): String {
         val comMap = buildCommentMap(rootClass)
 
         val lines = jsonString.lines()

@@ -144,7 +144,7 @@ object SimpleGenerator {
                 )
             }
             "fortune" -> functions += MCApplyBonus(enchantment = "minecraft:fortune", formula = "minecraft:ore_drops")
-            "explosion_decay" -> functions += MCFunction.SingletonFunction("minecraft:explosion_decay")
+            "explosion_decay" -> functions += MCExplosionDecayFunction
         } }
 
         return MCEntry(

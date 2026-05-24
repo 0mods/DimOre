@@ -2,6 +2,9 @@ package com.algorithmlx.dimore.init.post.loot
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.JsonClassDiscriminator
+import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class MCLootTable(
@@ -14,6 +17,7 @@ data class MCLootTable(
 @Serializable
 data class MCPool(
     val rolls: Float = 1F,
+    @SerialName("bonus_rolls")
     val bonusRolls: Float = 0F,
     val entries: List<MCEntry>
 )
@@ -35,7 +39,8 @@ data class MCCondition(
 
 @Serializable
 data class MCPredicate(
-    val enchantments: List<MCEnchantmentPredicate>? = null
+    val enchantments: List<MCEnchantmentPredicate>? = null,
+    val components: Map<String, JsonElement>? = null
 )
 
 @Serializable
@@ -50,21 +55,21 @@ data class MCEnchantmentPredicate(
     )
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
-sealed class MCFunction {
-    abstract val function: String
+@JsonClassDiscriminator("function")
+sealed class MCFunction
 
-    @SerialName("singleton")
-    data class SingletonFunction(override val function: String): MCFunction()
-}
-
-@SerialName("set_count")
 @Serializable
+@SerialName("minecraft:explosion_decay")
+object MCExplosionDecayFunction : MCFunction()
+
+@Serializable
+@SerialName("minecraft:set_count")
 data class MCSetCountFunction(
-    override val function: String = "minecraft:set_count",
     val add: Boolean,
     val count: MCCount
-): MCFunction() {
+) : MCFunction() {
     @Serializable
     data class MCCount(
         val type: String = "minecraft:uniform",
@@ -73,10 +78,9 @@ data class MCSetCountFunction(
     )
 }
 
-@SerialName("apply_bonus")
 @Serializable
+@SerialName("minecraft:apply_bonus")
 data class MCApplyBonus(
-    override val function: String = "minecraft:apply_bonus",
     val enchantment: String,
     val formula: String
-): MCFunction()
+) : MCFunction()
