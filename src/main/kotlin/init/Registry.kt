@@ -215,7 +215,6 @@ object Registry {
                 val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
                     //$ if >1.21.1 '.orElseThrow().value()' else ''
                     .orElseThrow().value()
-                    .value()
 
                 createFeature(cfReg, pfReg, id, block, OreDimensionTypes.NETHER, config)
             }
