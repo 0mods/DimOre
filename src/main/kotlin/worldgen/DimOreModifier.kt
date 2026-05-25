@@ -2,13 +2,17 @@ package com.algorithmlx.dimore.worldgen
 
 //? if neoforge {
 /*import com.algorithmlx.dimore.init.Registry
-import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.config.CommentedJSONManager
+import com.algorithmlx.dimore.init.config.DimensionalOresConfig
 import com.algorithmlx.dimore.util.OreDimensionTypes
 import com.algorithmlx.dimore.util.OreGeneratorFactory
 import com.algorithmlx.dimore.util.OreTypes
+import com.algorithmlx.dimore.util.ResLoc
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.Holder
+import net.minecraft.core.registries.Registries
 import net.minecraft.tags.BiomeTags
+import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
@@ -25,7 +29,7 @@ class DimOreModifier: BiomeModifier {
     ) {
         if (phase != BiomeModifier.Phase.ADD) return
 
-        if (biome.`is`(BiomeTags.IS_NETHER) && ConfigManager.config.netherOres.generateOres) {
+        if (biome.`is`(BiomeTags.IS_NETHER) && CommentedJSONManager.config.netherOres.generateOres) {
             OreTypes.netherOres.forEach {
                 val cfg = OreTypes.configByTypeNether[it] ?: return@forEach
                 if (!cfg.generate) return@forEach
@@ -41,7 +45,7 @@ class DimOreModifier: BiomeModifier {
 
                 if (feature != null) builder.generationSettings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature)
             }
-        } else if (biome.`is`(BiomeTags.IS_END) && ConfigManager.config.endOres.generateOres) {
+        } else if (biome.`is`(BiomeTags.IS_END) && CommentedJSONManager.config.endOres.generateOres) {
             OreTypes.endOres.forEach {
                 val cfg = OreTypes.configByTypeEnd[it] ?: return@forEach
                 if (!cfg.generate) return@forEach
@@ -57,7 +61,7 @@ class DimOreModifier: BiomeModifier {
 
                 if (feature != null) builder.generationSettings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature)
             }
-        } else if (ConfigManager.config.overworldOres.generateOres) {
+        } else if (CommentedJSONManager.config.overworldOres.generateOres) {
             OreTypes.overworldOres.forEach {
                 val cfg = OreTypes.configByTypeOverworld[it] ?: return@forEach
                 if (!cfg.generate) return@forEach
@@ -84,6 +88,26 @@ class DimOreModifier: BiomeModifier {
 
                 if (deepslateFeature != null) builder.generationSettings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, deepslateFeature)
             }
+        }
+
+        Registry.getPostBlocks().forEach { (id, postBlock) ->
+            val settings = postBlock.generationSettings
+            val config = settings.config
+            val biomeKey = TagKey.create(Registries.BIOME, ResLoc.parse(settings.dimension))
+
+            if (!biome.`is`(biomeKey)) return@forEach
+
+            val cfg = DimensionalOresConfig.OreGenerationSettings(true, config.size, config.count, config.minHeight, config.maxHeight)
+            val feature = this.getFeature(id) {
+                val block = Registry.blockHolders[id]?.value() ?: return@getFeature null
+                val configured = OreGeneratorFactory.createConfigured(settings.asDimensionType(), block, cfg.size)
+                val placed = OreGeneratorFactory.createPlaced(Holder.direct(configured), cfg.count, cfg.minHeight, cfg.maxHeight)
+
+                Holder.direct(placed)
+            }
+
+            if (feature != null)
+                builder.generationSettings.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature)
         }
     }
 

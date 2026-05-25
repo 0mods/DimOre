@@ -1,5 +1,6 @@
 package com.algorithmlx.dimore.init.config
 
+import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.init.post.ExampleBlock
 import com.algorithmlx.dimore.init.post.PostBlock
 import kotlinx.serialization.*
@@ -29,8 +30,8 @@ object CommentedJSONManager {
         private set
 
     fun load() {
-        val configFile = File("config/dimore/dimore.json")
-        val defaultBlockFile = File("config/dimore/custom/_example_block.json")
+        val configFile = File("config/${ModId}/common.json")
+        val defaultBlockFile = File("config/${ModId}/custom/_example_block.json")
 
         config = saveOrLoad(configFile, config, DimensionalOresConfig::class)
 

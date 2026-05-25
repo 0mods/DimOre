@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 enum class OreDimensionTypes(
     override val dimensionBlock: () -> Block,
     private val rule: RuleTest
-): OreDimensionType {
+): OreDimensionType, NameTarget {
     OVERWORLD({ Blocks.STONE }, TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES)),
     OVERWORLD_DEEPSLATE({ Blocks.DEEPSLATE }, TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES)),
     NETHER({ Blocks.NETHERRACK }, BlockMatchTest(Blocks.NETHERRACK)),

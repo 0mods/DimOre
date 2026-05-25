@@ -1,6 +1,7 @@
 package com.algorithmlx.dimore.block
 
 import com.algorithmlx.dimore.util.DimensionOre
+import com.algorithmlx.dimore.util.NameTarget
 import com.algorithmlx.dimore.util.OreDimensionType
 import com.algorithmlx.dimore.util.OreType
 import net.minecraft.network.chat.MutableComponent
@@ -13,5 +14,5 @@ class DimensionalOreBlock(
 ): DropExperienceBlock(
     oreType.experienceDrop, properties,
 ), DimensionOre {
-    override fun getName(): MutableComponent = buildName()
+    override fun getName(): MutableComponent = if (oreDimensionType is NameTarget) buildName(oreDimensionType) else super.getName()
 }

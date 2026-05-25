@@ -2,6 +2,7 @@ package com.algorithmlx.dimore.worldgen
 
 //? if fabric {
 import com.algorithmlx.dimore.ModId
+import com.algorithmlx.dimore.init.Registry
 import com.algorithmlx.dimore.init.config.CommentedJSONManager
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext
@@ -9,6 +10,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import com.algorithmlx.dimore.util.ResLoc
+import net.minecraft.world.level.dimension.LevelStem
 import net.minecraft.world.level.levelgen.GenerationStep
 import java.util.function.Predicate
 
@@ -19,6 +21,13 @@ object OreConfig {
         if (config.overworldOres.generateOres) generateOverworldOres()
         if (config.netherOres.generateOres) generateNetherOres()
         if (config.endOres.generateOres) generateEndOres()
+
+        Registry.getPostBlocks().entries.forEach { (id, block) ->
+            val generationSettings = block.generationSettings
+            val key = ResourceKey.create(Registries.LEVEL_STEM, ResLoc.parse(generationSettings.dimension))
+
+            generateOre(foundInDimension(key), id)
+        }
     }
 
     private fun generateOverworldOres() {
@@ -72,5 +81,7 @@ object OreConfig {
         Registries.PLACED_FEATURE,
         ResLoc.fromNamespaceAndPath(ModId, id)
     )
+
+    private fun foundInDimension(key: ResourceKey<LevelStem>): Predicate<BiomeSelectionContext> = { it.canGenerateIn(key) }
 }
 //?}

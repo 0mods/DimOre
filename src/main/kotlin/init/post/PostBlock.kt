@@ -9,8 +9,6 @@ import kotlinx.serialization.Transient
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.tags.TagKey
-import net.minecraft.util.valueproviders.ConstantInt
-import net.minecraft.util.valueproviders.UniformInt
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
@@ -22,11 +20,14 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 val ExampleBlock = PostBlock(
     isRedstone = false,
     generationSettings = PostBlock.GenerationSettings(
-        size = 1,
-        count = 12,
-        minHeight = -60,
-        maxHeight = 120,
-        oreTarget = PostBlock.TargetType(from = "minecraft:stone")
+        "minecraft:overworld",
+        PostBlock.GenerationSettings.ConfiguredFeature(
+            size = 1,
+            count = 12,
+            minHeight = -60,
+            maxHeight = 120,
+            oreTarget = PostBlock.TargetType(from = "minecraft:stone")
+        )
     )
 )
 
@@ -35,6 +36,7 @@ data class PostBlock(
     @JsonComment([
         "Makes block with redstone logic (light, interact)"
     ])
+    @SerialName("is_redstone")
     val isRedstone: Boolean = false,
     @JsonComment([
         "Block properties"
@@ -43,41 +45,42 @@ data class PostBlock(
     @JsonComment([
         "Block generation settings"
     ])
+    @SerialName("generation")
     val generationSettings: GenerationSettings
 ) {
     @Serializable
     data class GenerationSettings(
-        @JsonComment(["The size of a single ore vein."])
-        val size: Int,
-        @JsonComment(["Number of ore veins per chunk."])
-        val count: Int,
-        @JsonComment(["Minimum generation height"])
-        @SerialName("min_height")
-        val minHeight: Int,
-        @JsonComment(["Maximum generation height"])
-        @SerialName("max_height")
-        val maxHeight: Int,
-        @JsonComment(["Settings of ore generation"])
-        @SerialName("ore_replacement_rule")
-        val oreTarget: TargetType,
-        @JsonComment(["Experience settings"])
-        @Serializable
-        val dropExperience: ExperienceRange = ExperienceRange.EMPTY
+        //? if neoforge {
+        /*@SerialName("biome")
+        *///?}
+        val dimension: String,
+        val config: ConfiguredFeature,
     ) {
-        fun asDimensionType(blockId: String) = OreReplacementRule(blockId, oreTarget)
+        fun asDimensionType() = OreReplacementRule(config.oreTarget)
 
         open class OreReplacementRule(
-            val replacement: String,
             val target: TargetType
         ): OreDimensionType {
-            override val dimensionBlock: () -> Block = {
-                //$ if >1.21.1 '.getValue(ResLoc.parse(replacement))' else '.get(ResLoc.parse(replacement))'
-                BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement))
-            }
-
             override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
                 OreConfiguration.target(target.asRuleTest(), block)
         }
+
+        @Serializable
+        class ConfiguredFeature(
+            @JsonComment(["The size of a single ore vein."])
+            val size: Int,
+            @JsonComment(["Number of ore veins per chunk."])
+            val count: Int,
+            @JsonComment(["Minimum generation height"])
+            @SerialName("min_height")
+            val minHeight: Int,
+            @JsonComment(["Maximum generation height"])
+            @SerialName("max_height")
+            val maxHeight: Int,
+            @JsonComment(["Settings of ore generation"])
+            @SerialName("ore_target")
+            val oreTarget: TargetType,
+        )
     }
 
     @Serializable
@@ -100,21 +103,6 @@ data class PostBlock(
                 BlockMatchTest(block)
             }
         }
-    }
-
-    @Serializable
-    data class ExperienceRange(
-        @SerialName("min")
-        val minExp: Int,
-        @SerialName("max")
-        val maxExp: Int
-    ) {
-        companion object {
-            @JvmField
-            val EMPTY = ExperienceRange(0, 0)
-        }
-
-        fun asIntProvider() = if (minExp == maxExp && minExp == 0) ConstantInt.of(0) else UniformInt.of(minExp, maxExp)
     }
 
     @Serializable
