@@ -30,5 +30,7 @@ object Mod {
         Registry.init()
         OreConfig.init()
     }
+
+    fun onInitializeClient() = initClient()
 }
 //?}

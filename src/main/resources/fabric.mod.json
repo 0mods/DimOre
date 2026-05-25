@@ -26,6 +26,12 @@
         "adapter": "kotlin",
         "value": "com.algorithmlx.dimore.Mod::onInitialize"
       }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.algorithmlx.dimore.Mod::onInitializeClient"
+      }
     ]
   }
 }
