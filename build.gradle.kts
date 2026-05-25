@@ -45,11 +45,14 @@ modSettings {
 
 publishMods {
     val dependType = when {
-        mod.isFabricLike -> "fabriclike"
         mod.isForge -> "forge"
-        mod.isForgeLike -> "forgelike"
         mod.isNeoforge -> "neoforge"
         else -> "fabric"
+    }
+
+    val likeProject = when {
+        mod.isForgeLike -> "forgelike"
+        else -> "fabriclike"
     }
 
     dryRun = false
@@ -57,13 +60,11 @@ publishMods {
     if (
         mod.hasProp("build.no_publish")
         && (
-            mod.prop("build.no_publish") == "true"
-                    || ((mod.prop("build.no_publish") == "neoforge") && mod.isNeoforge)
-                    || ((mod.prop("build.no_publish") == "fabric") && mod.isFabric)
-                    || ((mod.prop("build.no_publish") == "forge") && mod.isForge)
-                    || ((mod.prop("build.no_publish") == "fabriclike") && mod.isFabricLike)
-                    || ((mod.prop("build.no_publish") == "forgelike") && mod.isForgeLike)
+                mod.prop("build.no_publish") == "true"
+                        || (mod.prop("build.no_publish") == dependType
+                            || mod.prop("build.no_publish") == likeProject)
         )
+
     ) {
         println("Publishing disabled. Skipping...")
         return@publishMods
