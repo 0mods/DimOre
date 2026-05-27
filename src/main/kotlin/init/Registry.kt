@@ -13,7 +13,6 @@ import com.algorithmlx.dimore.util.OreType
 import com.algorithmlx.dimore.util.OreTypes
 import com.algorithmlx.dimore.util.ResLoc
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.core.HolderLookup
@@ -35,7 +34,7 @@ import java.util.function.Supplier
 *///?}
 //? if fabric {
 import com.algorithmlx.dimore.init.config.CommentedJSONManager
-import com.algorithmlx.dimore.init.post.loot.ItemDrop
+import com.algorithmlx.dimore.init.post.loot.ItemEntry
 import com.algorithmlx.dimore.init.post.loot.SimpleLootTable
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
@@ -159,8 +158,8 @@ object Registry {
 
         val table = simpleLootTables[resourceId.toString()] ?: return null
 
-        val lootItemsConditioned = table.drops.filter { it.requires.isNotEmpty() }.map {
-            val itemId = if (it is ItemDrop) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
+        val lootItemsConditioned = table.entries.filter { it.requires.isNotEmpty() }.map {
+            val itemId = if (it is ItemEntry) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
             val item = BuiltInRegistries.ITEM.getValue(ResLoc.parse(itemId))
             var lootItem = LootItem.lootTableItem(item)
 
@@ -175,8 +174,8 @@ object Registry {
             lootItem
         }
 
-        val lootItemsNoCondition = table.drops.filter { it.requires.isEmpty() }.map {
-            val itemId = if (it is ItemDrop) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
+        val lootItemsNoCondition = table.entries.filter { it.requires.isEmpty() }.map {
+            val itemId = if (it is ItemEntry) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
             val item = BuiltInRegistries.ITEM.getValue(ResLoc.parse(itemId))
             var lootItem = LootItem.lootTableItem(item)
 

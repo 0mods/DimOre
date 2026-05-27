@@ -5,15 +5,15 @@ import kotlinx.serialization.Serializable
 
 @SerialName("self")
 @Serializable
-data class SelfDrop(
+data class SelfEntry(
     override val functions: List<SimpleFunction> = emptyList(),
     override val requires: List<SimpleRequire> = emptyList()
-): SimpleDrop()
+): SimpleEntry()
 
 @SerialName("item")
 @Serializable
-data class ItemDrop(
+data class ItemEntry(
     val id: String,
     override val functions: List<SimpleFunction> = emptyList(),
     override val requires: List<SimpleRequire> = emptyList()
-): SimpleDrop()
+): SimpleEntry()
