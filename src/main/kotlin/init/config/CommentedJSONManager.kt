@@ -3,6 +3,8 @@ package com.algorithmlx.dimore.init.config
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.init.post.ExampleBlock
 import com.algorithmlx.dimore.init.post.PostBlock
+import com.algorithmlx.dimore.init.post.loot.ExampleLootTable
+import com.algorithmlx.dimore.init.post.loot.SimpleLootTable
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import java.io.File
@@ -24,6 +26,7 @@ object CommentedJSONManager {
         prettyPrintIndent = "  "
         allowComments = true
         encodeDefaults = true
+        allowTrailingComma = true
     }
 
     var config = DimensionalOresConfig()
@@ -32,11 +35,15 @@ object CommentedJSONManager {
     fun load() {
         val configFile = File("config/${ModId}/common.json")
         val defaultBlockFile = File("config/${ModId}/custom/_example_block.json")
+        val defaultLootFile = File("config/${ModId}/loot/_example_loot.json")
 
         config = saveOrLoad(configFile, config, DimensionalOresConfig::class)
 
         if (!defaultBlockFile.parentFile.exists())
             saveOrLoad(defaultBlockFile, ExampleBlock, PostBlock::class)
+
+        if (!defaultLootFile.parentFile.exists())
+            saveOrLoad(defaultLootFile, ExampleLootTable, SimpleLootTable::class)
     }
 
     inline fun <reified T: Any> saveOrLoad(file: File, obj: T, clazz: KClass<T>): T {

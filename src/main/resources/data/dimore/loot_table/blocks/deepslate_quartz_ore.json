@@ -10,20 +10,6 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "minecraft:quartz",
-              "functions": [
-                {
-                  "function": "minecraft:explosion_decay"
-                },
-                {
-                  "function": "minecraft:apply_bonus",
-                  "enchantment": "minecraft:fortune",
-                  "formula": "minecraft:ore_drops"
-                }
-              ]
-            },
-            {
-              "type": "minecraft:item",
               "name": "dimore:deepslate_quartz_ore",
               "conditions": [
                 {
@@ -35,6 +21,20 @@
                       }
                     }
                   }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "minecraft:quartz",
+              "functions": [
+                {
+                  "function": "minecraft:explosion_decay"
+                },
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
                 }
               ]
             }

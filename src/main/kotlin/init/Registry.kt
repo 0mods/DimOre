@@ -16,6 +16,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.Item
@@ -34,6 +35,8 @@ import java.util.function.Supplier
 *///?}
 //? if fabric {
 import com.algorithmlx.dimore.init.config.CommentedJSONManager
+import com.algorithmlx.dimore.init.post.loot.ItemDrop
+import com.algorithmlx.dimore.init.post.loot.SimpleLootTable
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
@@ -41,11 +44,18 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.entries.AlternativesEntry
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 //?}
 import java.io.File
 
+@OptIn(ExperimentalSerializationApi::class)
 object Registry {
     private val postBlocks = mutableMapOf<String, PostBlock>()
+    private val simpleLootTables = mutableMapOf<String, SimpleLootTable>()
+    private val json = CommentedJSONManager.json
     //? if neoforge {
     /*private val blockRegistry = DeferredRegister.createBlocks(ModId)
     private val itemRegistry = DeferredRegister.createItems(ModId)
@@ -65,6 +75,7 @@ object Registry {
     fun init() {
         registerOres()
         initOresFromJSON()
+        registerLootTables()
 
         DynamicRegistrySetupCallback.EVENT.register { regMgr ->
             val confReg = regMgr.getOptional(Registries.CONFIGURED_FEATURE)
@@ -77,17 +88,8 @@ object Registry {
     }
     //?}
 
-    @OptIn(ExperimentalSerializationApi::class)
     private fun initOresFromJSON() {
-        val json = Json {
-            prettyPrint = true
-            ignoreUnknownKeys = true
-            prettyPrintIndent = "  "
-            allowComments = true
-            encodeDefaults = true
-        }
-
-        val configFiles = File("config/dimore/custom/")
+        val configFiles = File("config/$ModId/custom/")
         if (!configFiles.exists()) {
             configFiles.parentFile.mkdirs()
             configFiles.mkdirs()
@@ -150,8 +152,68 @@ object Registry {
     }
 
     @JvmStatic
-    fun spawnCustomLoot(): MutableMap<ResourceKey<LootTable>, LootTable> {
-        return mutableMapOf()
+    fun getLoot(requestedId: ResourceKey<LootTable>, lookup: HolderLookup.Provider): LootTable? {
+        val resourceId =
+            //$ if >1.21.1 'requestedId.identifier()' else 'requestedId.location()'
+            requestedId.identifier()
+
+        val table = simpleLootTables[resourceId.toString()] ?: return null
+
+        val lootItemsConditioned = table.drops.filter { it.requires.isNotEmpty() }.map {
+            val itemId = if (it is ItemDrop) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
+            val item = BuiltInRegistries.ITEM.getValue(ResLoc.parse(itemId))
+            var lootItem = LootItem.lootTableItem(item)
+
+            it.requires.map { req -> req.asMC(lookup) }.forEach { req ->
+                lootItem = lootItem.`when` { req.build() }
+            }
+
+            it.functions.map { func -> func.asMC(lookup) }.forEach { func ->
+                lootItem = lootItem.apply { func.build() }
+            }
+
+            lootItem
+        }
+
+        val lootItemsNoCondition = table.drops.filter { it.requires.isEmpty() }.map {
+            val itemId = if (it is ItemDrop) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
+            val item = BuiltInRegistries.ITEM.getValue(ResLoc.parse(itemId))
+            var lootItem = LootItem.lootTableItem(item)
+
+            it.functions.map { func -> func.asMC(lookup) }.forEach { func ->
+                lootItem = lootItem.apply { func.build() }
+            }
+
+            lootItem
+        }
+
+        return LootTable.lootTable().withPool(LootPool.lootPool()
+            .setRolls(ConstantValue.exactly(table.rolls))
+            .setBonusRolls(ConstantValue.exactly(table.bonusRolls))
+            .add(AlternativesEntry.alternatives(
+                *lootItemsConditioned.toTypedArray(),
+                *lootItemsNoCondition.toTypedArray()
+            ))).build()
+    }
+
+    private fun registerLootTables() {
+        val lootFiles = File("config/$ModId/loot/")
+        if (!lootFiles.exists()) {
+            lootFiles.parentFile.mkdirs()
+            lootFiles.mkdirs()
+            LOGGER.info("Simple loot table is not found. Skipping loading.")
+        }
+
+        lootFiles.listFiles()
+            .filter { it.name.endsWith(".json") }
+            .filter { !it.name.startsWith("_") }
+            .filter { !it.isDirectory }
+            .forEach {
+                val parsed: SimpleLootTable = json.decodeFromStream(it.inputStream())
+                val id = parsed.target.ifEmpty { "$ModId:block/custom.${it.name.removeSuffix(".json")}" }
+
+                simpleLootTables[id] = parsed
+            }
     }
 
     private fun registerOre(id: String, oreType: OreType, oreDimensionType: OreDimensionType) = registerBlock(
@@ -280,11 +342,10 @@ object Registry {
         Registry.register(cfReg, location, configured)
 
         val cfKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, location)
-        //? if >1.21.1 {
-        val entry = cfReg.get(cfKey).orElseThrow()
-        //?} else {
-        /*val entry = cfReg.getHolder(cfKey).orElseThrow()
-        *///?}
+        val entry =
+            //$ if >1.21.1 'cfReg.get(cfKey)' else 'cfReg.getHolder(cfKey)'
+            cfReg.get(cfKey)
+                .orElseThrow()
 
         val placed = OreGeneratorFactory.createPlaced(entry, settings.count, settings.minHeight, settings.maxHeight)
         Registry.register(pfReg, location, placed)
@@ -292,11 +353,11 @@ object Registry {
 
     private fun registerBlock(id: String, factory: (BlockBehaviour.Properties) -> Block, properties: BlockBehaviour.Properties, shouldRegisterItem: Boolean): Block {
         val blockKey = ResourceKey.create(Registries.BLOCK, ResLoc.fromNamespaceAndPath(ModId, id))
-        //? if >1.21.1 {
-        val b = factory(properties.setId(blockKey))
-        //?} else {
-        /*val b = factory(properties)
-        *///?}
+        val b = factory(
+            properties
+                //$ if >1.21.1 '.setId(blockKey)' else ''
+                .setId(blockKey)
+        )
 
         if (shouldRegisterItem) {
             val props = Item.Properties()
