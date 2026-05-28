@@ -74,7 +74,10 @@ class DimOreResourcePack(location: PackLocationInfo) : AbstractPackResources(loc
                     && path.endsWith(".json") -> "items." + path.removePrefix("items/custom.")
             path.startsWith("models/item/custom.")
                     && path.endsWith(".json") -> "item.model." + path.removePrefix("models/item/custom.")
-            path.startsWith("textures/") && path.endsWith(".png") -> "texture." + path.removePrefix("textures/")
+            path.startsWith("textures/") && path.endsWith(".png") -> {
+                val subPath = path.removePrefix("textures/")
+                "texture." + subPath.replace('/', '.')
+            }
             path.endsWith(".png") && !path.contains("/") -> "texture.$path"
             else -> null
         }
@@ -89,8 +92,10 @@ class DimOreResourcePack(location: PackLocationInfo) : AbstractPackResources(loc
             fileName.startsWith("items.") && fileName.endsWith(".json") -> "items/custom." + fileName.removePrefix("items.")
             fileName.startsWith("item.model.")
                     && fileName.endsWith(".json") -> "models/item/custom." + fileName.removePrefix("item.model.")
-            fileName.startsWith("texture.")
-                    && fileName.endsWith(".png") -> "textures/" + fileName.removePrefix("texture.")
+            fileName.startsWith("texture.") && fileName.endsWith(".png") -> {
+                val subPath = fileName.removePrefix("texture.").removeSuffix(".png")
+                "textures/" + subPath.replace('.', '/') + ".png"
+            }
             else -> null
         }
     }
