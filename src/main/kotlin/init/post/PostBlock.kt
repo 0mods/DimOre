@@ -59,6 +59,7 @@ data class PostBlock(
         "",
         "Range example: { \"type\": \"range\", \"min\": 0, \"max\": 1 }",
     ], multiline = true)
+    @SerialName("experience_drop")
     val experienceDrop: ExperienceDrop = SingleExperience(1),
     @JsonComment([
         "Block generation settings"
