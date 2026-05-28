@@ -39,10 +39,10 @@ object CommentedJSONManager {
 
         config = saveOrLoad(configFile, config, DimensionalOresConfig::class)
 
-        if (!defaultBlockFile.parentFile.exists())
+        if (config.enableCustomBlocks && !defaultBlockFile.parentFile.exists())
             saveOrLoad(defaultBlockFile, ExampleBlock, PostBlock::class)
 
-        if (!defaultLootFile.parentFile.exists())
+        if (config.enableLootTables && !defaultLootFile.parentFile.exists())
             saveOrLoad(defaultLootFile, ExampleLootTable, SimpleLootTable::class)
     }
 

@@ -4,6 +4,7 @@ import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.init.config.JsonComment
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+//$ if >1.21.1 'import net.minecraft.core.HolderLookup' else 'import net.minecraft.core.HolderGetter'
 import net.minecraft.core.HolderLookup
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition
@@ -57,10 +58,12 @@ sealed class SimpleEntry {
 
 @Serializable
 sealed class SimpleRequire {
+    //$ if >1.21.1 'abstract fun asMC(lookupProvider: HolderLookup.Provider): LootItemCondition.Builder' else 'abstract fun asMC(lookupProvider: HolderGetter.Provider): LootItemCondition.Builder'
     abstract fun asMC(lookupProvider: HolderLookup.Provider): LootItemCondition.Builder
 }
 
 @Serializable
 sealed class SimpleFunction {
+    //$ if >1.21.1 'abstract fun asMC(lookupProvider: HolderLookup.Provider): LootItemConditionalFunction.Builder<*>' else 'abstract fun asMC(lookupProvider: HolderGetter.Provider): LootItemConditionalFunction.Builder<*>'
     abstract fun asMC(lookupProvider: HolderLookup.Provider): LootItemConditionalFunction.Builder<*>
 }

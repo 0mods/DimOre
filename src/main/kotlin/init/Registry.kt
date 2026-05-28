@@ -4,8 +4,12 @@ import com.algorithmlx.dimore.LOGGER
 import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.block.DimensionalOreBlock
 import com.algorithmlx.dimore.block.DimensionalRedstoneOre
+import com.algorithmlx.dimore.block.NamedExperienceBlock
+import com.algorithmlx.dimore.block.NamedRedstoneBlock
 import com.algorithmlx.dimore.init.post.PostBlock
-import com.algorithmlx.dimore.init.config.DimensionalOresConfig
+import com.algorithmlx.dimore.init.config.CommentedJSONManager
+import com.algorithmlx.dimore.init.post.loot.ItemEntry
+import com.algorithmlx.dimore.init.post.loot.SimpleLootTable
 import com.algorithmlx.dimore.item.NamedBlockItem
 import com.algorithmlx.dimore.util.OreDimensionType
 import com.algorithmlx.dimore.util.OreDimensionTypes
@@ -15,14 +19,19 @@ import com.algorithmlx.dimore.util.ResLoc
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import net.minecraft.world.level.block.state.BlockBehaviour
+//$ if >1.21.1 'import net.minecraft.core.HolderLookup' else 'import net.minecraft.core.HolderGetter'
 import net.minecraft.core.HolderLookup
-import net.minecraft.core.registries.Registries
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.RedStoneOreBlock
 import net.minecraft.world.level.storage.loot.LootTable
+import net.minecraft.world.level.storage.loot.LootPool
+import net.minecraft.world.level.storage.loot.entries.AlternativesEntry
+import net.minecraft.world.level.storage.loot.entries.LootItem
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 //? if neoforge {
 /*import com.algorithmlx.dimore.worldgen.DimOreModifier
 import net.minecraft.core.Holder
@@ -31,22 +40,15 @@ import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import java.util.function.Supplier
-*///?}
-//? if fabric {
-import com.algorithmlx.dimore.init.config.CommentedJSONManager
-import com.algorithmlx.dimore.init.post.loot.ItemEntry
-import com.algorithmlx.dimore.init.post.loot.SimpleLootTable
+*///?} elif fabric {
+import com.algorithmlx.dimore.init.config.DimensionalOresConfig
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
 import net.minecraft.core.Registry
-import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
-import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.entries.AlternativesEntry
-import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
 //?}
 import java.io.File
 
@@ -60,22 +62,23 @@ object Registry {
     private val itemRegistry = DeferredRegister.createItems(ModId)
     private val biomeModifierSerializers = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, ModId)
     val blockHolders = mutableMapOf<String, Holder<Block>>()
+    *///?}
 
-    fun init(bus: IEventBus) {
-        blockRegistry.register(bus)
+    //$ if forgeLike 'fun init(bus: IEventBus) {' else 'fun init() {'
+    fun init() {
+        //? if forgeLike {
+        /*blockRegistry.register(bus)
         itemRegistry.register(bus)
         biomeModifierSerializers.register(bus)
-
+        *///?}
+        
         registerOres()
-        initOresFromJSON()
+        if (CommentedJSONManager.config.enableCustomBlocks) initOresFromJSON()
+        if (CommentedJSONManager.config.enableLootTables) registerLootTables()
 
-        biomeModifierSerializers.register("dimore_modifier", Supplier { DimOreModifier.codec }) }
-    *///?} else {
-    fun init() {
-        registerOres()
-        initOresFromJSON()
-        registerLootTables()
-
+        //? if forgeLike {
+        /*biomeModifierSerializers.register("dimore_modifier", Supplier { DimOreModifier.codec })
+        *///?} else {
         DynamicRegistrySetupCallback.EVENT.register { regMgr ->
             val confReg = regMgr.getOptional(Registries.CONFIGURED_FEATURE)
             val placedReg = regMgr.getOptional(Registries.PLACED_FEATURE)
@@ -84,8 +87,8 @@ object Registry {
 
             registerFeatures(confReg.get(), placedReg.get())
         }
+        //?}
     }
-    //?}
 
     private fun initOresFromJSON() {
         val configFiles = File("config/$ModId/custom/")
@@ -106,10 +109,21 @@ object Registry {
                 postBlocks[id] = config
 
                 if (!config.isRedstone) this.registerBlock(
-                    id, ::Block,
+                    id, { properties ->
+                        NamedExperienceBlock(
+                            config.experienceDrop.asMC(),
+                            properties,
+                            if (config.displayName.isNotEmpty()) Component.translatable(config.displayName) else null
+                        )
+                    },
                     config.properties.asBlockBehaviourProperties(), true
                 ) else this.registerBlock(
-                    id, ::RedStoneOreBlock,
+                    id, { properties ->
+                        NamedRedstoneBlock(
+                            properties,
+                            if (config.displayName.isNotEmpty()) Component.translatable(config.displayName) else null
+                        )
+                    },
                     config.properties.asBlockBehaviourProperties(), true
                 )
             }
@@ -151,6 +165,7 @@ object Registry {
     }
 
     @JvmStatic
+    //$ if >1.21.1 'fun getLoot(requestedId: ResourceKey<LootTable>, lookup: HolderLookup.Provider): LootTable? {' else 'fun getLoot(requestedId: ResourceKey<LootTable>, lookup: HolderGetter.Provider): LootTable? {'
     fun getLoot(requestedId: ResourceKey<LootTable>, lookup: HolderLookup.Provider): LootTable? {
         val resourceId =
             //$ if >1.21.1 'requestedId.identifier()' else 'requestedId.location()'
@@ -160,7 +175,9 @@ object Registry {
 
         val lootItemsConditioned = table.entries.filter { it.requires.isNotEmpty() }.map {
             val itemId = if (it is ItemEntry) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
-            val item = BuiltInRegistries.ITEM.getValue(ResLoc.parse(itemId))
+            val item = BuiltInRegistries.ITEM
+                //$ if >1.21.1 '.getValue(ResLoc.parse(itemId))' else '.get(ResLoc.parse(itemId))'
+                .getValue(ResLoc.parse(itemId))
             var lootItem = LootItem.lootTableItem(item)
 
             it.requires.map { req -> req.asMC(lookup) }.forEach { req ->
@@ -176,7 +193,9 @@ object Registry {
 
         val lootItemsNoCondition = table.entries.filter { it.requires.isEmpty() }.map {
             val itemId = if (it is ItemEntry) it.id else "${resourceId.namespace}:${resourceId.path.split('/').last()}"
-            val item = BuiltInRegistries.ITEM.getValue(ResLoc.parse(itemId))
+            val item = BuiltInRegistries.ITEM
+                //$ if >1.21.1 '.getValue(ResLoc.parse(itemId))' else '.get(ResLoc.parse(itemId))'
+                .getValue(ResLoc.parse(itemId))
             var lootItem = LootItem.lootTableItem(item)
 
             it.functions.map { func -> func.asMC(lookup) }.forEach { func ->
@@ -237,16 +256,16 @@ object Registry {
         shouldRegisterItem: Boolean
     ): DeferredBlock<B> {
         //? if >1.21.1 {
-        val blockKey = { it: ResLoc -> ResourceKey.create(Registries.BLOCK, it) }
+        /*val blockKey = { it: ResLoc -> ResourceKey.create(Registries.BLOCK, it) }
         val bl = blockRegistry.register(id) { rk ->
             block(properties.setId(blockKey(rk)))
         }
-        //?} else
-        //val bl = blockRegistry.register(id, Supplier { block(properties) })
+        *///?} else
+        val bl = blockRegistry.register(id, Supplier { block(properties) })
 
         if (shouldRegisterItem) {
             //? if >1.21.1 {
-            itemRegistry.register(id) { rk ->
+            /*itemRegistry.register(id) { rk ->
                 NamedBlockItem(
                     bl.get(),
                     Item.Properties()
@@ -254,8 +273,8 @@ object Registry {
                         .useBlockDescriptionPrefix()
                 )
             }
-            //?} else
-            //itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })
+            *///?} else
+            itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })
         }
 
         blockHolders[id] = bl
@@ -263,7 +282,6 @@ object Registry {
         return bl
     }
     *///?} else {
-
     private fun registerFeatures(
         cfReg: Registry<ConfiguredFeature<*, *>>,
         pfReg: Registry<PlacedFeature>
@@ -274,9 +292,8 @@ object Registry {
                 val config = OreTypes.configByTypeNether[type] ?: return@forEach
 
                 val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
-                    //$ if >1.21.1 '.orElseThrow().value()' else ''
+                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
                     .orElseThrow().value()
-
                 createFeature(cfReg, pfReg, id, block, OreDimensionTypes.NETHER, config)
             }
         }
@@ -288,12 +305,11 @@ object Registry {
                 val config = OreTypes.configByTypeOverworld[type] ?: return@forEach
 
                 val stoneBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, stoneId))
-                    //$ if >1.21.1 '.orElseThrow().value()' else ''
+                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
                     .orElseThrow().value()
                 val deepslateBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, deepslateId))
-                    //$ if >1.21.1 '.orElseThrow().value()' else ''
+                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
                     .orElseThrow().value()
-
                 createFeature(cfReg, pfReg, stoneId, stoneBlock, OreDimensionTypes.OVERWORLD, config)
                 createFeature(cfReg, pfReg, deepslateId, deepslateBlock, OreDimensionTypes.OVERWORLD_DEEPSLATE, config)
             }
@@ -304,9 +320,8 @@ object Registry {
                 val id = "end_${type.name.lowercase()}_ore"
                 val config = OreTypes.configByTypeEnd[type] ?: return@forEach
                 val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
-                    //$ if >1.21.1 '.orElseThrow().value()' else ''
+                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
                     .orElseThrow().value()
-
                 createFeature(cfReg, pfReg, id, block, OreDimensionTypes.END, config)
             }
         }
@@ -320,7 +335,7 @@ object Registry {
             )
 
             val mcBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
-                //$ if >1.21.1 '.orElseThrow().value()' else ''
+                //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
                 .orElseThrow().value()
 
             createFeature(cfReg, pfReg, id, mcBlock, settings.asDimensionType(), convertedConfig)
@@ -342,9 +357,8 @@ object Registry {
 
         val cfKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, location)
         val entry =
-            //$ if >1.21.1 'cfReg.get(cfKey)' else 'cfReg.getHolder(cfKey)'
-            cfReg.get(cfKey)
-                .orElseThrow()
+            //$ if >1.21.1 'cfReg.get(cfKey).orElseThrow()' else 'cfReg.getHolder(cfKey).orElseThrow()'
+            cfReg.get(cfKey).orElseThrow()
 
         val placed = OreGeneratorFactory.createPlaced(entry, settings.count, settings.minHeight, settings.maxHeight)
         Registry.register(pfReg, location, placed)
@@ -354,7 +368,7 @@ object Registry {
         val blockKey = ResourceKey.create(Registries.BLOCK, ResLoc.fromNamespaceAndPath(ModId, id))
         val b = factory(
             properties
-                //$ if >1.21.1 '.setId(blockKey)' else ''
+                //$ if >1.21.1 '.setId(blockKey)' else '//.setId(blockKey)'
                 .setId(blockKey)
         )
 

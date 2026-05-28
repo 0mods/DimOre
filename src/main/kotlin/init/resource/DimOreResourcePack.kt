@@ -12,11 +12,10 @@ import java.io.File
 import java.io.InputStream
 
 class DimOreResourcePack(location: PackLocationInfo) : AbstractPackResources(location) {
-    private val targetPath = File("config/$ModId/custom/client/")
+    private val targetPath = File("config/$ModId/client/")
 
     init {
         if (!targetPath.exists()) {
-            targetPath.parentFile.mkdirs()
             targetPath.mkdirs()
             LOGGER.info("Created client directories")
         }
@@ -28,23 +27,11 @@ class DimOreResourcePack(location: PackLocationInfo) : AbstractPackResources(loc
         type: PackType,
         location: ResLoc
     ): IoSupplier<InputStream>? {
-        LOGGER.info("Loading custom resources")
         if (location.namespace != ModId) return null
 
-        val path = location.path
+        val fileName = mapResourcePathToFile(location.path) ?: return null
+        val target = targetPath.resolve(fileName)
 
-        if (!path.contains("custom.")) return null
-
-        var relative = when {
-            path.startsWith("models/") -> path.substring("models/".length)
-            path.startsWith("textures/") -> path.substring("textures/".length)
-            path.startsWith("model/") -> path.substring("model/".length)
-            else -> path
-        }
-
-        relative = relative.replace("custom.", "")
-
-        val target = targetPath.resolve(relative)
         if (target.exists() && target.isFile) {
             return IoSupplier { target.inputStream() }
         }
@@ -60,23 +47,15 @@ class DimOreResourcePack(location: PackLocationInfo) : AbstractPackResources(loc
     ) {
         if (namespace != ModId) return
 
-        val relative = when {
-            directory.startsWith("models/") -> directory.substring("models/".length)
-            directory.startsWith("textures/") -> directory.substring("textures/".length)
-            directory.startsWith("model/") -> directory.substring("model/".length)
-            else -> directory
-        }
-
-        val target = targetPath.resolve(relative)
-
-        if (target.exists() && target.isDirectory) {
-            target.listFiles()
-                .filter { it.isFile }
-                .filter { !it.name.startsWith("_") }
+        if (targetPath.exists() && targetPath.isDirectory) {
+            targetPath.listFiles()
+                .filter { it.isFile && !it.name.startsWith("_") }
                 .forEach { file ->
-                    val path = "$directory/custom.${file.name}"
-                    val resLoc = ResLoc.parse("$ModId:$path")
-                    output.accept(resLoc) { file.inputStream() }
+                    val resPath = mapFileToResourcePath(file.name)
+                    if (resPath != null && resPath.startsWith(directory)) {
+                        val resLoc = ResLoc.parse("$ModId:$resPath")
+                        output.accept(resLoc) { file.inputStream() }
+                    }
                 }
         }
     }
@@ -84,4 +63,35 @@ class DimOreResourcePack(location: PackLocationInfo) : AbstractPackResources(loc
     override fun getNamespaces(type: PackType): Set<String> = setOf(ModId)
 
     override fun close() {}
+
+    private fun mapResourcePathToFile(path: String): String? {
+        return when {
+            path.startsWith("blockstates/custom.")
+                    && path.endsWith(".json") -> "blockstate." + path.removePrefix("blockstates/custom.")
+            path.startsWith("models/block/custom.")
+                    && path.endsWith(".json") -> "block.model." + path.removePrefix("models/block/custom.")
+            path.startsWith("items/custom.")
+                    && path.endsWith(".json") -> "items." + path.removePrefix("items/custom.")
+            path.startsWith("models/item/custom.")
+                    && path.endsWith(".json") -> "item.model." + path.removePrefix("models/item/custom.")
+            path.startsWith("textures/") && path.endsWith(".png") -> "texture." + path.removePrefix("textures/")
+            path.endsWith(".png") && !path.contains("/") -> "texture.$path"
+            else -> null
+        }
+    }
+
+    private fun mapFileToResourcePath(fileName: String): String? {
+        return when {
+            fileName.startsWith("blockstate.")
+                    && fileName.endsWith(".json") -> "blockstates/custom." + fileName.removePrefix("blockstate.")
+            fileName.startsWith("block.model.")
+                    && fileName.endsWith(".json") -> "models/block/custom." + fileName.removePrefix("block.model.")
+            fileName.startsWith("items.") && fileName.endsWith(".json") -> "items/custom." + fileName.removePrefix("items.")
+            fileName.startsWith("item.model.")
+                    && fileName.endsWith(".json") -> "models/item/custom." + fileName.removePrefix("item.model.")
+            fileName.startsWith("texture.")
+                    && fileName.endsWith(".png") -> "textures/" + fileName.removePrefix("texture.")
+            else -> null
+        }
+    }
 }

@@ -2,6 +2,8 @@ package com.algorithmlx.dimore
 
 import com.algorithmlx.dimore.init.config.CommentedJSONManager
 import com.algorithmlx.dimore.init.Registry
+import com.algorithmlx.dimore.init.resource.DimOreResourcePack
+import com.algorithmlx.dimore.util.isModLoaded
 //? if neoforge {
 /*import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod

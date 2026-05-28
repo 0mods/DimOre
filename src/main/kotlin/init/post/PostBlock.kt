@@ -9,7 +9,9 @@ import kotlinx.serialization.Transient
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.tags.TagKey
-import net.minecraft.world.level.block.Block
+import net.minecraft.util.valueproviders.ConstantInt
+import net.minecraft.util.valueproviders.IntProvider
+import net.minecraft.util.valueproviders.UniformInt
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
@@ -18,6 +20,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 
 val ExampleBlock = PostBlock(
+    displayName = "My First Ore",
     isRedstone = false,
     generationSettings = PostBlock.GenerationSettings(
         "minecraft:overworld",
@@ -34,6 +37,11 @@ val ExampleBlock = PostBlock(
 @Serializable
 data class PostBlock(
     @JsonComment([
+        "Display name of block. If empty, use default language key: blocks.dimore.custom.block_id"
+    ])
+    @SerialName("display_name")
+    val displayName: String = "",
+    @JsonComment([
         "Makes block with redstone logic (light, interact)"
     ])
     @SerialName("is_redstone")
@@ -42,6 +50,16 @@ data class PostBlock(
         "Block properties"
     ])
     val properties: SimplyProperties = SimplyProperties(),
+    @JsonComment([
+        "Experience drop settings",
+        "May be \"single\" and \"range\"",
+        "May be null",
+        "",
+        "Single example: { \"type\": \"single\", \"value\": 1 }",
+        "",
+        "Range example: { \"type\": \"range\", \"min\": 0, \"max\": 1 }",
+    ], multiline = true)
+    val experienceDrop: ExperienceDrop = SingleExperience(1),
     @JsonComment([
         "Block generation settings"
     ])
@@ -138,9 +156,7 @@ data class PostBlock(
         val requiresCorrectToolForDrops: Boolean = false,
         @SerialName("no_terrain_particles")
         val noTerrainParticles: Boolean = false,
-        val replaceable: Boolean = false,
-        @SerialName("display_name")
-        val displayName: String = ""
+        val replaceable: Boolean = false
     ) {
         fun asBlockBehaviourProperties(): BlockBehaviour.Properties = BlockBehaviour.Properties.of().apply {
             if (noCollision)
@@ -165,4 +181,26 @@ data class PostBlock(
             if (replaceable) this.replaceable()
         }
     }
+}
+
+@Serializable
+sealed class ExperienceDrop {
+    abstract fun asMC(): IntProvider
+}
+
+@Serializable
+@SerialName("single")
+data class SingleExperience(
+    val value: Int
+): ExperienceDrop() {
+    override fun asMC(): IntProvider = ConstantInt.of(value)
+}
+
+@Serializable
+@SerialName("range")
+data class RangedExperience(
+    val min: Int,
+    val max: Int
+): ExperienceDrop() {
+    override fun asMC(): IntProvider = UniformInt.of(min, max)
 }

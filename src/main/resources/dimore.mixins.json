@@ -5,7 +5,8 @@
   "refmap": "dimore.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LootDataManagerMixin"
+    "LootDataManagerMixin",
+    "PackRepositoryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
