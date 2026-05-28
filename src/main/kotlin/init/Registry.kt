@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour
 //$ if >1.21.1 'import net.minecraft.core.HolderLookup' else 'import net.minecraft.core.HolderGetter'
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.Item
@@ -46,7 +47,6 @@ import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
 import net.minecraft.core.Registry
-import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 //?}
