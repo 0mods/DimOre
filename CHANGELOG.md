@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`4200188`](https://github.com/AlgorithmLX/DimOre/commit/4200188)
 - :robot: changelog file generated/updated [`0c1ab68`](https://github.com/AlgorithmLX/DimOre/commit/0c1ab68)
 - :robot: changelog file generated/updated [`153d9a6`](https://github.com/AlgorithmLX/DimOre/commit/153d9a6)
 - :robot: changelog file generated/updated [`31f1e6e`](https://github.com/AlgorithmLX/DimOre/commit/31f1e6e)
@@ -60,6 +61,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - :robot: changelog file generated [`ee06659`](https://github.com/AlgorithmLX/DimOre/commit/ee06659)
 
 ### Build
+- [cf] [mr] publish [`2ea21f1`](https://github.com/AlgorithmLX/DimOre/commit/2ea21f1)
+- [cf] [mr] publish [`eb8a5e9`](https://github.com/AlgorithmLX/DimOre/commit/eb8a5e9)
 - duplicate version fix [`d5501cd`](https://github.com/AlgorithmLX/DimOre/commit/d5501cd)
 - improvements [`711e198`](https://github.com/AlgorithmLX/DimOre/commit/711e198)
 - improvements [`1766cfb`](https://github.com/AlgorithmLX/DimOre/commit/1766cfb)
@@ -81,6 +84,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
+- Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`cab976a`](https://github.com/AlgorithmLX/DimOre/commit/cab976a)
 - build fix [`cd8d30b`](https://github.com/AlgorithmLX/DimOre/commit/cd8d30b)
 - Loot Table reload listener [`d1cc9e2`](https://github.com/AlgorithmLX/DimOre/commit/d1cc9e2)
 - Prepare loot table to reload listener [`97881d8`](https://github.com/AlgorithmLX/DimOre/commit/97881d8)
