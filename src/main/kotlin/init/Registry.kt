@@ -214,13 +214,15 @@ object Registry {
             ))).build()
     }
 
-    private fun registerLootTables() {
+    fun registerLootTables() {
         val lootFiles = File("config/$ModId/loot/")
         if (!lootFiles.exists()) {
             lootFiles.parentFile.mkdirs()
             lootFiles.mkdirs()
             LOGGER.info("Simple loot table is not found. Skipping loading.")
         }
+
+        if (simpleLootTables.isNotEmpty()) simpleLootTables.clear()
 
         lootFiles.listFiles()
             .filter { it.name.endsWith(".json") }
