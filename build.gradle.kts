@@ -109,15 +109,7 @@ publishMods {
             requires(*depends.toTypedArray())
         }
 
-        if (mod.minecraftVersion.contains("snapshot")) {
-            val modifiedVersion = buildString {
-                val oldVersion = mod.minecraftVersion
-                val splitted = oldVersion.split("-")
-                append(splitted[0] + "-snapshot")
-            }
-            minecraftVersions.add(modifiedVersion)
-        }
-
+        minecraftVersions.add(mod.minecraftVersion)
         minecraftVersions.addAll(allSupportedMC)
     }
 }
