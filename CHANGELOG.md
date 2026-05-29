@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased changes
 
 ### Feature
+- [cf] [mr] Ores from JSON config [`4e2854d`](https://github.com/AlgorithmLX/DimOre/commit/4e2854d)
 - datapack loader fix: crash with version error [`7b36bd7`](https://github.com/AlgorithmLX/DimOre/commit/7b36bd7)
 - add interpreter from simple loot table to mc loot table [`393421d`](https://github.com/AlgorithmLX/DimOre/commit/393421d)
 - starting write a configurable custom ores [`62e5d80`](https://github.com/AlgorithmLX/DimOre/commit/62e5d80)
@@ -23,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`b314a3e`](https://github.com/AlgorithmLX/DimOre/commit/b314a3e)
 - :robot: changelog file generated/updated [`fc094ed`](https://github.com/AlgorithmLX/DimOre/commit/fc094ed)
 - :robot: changelog file generated/updated [`0215303`](https://github.com/AlgorithmLX/DimOre/commit/0215303)
 - :robot: changelog file generated/updated [`1e33ab5`](https://github.com/AlgorithmLX/DimOre/commit/1e33ab5)
@@ -55,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - :robot: changelog file generated [`ee06659`](https://github.com/AlgorithmLX/DimOre/commit/ee06659)
 
 ### Build
+- improvements [`711e198`](https://github.com/AlgorithmLX/DimOre/commit/711e198)
 - improvements [`1766cfb`](https://github.com/AlgorithmLX/DimOre/commit/1766cfb)
 - return 6g [`8811b50`](https://github.com/AlgorithmLX/DimOre/commit/8811b50)
 - some fixes [`8f429dd`](https://github.com/AlgorithmLX/DimOre/commit/8f429dd)
@@ -73,6 +76,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
+- Loot Table reload listener [`d1cc9e2`](https://github.com/AlgorithmLX/DimOre/commit/d1cc9e2)
+- Prepare loot table to reload listener [`97881d8`](https://github.com/AlgorithmLX/DimOre/commit/97881d8)
+- Serial name of expr [`2f6396f`](https://github.com/AlgorithmLX/DimOre/commit/2f6396f)
+- bump version [`7f63707`](https://github.com/AlgorithmLX/DimOre/commit/7f63707)
+- Improve texture load [`7c66004`](https://github.com/AlgorithmLX/DimOre/commit/7c66004)
+- Compile fix [`d1419a0`](https://github.com/AlgorithmLX/DimOre/commit/d1419a0)
+- 1.5.0 finnish update [`4402fd2`](https://github.com/AlgorithmLX/DimOre/commit/4402fd2)
+- Merge remote-tracking branch 'origin/feature/json_ores' into feature/json_ores [`bf3d3b2`](https://github.com/AlgorithmLX/DimOre/commit/bf3d3b2)
+- Comments [`c10c704`](https://github.com/AlgorithmLX/DimOre/commit/c10c704)
+- webhook test [`1046427`](https://github.com/AlgorithmLX/DimOre/commit/1046427)
+- Lite version of loot tables support [`4b3b277`](https://github.com/AlgorithmLX/DimOre/commit/4b3b277)
+- todo: realize pack [`3a52fa1`](https://github.com/AlgorithmLX/DimOre/commit/3a52fa1)
+- little fix [`01b190f`](https://github.com/AlgorithmLX/DimOre/commit/01b190f)
+- One night without sleep | postblock finish. Need tests & drops config [`0921769`](https://github.com/AlgorithmLX/DimOre/commit/0921769)
+- Rework json comment generator [`d6494e1`](https://github.com/AlgorithmLX/DimOre/commit/d6494e1)
 - Merge pull request #14 [`d2ff1cd`](https://github.com/AlgorithmLX/DimOre/commit/d2ff1cd)
 - Finish gradle rework. PostBlock develop [`74bd931`](https://github.com/AlgorithmLX/DimOre/commit/74bd931)
 - Rework gradle [`f44a8e3`](https://github.com/AlgorithmLX/DimOre/commit/f44a8e3)
