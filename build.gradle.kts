@@ -5,7 +5,7 @@ val publishType = if (mod.hasProp("build.release_type")) mod.prop("build.release
 val isBeta = publishType != null && publishType == "beta"
 val isAlpha = publishType != null && publishType == "alpha"
 val kotlinVersion: String by rootProject
-val allSupportedMC = mutableListOf(mod.minecraftVersion).apply {
+val allSupportedMC = mutableListOf<String>().apply {
     if (mod.hasProp("minecraft_version.additional"))
         this.addAll(mod.prop("minecraft_version.additional").split(',').map { it.trim() })
 }
