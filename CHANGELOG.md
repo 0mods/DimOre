@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`0c1ab68`](https://github.com/AlgorithmLX/DimOre/commit/0c1ab68)
 - :robot: changelog file generated/updated [`153d9a6`](https://github.com/AlgorithmLX/DimOre/commit/153d9a6)
 - :robot: changelog file generated/updated [`31f1e6e`](https://github.com/AlgorithmLX/DimOre/commit/31f1e6e)
 - :robot: changelog file generated/updated [`b314a3e`](https://github.com/AlgorithmLX/DimOre/commit/b314a3e)
@@ -80,6 +81,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
+- build fix [`cd8d30b`](https://github.com/AlgorithmLX/DimOre/commit/cd8d30b)
 - Loot Table reload listener [`d1cc9e2`](https://github.com/AlgorithmLX/DimOre/commit/d1cc9e2)
 - Prepare loot table to reload listener [`97881d8`](https://github.com/AlgorithmLX/DimOre/commit/97881d8)
 - Serial name of expr [`2f6396f`](https://github.com/AlgorithmLX/DimOre/commit/2f6396f)
