@@ -10,9 +10,9 @@ interface DimensionOre {
     // no more translations
     // todo: but have problems in some languages like arabic, or where it is incorrect...
     // but i'm too stupid (stupid russian ha-ha-hah) to make it normally
-    fun buildName(): MutableComponent =
+    fun buildName(target: NameTarget): MutableComponent =
         Component.empty()
-            .append(oreDimensionType.dimensionBlock().name)
+            .append(target.dimensionBlock().name)
             .append("-")
             .append(oreType.parentOreBlock().name)
 }

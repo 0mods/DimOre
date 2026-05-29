@@ -5,6 +5,10 @@ val publishType = if (mod.hasProp("build.release_type")) mod.prop("build.release
 val isBeta = publishType != null && publishType == "beta"
 val isAlpha = publishType != null && publishType == "alpha"
 val kotlinVersion: String by rootProject
+val allSupportedMC = mutableListOf(mod.minecraftVersion).apply {
+    if (mod.hasProp("minecraft_version.additional"))
+        this.addAll(mod.prop("minecraft_version.additional").split(',').map { it.trim() })
+}
 
 plugins {
     id("gg.meza.stonecraft")
@@ -41,11 +45,14 @@ modSettings {
 
 publishMods {
     val dependType = when {
-        mod.isFabricLike -> "fabriclike"
         mod.isForge -> "forge"
-        mod.isForgeLike -> "forgelike"
         mod.isNeoforge -> "neoforge"
         else -> "fabric"
+    }
+
+    val likeProject = when {
+        mod.isForgeLike -> "forgelike"
+        else -> "fabriclike"
     }
 
     dryRun = false
@@ -53,21 +60,15 @@ publishMods {
     if (
         mod.hasProp("build.no_publish")
         && (
-            mod.prop("build.no_publish") == "true"
-                    || ((mod.prop("build.no_publish") == "neoforge") && mod.isNeoforge)
-                    || ((mod.prop("build.no_publish") == "fabric") && mod.isFabric)
-                    || ((mod.prop("build.no_publish") == "forge") && mod.isForge)
-                    || ((mod.prop("build.no_publish") == "fabriclike") && mod.isFabricLike)
-                    || ((mod.prop("build.no_publish") == "forgelike") && mod.isForgeLike)
+                mod.prop("build.no_publish") == "true"
+                        || (mod.prop("build.no_publish") == dependType
+                            || mod.prop("build.no_publish") == likeProject)
         )
+
     ) {
         println("Publishing disabled. Skipping...")
         return@publishMods
     }
-
-    val additionalMinecraftVersions = if (mod.hasProp("minecraft_version.additional"))
-        mod.prop("minecraft_version.additional").split(',').map { it.trim() }
-    else listOf()
 
     changelog = rootProject.file("CHANGELOG.md").readText()
 
@@ -95,8 +96,7 @@ publishMods {
             requires(*depends.toTypedArray())
         }
 
-        minecraftVersions.add(mod.minecraftVersion)
-        minecraftVersions.addAll(additionalMinecraftVersions)
+        minecraftVersions.addAll(allSupportedMC)
     }
 
     if (curseToken != null && curseProject != null) curseforge {
@@ -116,7 +116,7 @@ publishMods {
             }
             minecraftVersions.add(modifiedVersion)
         } else minecraftVersions.add(mod.minecraftVersion)
-        minecraftVersions.addAll(additionalMinecraftVersions)
+        minecraftVersions.addAll(allSupportedMC)
     }
 }
 

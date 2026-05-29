@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DimensionalOresConfig(
+    val enableCustomBlocks: Boolean = false,
+    val enableLootTables: Boolean = false,
+
     // Nether Ores
     @JsonComment([
         "Configures ore generation in The Nether"

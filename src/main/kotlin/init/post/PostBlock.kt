@@ -10,8 +10,8 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.tags.TagKey
 import net.minecraft.util.valueproviders.ConstantInt
+import net.minecraft.util.valueproviders.IntProvider
 import net.minecraft.util.valueproviders.UniformInt
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration
@@ -20,15 +20,16 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 
 val ExampleBlock = PostBlock(
+    displayName = "My First Ore",
     isRedstone = false,
     generationSettings = PostBlock.GenerationSettings(
-        size = 1,
-        count = 12,
-        minHeight = -60,
-        maxHeight = 120,
-        oreDimensionType = PostBlock.OreReplacementRule(
-            "minecraft:stone",
-            PostBlock.TargetType(into = "minecraft:cobblestone")
+        "minecraft:overworld",
+        PostBlock.GenerationSettings.ConfiguredFeature(
+            size = 1,
+            count = 12,
+            minHeight = -60,
+            maxHeight = 120,
+            oreTarget = PostBlock.TargetType(from = "minecraft:stone")
         )
     )
 )
@@ -36,87 +37,91 @@ val ExampleBlock = PostBlock(
 @Serializable
 data class PostBlock(
     @JsonComment([
+        "Display name of block. If empty, use default language key: blocks.dimore.custom.block_id"
+    ])
+    @SerialName("display_name")
+    val displayName: String = "",
+    @JsonComment([
         "Makes block with redstone logic (light, interact)"
     ])
+    @SerialName("is_redstone")
     val isRedstone: Boolean = false,
     @JsonComment([
         "Block properties"
     ])
     val properties: SimplyProperties = SimplyProperties(),
     @JsonComment([
+        "Experience drop settings",
+        "May be \"single\" and \"range\"",
+        "May be null",
+        "",
+        "Single example: { \"type\": \"single\", \"value\": 1 }",
+        "",
+        "Range example: { \"type\": \"range\", \"min\": 0, \"max\": 1 }",
+    ], multiline = true)
+    @SerialName("experience_drop")
+    val experienceDrop: ExperienceDrop = SingleExperience(1),
+    @JsonComment([
         "Block generation settings"
     ])
+    @SerialName("generation")
     val generationSettings: GenerationSettings
 ) {
     @Serializable
     data class GenerationSettings(
-        @JsonComment(["The size of a single ore vein."])
-        val size: Int,
-        @JsonComment(["Number of ore veins per chunk."])
-        val count: Int,
-        @JsonComment(["Minimum generation height"])
-        @SerialName("min_height")
-        val minHeight: Int,
-        @JsonComment(["Maximum generation height"])
-        @SerialName("max_height")
-        val maxHeight: Int,
-        @JsonComment(["Settings of ore generation"])
-        @SerialName("ore_replacement_rule")
-        val oreDimensionType: OreReplacementRule,
-        @Serializable
-        val dropExperience: ExperienceRange = ExperienceRange.EMPTY
-    )
+        //? if neoforge {
+        /*@SerialName("biome")
+        *///?}
+        val dimension: String,
+        val config: ConfiguredFeature,
+    ) {
+        fun asDimensionType() = OreReplacementRule(config.oreTarget)
 
-    @Serializable
-    open class OreReplacementRule(
-        @JsonComment(["Block to replace"])
-        val replacement: String,
-        val target: TargetType
-    ): OreDimensionType {
-        @Transient
-        override val dimensionBlock: () -> Block = {
-            //$ if >1.21.1 '.getValue(ResLoc.parse(replacement))' else '.get(ResLoc.parse(replacement))'
-            BuiltInRegistries.BLOCK.getValue(ResLoc.parse(replacement))
+        open class OreReplacementRule(
+            val target: TargetType
+        ): OreDimensionType {
+            override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
+                OreConfiguration.target(target.asRuleTest(), block)
         }
 
-        override fun replacementSettings(block: BlockState): OreConfiguration.TargetBlockState =
-            OreConfiguration.target(target.asRuleTest(), block)
+        @Serializable
+        class ConfiguredFeature(
+            @JsonComment(["The size of a single ore vein."])
+            val size: Int,
+            @JsonComment(["Number of ore veins per chunk."])
+            val count: Int,
+            @JsonComment(["Minimum generation height"])
+            @SerialName("min_height")
+            val minHeight: Int,
+            @JsonComment(["Maximum generation height"])
+            @SerialName("max_height")
+            val maxHeight: Int,
+            @JsonComment(["Settings of ore generation"])
+            @SerialName("ore_target")
+            val oreTarget: TargetType,
+        )
     }
 
     @Serializable
     data class TargetType(
+        @JsonComment(["Block replace type.", "Can be \"block\" and \"tag\""], multiline = true)
         val type: String = "block",
-        val into: String
+        val from: String
     ) {
         @Transient val isBlock = this.type == "block"
         @Transient val isTag = !isBlock
 
         fun asRuleTest(): RuleTest {
             return if (isTag)
-                TagMatchTest(TagKey.create(Registries.BLOCK, ResLoc.parse(into)))
+                TagMatchTest(TagKey.create(Registries.BLOCK, ResLoc.parse(from)))
             else {
-                val blockId = ResLoc.parse(into)
+                val blockId = ResLoc.parse(from)
                 val block = BuiltInRegistries.BLOCK
                     //$ if >1.21.1 '.getValue(blockId)' else '.get(blockId)'
                     .getValue(blockId)
                 BlockMatchTest(block)
             }
         }
-    }
-
-    @Serializable
-    data class ExperienceRange(
-        @SerialName("min")
-        val minExp: Int,
-        @SerialName("max")
-        val maxExp: Int
-    ) {
-        companion object {
-            @JvmField
-            val EMPTY = ExperienceRange(0, 0)
-        }
-
-        fun asIntProvider() = if (minExp == maxExp && minExp == 0) ConstantInt.of(0) else UniformInt.of(minExp, maxExp)
     }
 
     @Serializable
@@ -152,9 +157,7 @@ data class PostBlock(
         val requiresCorrectToolForDrops: Boolean = false,
         @SerialName("no_terrain_particles")
         val noTerrainParticles: Boolean = false,
-        val replaceable: Boolean = false,
-        @SerialName("display_name")
-        val displayName: String = ""
+        val replaceable: Boolean = false
     ) {
         fun asBlockBehaviourProperties(): BlockBehaviour.Properties = BlockBehaviour.Properties.of().apply {
             if (noCollision)
@@ -179,4 +182,26 @@ data class PostBlock(
             if (replaceable) this.replaceable()
         }
     }
+}
+
+@Serializable
+sealed class ExperienceDrop {
+    abstract fun asMC(): IntProvider
+}
+
+@Serializable
+@SerialName("single")
+data class SingleExperience(
+    val value: Int
+): ExperienceDrop() {
+    override fun asMC(): IntProvider = ConstantInt.of(value)
+}
+
+@Serializable
+@SerialName("range")
+data class RangedExperience(
+    val min: Int,
+    val max: Int
+): ExperienceDrop() {
+    override fun asMC(): IntProvider = UniformInt.of(min, max)
 }

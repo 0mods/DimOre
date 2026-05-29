@@ -1,6 +1,6 @@
 package com.algorithmlx.dimore.util
 
-import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.config.CommentedJSONManager
 import net.minecraft.util.valueproviders.ConstantInt
 import net.minecraft.util.valueproviders.IntProvider
 import net.minecraft.util.valueproviders.UniformInt
@@ -20,9 +20,9 @@ enum class OreTypes(override val parentOreBlock: () -> Block, override val exper
     REDSTONE({ Blocks.REDSTONE_ORE });
 
     companion object {
-        private val netherOresConfig = ConfigManager.config.netherOres
-        private val overOresConfig = ConfigManager.config.overworldOres
-        private val endOresConfig = ConfigManager.config.endOres
+        private val netherOresConfig = CommentedJSONManager.config.netherOres
+        private val overOresConfig = CommentedJSONManager.config.overworldOres
+        private val endOresConfig = CommentedJSONManager.config.endOres
 
         val netherOres = arrayOf(COAL, COPPER, IRON, LAPIS, DIAMOND, EMERALD, REDSTONE)
         val overworldOres = arrayOf(QUARTZ)
