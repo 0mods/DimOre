@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`153d9a6`](https://github.com/AlgorithmLX/DimOre/commit/153d9a6)
 - :robot: changelog file generated/updated [`31f1e6e`](https://github.com/AlgorithmLX/DimOre/commit/31f1e6e)
 - :robot: changelog file generated/updated [`b314a3e`](https://github.com/AlgorithmLX/DimOre/commit/b314a3e)
 - :robot: changelog file generated/updated [`fc094ed`](https://github.com/AlgorithmLX/DimOre/commit/fc094ed)
@@ -66,6 +67,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - new gradle [`bff837d`](https://github.com/AlgorithmLX/DimOre/commit/bff837d)
 
 ### Chore
+- [mr] [cf] publish [`c08748a`](https://github.com/AlgorithmLX/DimOre/commit/c08748a)
 - [mr] and 26.1 *-* [`31767f0`](https://github.com/AlgorithmLX/DimOre/commit/31767f0)
 - [mr] republish 1.4.3 to modrinth [`92d5ac3`](https://github.com/AlgorithmLX/DimOre/commit/92d5ac3)
 - [mr] republish 1.4.3 to modrinth [`68548e9`](https://github.com/AlgorithmLX/DimOre/commit/68548e9)
