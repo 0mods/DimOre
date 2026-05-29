@@ -33,10 +33,18 @@ import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry
 import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener
+import net.minecraft.util.profiling.ProfilerFiller
 //? if neoforge {
 /*import com.algorithmlx.dimore.worldgen.DimOreModifier
 import net.minecraft.core.Holder
 import net.neoforged.bus.api.IEventBus
+//? if >1.21.1 {
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent as AddReloadListenerEvent
+//?} else {
+/*import net.neoforged.neoforge.event.AddReloadListenerEvent
+*///?}
 import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
@@ -46,7 +54,16 @@ import com.algorithmlx.dimore.init.config.DimensionalOresConfig
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
+//$ if >1.21.1 'import net.fabricmc.fabric.api.resource.v1.ResourceLoader' else 'import net.fabricmc.fabric.api.resource.ResourceManagerHelper as ResourceLoader'
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader
 import net.minecraft.core.Registry
+import net.minecraft.server.packs.PackType
+//? if <=1.21.1 {
+/*import net.minecraft.server.packs.resources.PreparableReloadListener
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+*///?}
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 //?}
@@ -76,8 +93,23 @@ object Registry {
         if (CommentedJSONManager.config.enableCustomBlocks) initOresFromJSON()
         if (CommentedJSONManager.config.enableLootTables) registerLootTables()
 
+        val lootTableReload = object: SimplePreparableReloadListener<Unit>() {
+            override fun prepare(manager: ResourceManager, profiler: ProfilerFiller) {}
+            override fun apply(preparations: Unit, manager: ResourceManager, profiler: ProfilerFiller) = registerLootTables()
+        }
+
+        //? if >1.21.1 || fabricLike
+        val lootTableReloadId = ResLoc.parse("$ModId:config_loot_table")
+
         //? if forgeLike {
         /*biomeModifierSerializers.register("dimore_modifier", Supplier { DimOreModifier.codec })
+        bus.addListener { event: AddReloadListenerEvent ->
+            //? if >1.21.1 {
+            event.addListener(lootTableReloadId, lootTableReload)
+            //?} else {
+            /*event.addListener(lootTableReload)
+            *///?}
+        }
         *///?} else {
         DynamicRegistrySetupCallback.EVENT.register { regMgr ->
             val confReg = regMgr.getOptional(Registries.CONFIGURED_FEATURE)
@@ -87,6 +119,20 @@ object Registry {
 
             registerFeatures(confReg.get(), placedReg.get())
         }
+
+        ResourceLoader.get(PackType.SERVER_DATA)
+            //? if >1.21.1 {
+            //$ if >1.21.11 '.registerReloadListener(lootTableReloadId, lootTableReload)' else '.registerReloader(lootTableReloadId, lootTableReload)'
+            .registerReloadListener(lootTableReloadId, lootTableReload)
+            //?} else {
+            /*.registerReloadListener(object : IdentifiableResourceReloadListener {
+                override fun getFabricId(): ResLoc? = lootTableReloadId
+                override fun reload(
+                    preparationBarrier: PreparableReloadListener.PreparationBarrier, resourceManager: ResourceManager,
+                    profilerFiller: ProfilerFiller, profilerFiller2: ProfilerFiller, executor: Executor, executor2: Executor
+                ): CompletableFuture<Void?>? = lootTableReload.reload(preparationBarrier, resourceManager, profilerFiller, profilerFiller2, executor, executor2)
+            })
+            *///? }
         //?}
     }
 
@@ -214,7 +260,7 @@ object Registry {
             ))).build()
     }
 
-    fun registerLootTables() {
+    private fun registerLootTables() {
         val lootFiles = File("config/$ModId/loot/")
         if (!lootFiles.exists()) {
             lootFiles.parentFile.mkdirs()
@@ -258,16 +304,16 @@ object Registry {
         shouldRegisterItem: Boolean
     ): DeferredBlock<B> {
         //? if >1.21.1 {
-        /*val blockKey = { it: ResLoc -> ResourceKey.create(Registries.BLOCK, it) }
+        val blockKey = { it: ResLoc -> ResourceKey.create(Registries.BLOCK, it) }
         val bl = blockRegistry.register(id) { rk ->
             block(properties.setId(blockKey(rk)))
         }
-        *///?} else
-        val bl = blockRegistry.register(id, Supplier { block(properties) })
+        //?} else
+        //val bl = blockRegistry.register(id, Supplier { block(properties) })
 
         if (shouldRegisterItem) {
             //? if >1.21.1 {
-            /*itemRegistry.register(id) { rk ->
+            itemRegistry.register(id) { rk ->
                 NamedBlockItem(
                     bl.get(),
                     Item.Properties()
@@ -275,8 +321,8 @@ object Registry {
                         .useBlockDescriptionPrefix()
                 )
             }
-            *///?} else
-            itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })
+            //?} else
+            //itemRegistry.register(id, Supplier { NamedBlockItem(bl.get(), Item.Properties()) })
         }
 
         blockHolders[id] = bl

@@ -1,6 +1,7 @@
 package com.algorithmlx.dimore.mixin;
 
 import com.algorithmlx.dimore.ModKt;
+import com.algorithmlx.dimore.init.config.CommentedJSONManager;
 import com.algorithmlx.dimore.init.resource.DimOreResourcePack;
 import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class PackRepositoryMixin {
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true)
     private static RepositorySource[] dimore$init(RepositorySource[] sources) {
+        if (!CommentedJSONManager.INSTANCE.getConfig().getEnableCustomBlocks()) return sources;
         var asList = Lists.newArrayList(sources);
         asList.add((packConsumer) -> {
             var supp = new Pack.ResourcesSupplier() {
