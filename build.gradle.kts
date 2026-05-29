@@ -96,6 +96,7 @@ publishMods {
             requires(*depends.toTypedArray())
         }
 
+        minecraftVersions.add(mod.minecraftVersion)
         minecraftVersions.addAll(allSupportedMC)
     }
 
@@ -115,7 +116,8 @@ publishMods {
                 append(splitted[0] + "-snapshot")
             }
             minecraftVersions.add(modifiedVersion)
-        } else minecraftVersions.add(mod.minecraftVersion)
+        }
+
         minecraftVersions.addAll(allSupportedMC)
     }
 }
