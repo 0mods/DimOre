@@ -4,6 +4,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
         maven("https://maven.kikugie.dev/releases")
         maven("https://maven.fabricmc.net/")
         maven("https://maven.architectury.dev")
@@ -20,7 +21,7 @@ pluginManagement {
 
 plugins {
     id("dev.kikugie.stonecutter") version "0.9+"
-    id("gg.meza.stonecraft") version "1.10.+"
+    id("gg.meza.stonecraft") version "1.10+"
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 

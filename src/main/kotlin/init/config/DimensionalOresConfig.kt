@@ -6,7 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DimensionalOresConfig(
+    @SerialName("custom_blocks")
     val enableCustomBlocks: Boolean = false,
+    @SerialName("custom_loot_tables")
     val enableLootTables: Boolean = false,
 
     // Nether Ores

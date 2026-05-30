@@ -1,9 +1,6 @@
 import gg.meza.stonecraft.mod
-import me.modmuss50.mpp.ReleaseType
 
 val publishType = if (mod.hasProp("build.release_type")) mod.prop("build.release_type") else null
-val isBeta = publishType != null && publishType == "beta"
-val isAlpha = publishType != null && publishType == "alpha"
 val kotlinVersion: String by rootProject
 val allSupportedMC = mutableListOf<String>().apply {
     if (mod.hasProp("minecraft_version.additional"))
@@ -55,15 +52,10 @@ publishMods {
         else -> "fabriclike"
     }
 
-    dryRun = false
-
     if (
         mod.hasProp("build.no_publish")
-        && (
-                mod.prop("build.no_publish") == "true"
-                        || (mod.prop("build.no_publish") == dependType
-                            || mod.prop("build.no_publish") == likeProject)
-        )
+        && (mod.prop("build.no_publish") == "true"
+                || (mod.prop("build.no_publish") == dependType || mod.prop("build.no_publish") == likeProject))
 
     ) {
         println("Publishing disabled. Skipping...")
@@ -72,25 +64,7 @@ publishMods {
 
     changelog = rootProject.file("CHANGELOG.md").readText()
 
-    type = when {
-        isBeta -> ReleaseType.BETA
-        isAlpha -> ReleaseType.ALPHA
-        else -> ReleaseType.STABLE
-    }
-
-    displayName = "[${mod.loader}-${mod.minecraftVersion}] ${mod.name} (v.${mod.version})"
-    modLoaders.add(mod.loader)
-
-    val modrinthProject: String? = if (mod.hasProp("publish.modrinth.project_id")) mod.prop("publish.modrinth.project_id") else null
-    val modrinthToken = System.getenv("MODRINTH_TOKEN")
-
-    val curseProject: String? = if (mod.hasProp("publish.curseforge.project_id")) mod.prop("publish.modrinth.project_id") else null
-    val curseToken = System.getenv("CURSE_TOKEN")
-
-    if (modrinthToken != null && modrinthProject != null) modrinth {
-        projectId = modrinthProject
-        accessToken = modrinthToken
-
+    modrinth {
         if (mod.hasProp("publish.modrinth.$dependType.depends")) {
             val depends = mod.prop("publish.modrinth.$dependType.depends").split(',')
             requires(*depends.toTypedArray())
@@ -100,16 +74,12 @@ publishMods {
         minecraftVersions.addAll(allSupportedMC)
     }
 
-    if (curseToken != null && curseProject != null) curseforge {
-        projectId = curseProject
-        accessToken = curseToken
-
+    curseforge {
         if (mod.hasProp("publish.curseforge.$dependType.depends")) {
             val depends = mod.prop("publish.curseforge.$dependType.depends").split(',')
             requires(*depends.toTypedArray())
         }
 
-        minecraftVersions.add(mod.minecraftVersion)
         minecraftVersions.addAll(allSupportedMC)
     }
 }

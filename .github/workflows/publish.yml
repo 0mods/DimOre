@@ -61,8 +61,8 @@ jobs:
       - name: Build Mod
         run: gradle publishMods
         env:
-          CURSE_TOKEN: ${{ secrets.CURSE_TOKEN }}
-          CURSE_PROJECT: ${{ secrets.CURSE_PROJECT }}
+          CURSEFORGE_ID: ${{ secrets.CURSEFORGE_ID }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
   modrinth:
     name: Modrinth Publish
     strategy:
@@ -90,5 +90,5 @@ jobs:
       - name: Build Mod
         run: gradle publishMods
         env:
+          MODRINTH_ID: ${{ secrets.CURSEFORGE_ID }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          MODRINTH_PROJECT: ${{ secrets.MODRINTH_PROJECT }}
