@@ -52,11 +52,12 @@ publishMods {
         else -> "fabriclike"
     }
 
+    dryRun = false
+
     if (
         mod.hasProp("build.no_publish")
         && (mod.prop("build.no_publish") == "true"
                 || (mod.prop("build.no_publish") == dependType || mod.prop("build.no_publish") == likeProject))
-
     ) {
         println("Publishing disabled. Skipping...")
         return@publishMods
@@ -64,26 +65,42 @@ publishMods {
 
     changelog = rootProject.file("CHANGELOG.md").readText()
 
-    modrinth {
+    displayName = "[${mod.loader}-${mod.minecraftVersion}] ${mod.name} (v.${mod.version})"
+    version = "${mod.version}+mc${mod.minecraftVersion}"
+    modLoaders.add(mod.loader)
+
+    val modrinthProject: String? = if (mod.hasProp("publish.modrinth.project_id")) mod.prop("publish.modrinth.project_id") else null
+    val modrinthToken = System.getenv("MODRINTH_TOKEN")
+
+    val curseProject: String? = if (mod.hasProp("publish.curseforge.project_id")) mod.prop("publish.curseforge.project_id") else null
+    val curseToken = System.getenv("CURSEFORGE_TOKEN")
+
+    val uniqueVersions = (listOf(mod.minecraftVersion) + allSupportedMC).distinct()
+
+    if (modrinthToken != null && modrinthProject != null) modrinth {
+        projectId = modrinthProject
+        accessToken = modrinthToken
+
         if (mod.hasProp("publish.modrinth.$dependType.depends")) {
             val depends = mod.prop("publish.modrinth.$dependType.depends").split(',')
             requires(*depends.toTypedArray())
         }
 
-        minecraftVersions.add(mod.minecraftVersion)
-        minecraftVersions.addAll(allSupportedMC)
+        minecraftVersions.set(uniqueVersions)
     }
 
-    curseforge {
+    if (curseToken != null && curseProject != null) curseforge {
+        projectId = curseProject
+        accessToken = curseToken
+
         if (mod.hasProp("publish.curseforge.$dependType.depends")) {
             val depends = mod.prop("publish.curseforge.$dependType.depends").split(',')
             requires(*depends.toTypedArray())
         }
 
-        minecraftVersions.addAll(allSupportedMC)
+        minecraftVersions.set(uniqueVersions)
     }
 }
-
 fun DependencyHandlerScope.implementMod(dependencyNotation: Any) {
     if (stonecutter.eval(mod.minecraftVersion, ">=26.1.0"))
         implementation(dependencyNotation)
