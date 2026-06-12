@@ -90,5 +90,5 @@ jobs:
       - name: Build Mod
         run: gradle publishMods
         env:
-          MODRINTH_ID: ${{ secrets.CURSEFORGE_ID }}
+          MODRINTH_ID: ${{ secrets.MODRINTH_ID }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
