@@ -101,6 +101,7 @@ publishMods {
         minecraftVersions.set(uniqueVersions)
     }
 }
+
 fun DependencyHandlerScope.implementMod(dependencyNotation: Any) {
     if (stonecutter.eval(mod.minecraftVersion, ">=26.1.0"))
         implementation(dependencyNotation)

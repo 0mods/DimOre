@@ -40,6 +40,7 @@ import net.minecraft.util.profiling.ProfilerFiller
 /*import com.algorithmlx.dimore.worldgen.DimOreModifier
 import net.minecraft.core.Holder
 import net.neoforged.bus.api.IEventBus
+import net.neoforged.neoforge.common.NeoForge
 //? if >1.21.1 {
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent as AddReloadListenerEvent
 //?} else {
@@ -103,7 +104,7 @@ object Registry {
 
         //? if forgeLike {
         /*biomeModifierSerializers.register("dimore_modifier", Supplier { DimOreModifier.codec })
-        bus.addListener { event: AddReloadListenerEvent ->
+        NeoForge.EVENT_BUS.addListener { event: AddReloadListenerEvent ->
             //? if >1.21.1 {
             event.addListener(lootTableReloadId, lootTableReload)
             //?} else {
