@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - 26.1-snap 5 support [mr] [cf] [`2494b99`](https://github.com/AlgorithmLX/DimOre/commit/2494b99)
 
 ### Bug Fixes
+- [mr] [cf] fix neoforge bus crash [`5dcc314`](https://github.com/AlgorithmLX/DimOre/commit/5dcc314)
 - [mr] [cf] fix neoforge bus crush [`6d1a9ba`](https://github.com/AlgorithmLX/DimOre/commit/6d1a9ba)
 - [mr] [cf] drops todo: update mod [`8516127`](https://github.com/AlgorithmLX/DimOre/commit/8516127)
 - drops [`104f914`](https://github.com/AlgorithmLX/DimOre/commit/104f914)
@@ -25,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`f9fc3e0`](https://github.com/AlgorithmLX/DimOre/commit/f9fc3e0)
 - :robot: changelog file generated/updated [`661dbd1`](https://github.com/AlgorithmLX/DimOre/commit/661dbd1)
 - :robot: changelog file generated/updated [`42c7c9e`](https://github.com/AlgorithmLX/DimOre/commit/42c7c9e)
 - :robot: changelog file generated/updated [`6e36c4f`](https://github.com/AlgorithmLX/DimOre/commit/6e36c4f)
