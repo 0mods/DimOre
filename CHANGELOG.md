@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - 26.1-snap 5 support [mr] [cf] [`2494b99`](https://github.com/AlgorithmLX/DimOre/commit/2494b99)
 
 ### Bug Fixes
+- [mr] [cf] fix neoforge bus crush [`6d1a9ba`](https://github.com/AlgorithmLX/DimOre/commit/6d1a9ba)
 - [mr] [cf] drops todo: update mod [`8516127`](https://github.com/AlgorithmLX/DimOre/commit/8516127)
 - drops [`104f914`](https://github.com/AlgorithmLX/DimOre/commit/104f914)
 - [mr] [cf] drops [`50d94a8`](https://github.com/AlgorithmLX/DimOre/commit/50d94a8)
@@ -24,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- :robot: changelog file generated/updated [`661dbd1`](https://github.com/AlgorithmLX/DimOre/commit/661dbd1)
 - :robot: changelog file generated/updated [`42c7c9e`](https://github.com/AlgorithmLX/DimOre/commit/42c7c9e)
 - :robot: changelog file generated/updated [`6e36c4f`](https://github.com/AlgorithmLX/DimOre/commit/6e36c4f)
 - :robot: changelog file generated/updated [`4200188`](https://github.com/AlgorithmLX/DimOre/commit/4200188)
@@ -88,6 +90,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
+- crash* [`3901a6c`](https://github.com/AlgorithmLX/DimOre/commit/3901a6c)
 - version fix [`3670cf5`](https://github.com/AlgorithmLX/DimOre/commit/3670cf5)
 - Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`f12ed47`](https://github.com/AlgorithmLX/DimOre/commit/f12ed47)
 - Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`cab976a`](https://github.com/AlgorithmLX/DimOre/commit/cab976a)
