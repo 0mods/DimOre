@@ -66,7 +66,7 @@ publishMods {
     changelog = rootProject.file("CHANGELOG.md").readText()
 
     displayName = "[${mod.loader}-${mod.minecraftVersion}] ${mod.name} (v.${mod.version})"
-    version = "${mod.version}+mc${mod.minecraftVersion}-${mod.loader}"
+    version = "${mod.loader}-${mod.version}+mc${mod.minecraftVersion}"
     modLoaders.add(mod.loader)
 
     val modrinthProject: String? = if (mod.hasProp("publish.modrinth.project_id")) mod.prop("publish.modrinth.project_id") else null
