@@ -66,7 +66,7 @@ publishMods {
     changelog = rootProject.file("CHANGELOG.md").readText()
 
     displayName = "[${mod.loader}-${mod.minecraftVersion}] ${mod.name} (v.${mod.version})"
-    version = "${mod.version}+mc${mod.minecraftVersion}"
+    version = "${mod.version}+mc${mod.minecraftVersion}-${mod.loader}"
     modLoaders.add(mod.loader)
 
     val modrinthProject: String? = if (mod.hasProp("publish.modrinth.project_id")) mod.prop("publish.modrinth.project_id") else null
@@ -80,6 +80,8 @@ publishMods {
     if (modrinthToken != null && modrinthProject != null) modrinth {
         projectId = modrinthProject
         accessToken = modrinthToken
+
+        version = "${mod.version}+mc${mod.minecraftVersion}-${mod.loader}"
 
         if (mod.hasProp("publish.modrinth.$dependType.depends")) {
             val depends = mod.prop("publish.modrinth.$dependType.depends").split(',')
