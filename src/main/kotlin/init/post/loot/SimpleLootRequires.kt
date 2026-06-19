@@ -3,11 +3,14 @@ package com.algorithmlx.dimore.init.post.loot
 import com.algorithmlx.dimore.util.ResLoc
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 //$ if >1.21.1 'import net.minecraft.core.HolderLookup' else 'import net.minecraft.core.HolderGetter'
 import net.minecraft.core.HolderLookup
 //? if >1.21.1 {
-import net.minecraft.advancements.criterion.DataComponentMatchers
-import net.minecraft.advancements.criterion.ItemPredicate
+//$ if >=26.2.0 'import net.minecraft.advancements.predicates.DataComponentMatchers' else 'import net.minecraft.advancements.criterion.DataComponentMatchers'
+import net.minecraft.advancements.predicates.DataComponentMatchers
+//$ if >=26.2.0 'import net.minecraft.advancements.predicates.ItemPredicate' else 'import net.minecraft.advancements.criterion.ItemPredicate'
+import net.minecraft.advancements.predicates.ItemPredicate
 import net.minecraft.core.component.DataComponentExactPredicate
 //?} else {
 /*import net.minecraft.advancements.critereon.ItemPredicate
