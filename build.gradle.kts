@@ -110,6 +110,8 @@ publishMods {
     if (curseToken != null && curseProject != null) curseforge {
         projectId = curseProject
         accessToken = curseToken
+        client = true
+        server = true
 
         if (mod.hasProp("publish.curseforge.$dependType.depends")) {
             val depends = mod.prop("publish.curseforge.$dependType.depends").split(',')
