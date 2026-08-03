@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gradle version compiler [mr] [cf] [`7530aef`](https://github.com/AlgorithmLX/DimOre/commit/7530aef)
 
 ### Documentation
+- update generated changelog [`7f49072`](https://github.com/AlgorithmLX/DimOre/commit/7f49072)
 - update generated changelog [`233e22d`](https://github.com/AlgorithmLX/DimOre/commit/233e22d)
 - :robot: changelog file generated/updated [`822fb42`](https://github.com/AlgorithmLX/DimOre/commit/822fb42)
 - :robot: changelog file generated/updated [`e23f646`](https://github.com/AlgorithmLX/DimOre/commit/e23f646)
@@ -100,6 +101,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [mr] [cf] bump version [`15b40e0`](https://github.com/AlgorithmLX/DimOre/commit/15b40e0)
 
 ### Other
+- Merge remote-tracking branch 'origin/stonecutter' into stonecutter [`b4c4d57`](https://github.com/AlgorithmLX/DimOre/commit/b4c4d57)
+- [cf] CurseForge publish fix [`0d84e67`](https://github.com/AlgorithmLX/DimOre/commit/0d84e67)
 - [mr] [cf] release mod [`32acc82`](https://github.com/AlgorithmLX/DimOre/commit/32acc82)
 - Some fixes, code improvemets [`d674632`](https://github.com/AlgorithmLX/DimOre/commit/d674632)
 - 26.2 support [`1e92ff5`](https://github.com/AlgorithmLX/DimOre/commit/1e92ff5)
