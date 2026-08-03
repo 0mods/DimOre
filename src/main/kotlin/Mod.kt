@@ -1,9 +1,7 @@
 package com.algorithmlx.dimore
 
-import com.algorithmlx.dimore.init.config.CommentedJSONManager
+import com.algorithmlx.dimore.init.config.DimOreConfigManager
 import com.algorithmlx.dimore.init.Registry
-import com.algorithmlx.dimore.init.resource.DimOreResourcePack
-import com.algorithmlx.dimore.util.isModLoaded
 //? if neoforge {
 /*import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
@@ -21,14 +19,14 @@ const val ModId: String = "dimore"
 /*@Mod(ModId)
 class Mod(bus: IEventBus) {
     init {
-        CommentedJSONManager.load()
+        DimOreConfigManager.load()
         Registry.init(bus)
     }
 }
 *///?} else {
 object Mod {
     fun onInitialize() {
-        CommentedJSONManager.load()
+        DimOreConfigManager.load()
         Registry.init()
         OreConfig.init()
     }

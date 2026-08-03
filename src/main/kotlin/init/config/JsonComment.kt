@@ -1,7 +1,19 @@
 package com.algorithmlx.dimore.init.config
 
-import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialInfo
 
-@Polymorphic
-@Target(AnnotationTarget.PROPERTY)
+@OptIn(ExperimentalSerializationApi::class)
+@SerialInfo
+@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class JsonComment(val comments: Array<String>, val multiline: Boolean = false)
+
+@OptIn(ExperimentalSerializationApi::class)
+@SerialInfo
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class JsonDefaults(
+    val recursive: Boolean = false,
+    val onlyIfChanged: Boolean = false
+)

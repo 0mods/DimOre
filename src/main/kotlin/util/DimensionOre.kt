@@ -17,10 +17,13 @@ interface DimensionOre {
             .append(oreType.parentOreBlock().name)
 }
 
-interface DimensionOreConfig {
-    val generate: Boolean
+interface OrePlacementConfig {
     val size: Int
     val count: Int
     val minHeight: Int
     val maxHeight: Int
+}
+
+interface DimensionOreConfig : OrePlacementConfig {
+    val target: String
 }

@@ -7,12 +7,15 @@ import com.algorithmlx.dimore.block.DimensionalRedstoneOre
 import com.algorithmlx.dimore.block.NamedExperienceBlock
 import com.algorithmlx.dimore.block.NamedRedstoneBlock
 import com.algorithmlx.dimore.init.post.PostBlock
-import com.algorithmlx.dimore.init.config.CommentedJSONManager
+import com.algorithmlx.dimore.init.config.ConfigManager
+import com.algorithmlx.dimore.init.config.DimOreConfigManager
 import com.algorithmlx.dimore.init.post.loot.ItemEntry
 import com.algorithmlx.dimore.init.post.loot.SimpleLootTable
+import com.algorithmlx.dimore.init.resource.DimOrePackSource
 import com.algorithmlx.dimore.item.NamedBlockItem
 import com.algorithmlx.dimore.util.OreDimensionType
 import com.algorithmlx.dimore.util.OreDimensionTypes
+import com.algorithmlx.dimore.util.OreCatalog
 import com.algorithmlx.dimore.util.OreType
 import com.algorithmlx.dimore.util.OreTypes
 import com.algorithmlx.dimore.util.ResLoc
@@ -46,13 +49,13 @@ import net.neoforged.neoforge.event.AddServerReloadListenersEvent as AddReloadLi
 //?} else {
 /*import net.neoforged.neoforge.event.AddReloadListenerEvent
 *///?}
+import net.neoforged.neoforge.event.AddPackFindersEvent
 import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
 import java.util.function.Supplier
 *///?} elif fabric {
-import com.algorithmlx.dimore.init.config.DimensionalOresConfig
-import com.algorithmlx.dimore.util.DimensionOreConfig
+import com.algorithmlx.dimore.util.OrePlacementConfig
 import com.algorithmlx.dimore.util.OreGeneratorFactory
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback
 //$ if >1.21.1 'import net.fabricmc.fabric.api.resource.v1.ResourceLoader' else 'import net.fabricmc.fabric.api.resource.ResourceManagerHelper as ResourceLoader'
@@ -74,7 +77,7 @@ import java.io.File
 object Registry {
     private val postBlocks = mutableMapOf<String, PostBlock>()
     private val simpleLootTables = mutableMapOf<String, SimpleLootTable>()
-    private val json = CommentedJSONManager.json
+    private val json = ConfigManager.json
     //? if neoforge {
     /*private val blockRegistry = DeferredRegister.createBlocks(ModId)
     private val itemRegistry = DeferredRegister.createItems(ModId)
@@ -88,11 +91,12 @@ object Registry {
         /*blockRegistry.register(bus)
         itemRegistry.register(bus)
         biomeModifierSerializers.register(bus)
+        bus.addListener { event: AddPackFindersEvent -> event.addRepositorySource(DimOrePackSource) }
         *///?}
         
         registerOres()
-        if (CommentedJSONManager.config.enableCustomBlocks) initOresFromJSON()
-        if (CommentedJSONManager.config.enableLootTables) registerLootTables()
+        if (DimOreConfigManager.config.enableCustomBlocks) initOresFromJSON()
+        if (DimOreConfigManager.config.enableLootTables) registerLootTables()
 
         val lootTableReload = object: SimplePreparableReloadListener<Unit>() {
             override fun prepare(manager: ResourceManager, profiler: ProfilerFiller) {}
@@ -163,7 +167,7 @@ object Registry {
                             if (config.displayName.isNotEmpty()) Component.translatable(config.displayName) else null
                         )
                     },
-                    config.properties.asBlockBehaviourProperties(), true
+                    config.properties.asBlockBehaviourProperties(config.mining != null), true
                 ) else this.registerBlock(
                     id, { properties ->
                         NamedRedstoneBlock(
@@ -171,43 +175,20 @@ object Registry {
                             if (config.displayName.isNotEmpty()) Component.translatable(config.displayName) else null
                         )
                     },
-                    config.properties.asBlockBehaviourProperties(), true
+                    config.properties.asBlockBehaviourProperties(config.mining != null), true
                 )
             }
     }
 
-    fun getPostBlocks(): Map<String, PostBlock> = mapOf(*postBlocks.entries.map { it.toPair() }.toTypedArray())
+    fun getPostBlocks(): Map<String, PostBlock> = postBlocks.toMap()
 
     private fun registerOres() {
-        // Nether Ores
-        OreTypes.netherOres.forEach {
-            val id = "nether_${it.name.lowercase()}_ore"
-            if (it == OreTypes.REDSTONE) {
-                registerRedstone(id, OreDimensionTypes.NETHER)
-                return@forEach
+        OreCatalog.all(DimOreConfigManager.config).forEach { ore ->
+            if (ore.oreType == OreTypes.REDSTONE) {
+                registerRedstone(ore.id, ore.dimensionType)
+            } else {
+                registerOre(ore.id, ore.oreType, ore.dimensionType)
             }
-
-            registerOre(id, it, OreDimensionTypes.NETHER)
-        }
-
-        // Overworld ores
-        OreTypes.overworldOres.forEach {
-            val id = "stone_${it.name.lowercase()}_ore"
-            val deepSlateId = "deepslate_${it.name.lowercase()}_ore"
-
-            registerOre(id, it, OreDimensionTypes.OVERWORLD)
-            registerOre(deepSlateId, it, OreDimensionTypes.OVERWORLD_DEEPSLATE)
-        }
-
-        // End ores
-        OreTypes.endOres.forEach {
-            val id = "end_${it.name.lowercase()}_ore"
-            if (it == OreTypes.REDSTONE) {
-                registerRedstone(id, OreDimensionTypes.END)
-                return@forEach
-            }
-
-            registerOre(id, it, OreDimensionTypes.END)
         }
     }
 
@@ -335,59 +316,23 @@ object Registry {
         cfReg: Registry<ConfiguredFeature<*, *>>,
         pfReg: Registry<PlacedFeature>
     ) {
-        if (CommentedJSONManager.config.netherOres.generateOres) {
-            OreTypes.netherOres.forEach { type ->
-                val id = "nether_${type.name.lowercase()}_ore"
-                val config = OreTypes.configByTypeNether[type] ?: return@forEach
+        OreCatalog.generation(DimOreConfigManager.config).forEach { ore ->
+            val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, ore.id))
+                //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
+                .orElseThrow().value()
 
-                val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
-                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
-                    .orElseThrow().value()
-                createFeature(cfReg, pfReg, id, block, OreDimensionTypes.NETHER, config)
-            }
-        }
-
-        if (CommentedJSONManager.config.overworldOres.generateOres) {
-            OreTypes.overworldOres.forEach { type ->
-                val stoneId = "stone_${type.name.lowercase()}_ore"
-                val deepslateId = "deepslate_${type.name.lowercase()}_ore"
-                val config = OreTypes.configByTypeOverworld[type] ?: return@forEach
-
-                val stoneBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, stoneId))
-                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
-                    .orElseThrow().value()
-                val deepslateBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, deepslateId))
-                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
-                    .orElseThrow().value()
-                createFeature(cfReg, pfReg, stoneId, stoneBlock, OreDimensionTypes.OVERWORLD, config)
-                createFeature(cfReg, pfReg, deepslateId, deepslateBlock, OreDimensionTypes.OVERWORLD_DEEPSLATE, config)
-            }
-        }
-
-        if (CommentedJSONManager.config.endOres.generateOres) {
-            OreTypes.endOres.forEach { type ->
-                val id = "end_${type.name.lowercase()}_ore"
-                val config = OreTypes.configByTypeEnd[type] ?: return@forEach
-                val block = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
-                    //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
-                    .orElseThrow().value()
-                createFeature(cfReg, pfReg, id, block, OreDimensionTypes.END, config)
-            }
+            createFeature(cfReg, pfReg, ore.id, block, ore.dimensionType, ore.settings)
         }
 
         this.getPostBlocks().forEach { (id, block) ->
             val settings = block.generationSettings
             val generationConfig = settings.config
-            val convertedConfig = DimensionalOresConfig.OreGenerationSettings(
-                true, generationConfig.size, generationConfig.count,
-                generationConfig.minHeight, generationConfig.maxHeight
-            )
 
             val mcBlock = BuiltInRegistries.BLOCK.get(ResLoc.fromNamespaceAndPath(ModId, id))
                 //$ if >1.21.1 '.orElseThrow().value()' else '//.orElseThrow().value()'
                 .orElseThrow().value()
 
-            createFeature(cfReg, pfReg, id, mcBlock, settings.asDimensionType(), convertedConfig)
+            createFeature(cfReg, pfReg, id, mcBlock, settings.asDimensionType(), generationConfig)
         }
     }
 
@@ -397,7 +342,7 @@ object Registry {
         id: String,
         block: Block,
         dimType: OreDimensionType,
-        settings: DimensionOreConfig
+        settings: OrePlacementConfig
     ) {
         val location = ResLoc.fromNamespaceAndPath(ModId, id)
 

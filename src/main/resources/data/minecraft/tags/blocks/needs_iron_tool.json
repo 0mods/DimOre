@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "dimore:stone_quartz_ore",
-    "dimore:deepslate_quartz_ore"
+    "#dimore:needs_iron_tool"
   ]
 }

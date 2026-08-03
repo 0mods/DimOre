@@ -1,7 +1,11 @@
 package com.algorithmlx.dimore.init.post
 
 import com.algorithmlx.dimore.init.config.JsonComment
+import com.algorithmlx.dimore.init.config.JsonDefaults
+import com.algorithmlx.dimore.init.config.MiningLevel
+import com.algorithmlx.dimore.init.config.MiningSettings
 import com.algorithmlx.dimore.util.OreDimensionType
+import com.algorithmlx.dimore.util.OrePlacementConfig
 import com.algorithmlx.dimore.util.ResLoc
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -22,7 +26,9 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 val ExampleBlock = PostBlock(
     displayName = "My First Ore",
     isRedstone = false,
+    mining = MiningSettings(toolLevel = MiningLevel.IRON),
     generationSettings = PostBlock.GenerationSettings(
+        //$ if fabric '"minecraft:overworld",' else '"#minecraft:is_overworld",'
         "minecraft:overworld",
         PostBlock.GenerationSettings.ConfiguredFeature(
             size = 1,
@@ -34,6 +40,7 @@ val ExampleBlock = PostBlock(
     )
 )
 
+@JsonDefaults(recursive = true)
 @Serializable
 data class PostBlock(
     @JsonComment([
@@ -50,6 +57,10 @@ data class PostBlock(
         "Block properties"
     ])
     val properties: SimplyProperties = SimplyProperties(),
+    @JsonComment([
+        "Mining tool and its minimum level. Null keeps vanilla block-property behavior."
+    ])
+    val mining: MiningSettings? = null,
     @JsonComment([
         "Experience drop settings",
         "May be \"single\" and \"range\"",
@@ -69,10 +80,14 @@ data class PostBlock(
 ) {
     @Serializable
     data class GenerationSettings(
-        //? if neoforge {
-        /*@SerialName("biome")
+        //? if fabric {
+        @JsonComment(["Dimension id where this block generates."])
+        @SerialName("dimension")
+        //?} else {
+        /*@JsonComment(["Biome id or #biome_tag where this block generates."])
+        @SerialName("biome")
         *///?}
-        val dimension: String,
+        val target: String,
         val config: ConfiguredFeature,
     ) {
         fun asDimensionType() = OreReplacementRule(config.oreTarget)
@@ -87,19 +102,19 @@ data class PostBlock(
         @Serializable
         class ConfiguredFeature(
             @JsonComment(["The size of a single ore vein."])
-            val size: Int,
+            override val size: Int,
             @JsonComment(["Number of ore veins per chunk."])
-            val count: Int,
+            override val count: Int,
             @JsonComment(["Minimum generation height"])
             @SerialName("min_height")
-            val minHeight: Int,
+            override val minHeight: Int,
             @JsonComment(["Maximum generation height"])
             @SerialName("max_height")
-            val maxHeight: Int,
+            override val maxHeight: Int,
             @JsonComment(["Settings of ore generation"])
             @SerialName("ore_target")
             val oreTarget: TargetType,
-        )
+        ) : OrePlacementConfig
     }
 
     @Serializable
@@ -159,28 +174,29 @@ data class PostBlock(
         val noTerrainParticles: Boolean = false,
         val replaceable: Boolean = false
     ) {
-        fun asBlockBehaviourProperties(): BlockBehaviour.Properties = BlockBehaviour.Properties.of().apply {
-            if (noCollision)
-                //$ if >1.21.1 'this.noCollision()' else 'this.noCollission()'
-                this.noCollision()
-            if (noOcclusion) this.noOcclusion()
-            if (friction != 0F) this.friction(friction)
-            if (speedFactor != 0F) this.speedFactor(speedFactor)
-            if (jumpFactor != 0F) this.jumpFactor(0F)
-            if (lightLevel != 0) this.lightLevel { lightLevel }
-            if (destroyTime != 0F) this.destroyTime(destroyTime)
-            if (explosionResistance != 0F) this.explosionResistance(explosionResistance)
-            if (instabreak) this.instabreak()
-            if (randomTicks) this.randomTicks()
-            if (dynamicShape) this.dynamicShape()
-            if (noLootTable) this.noLootTable()
-            if (ignitedByLava) this.ignitedByLava()
-            if (liquid) this.liquid()
-            if (forceSolidOn) this.forceSolidOn()
-            if (requiresCorrectToolForDrops) this.requiresCorrectToolForDrops()
-            if (noTerrainParticles) this.noTerrainParticles()
-            if (replaceable) this.replaceable()
-        }
+        fun asBlockBehaviourProperties(forceCorrectTool: Boolean = false): BlockBehaviour.Properties =
+            BlockBehaviour.Properties.of().apply {
+                if (noCollision)
+                    //$ if >1.21.1 'this.noCollision()' else 'this.noCollission()'
+                    this.noCollision()
+                if (noOcclusion) this.noOcclusion()
+                if (friction != 0F) this.friction(friction)
+                if (speedFactor != 0F) this.speedFactor(speedFactor)
+                if (jumpFactor != 0F) this.jumpFactor(jumpFactor)
+                if (lightLevel != 0) this.lightLevel { lightLevel }
+                if (destroyTime != 0F) this.destroyTime(destroyTime)
+                if (explosionResistance != 0F) this.explosionResistance(explosionResistance)
+                if (instabreak) this.instabreak()
+                if (randomTicks) this.randomTicks()
+                if (dynamicShape) this.dynamicShape()
+                if (noLootTable) this.noLootTable()
+                if (ignitedByLava) this.ignitedByLava()
+                if (liquid) this.liquid()
+                if (forceSolidOn) this.forceSolidOn()
+                if (requiresCorrectToolForDrops || forceCorrectTool) this.requiresCorrectToolForDrops()
+                if (noTerrainParticles) this.noTerrainParticles()
+                if (replaceable) this.replaceable()
+            }
     }
 }
 

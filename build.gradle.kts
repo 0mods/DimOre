@@ -1,10 +1,11 @@
 import gg.meza.stonecraft.mod
+import me.modmuss50.mpp.ReleaseType
 
 val publishType = if (mod.hasProp("build.release_type")) mod.prop("build.release_type") else null
 val kotlinVersion: String by rootProject
 val allSupportedMC = mutableListOf<String>().apply {
     if (mod.hasProp("minecraft_version.additional"))
-        this.addAll(mod.prop("minecraft_version.additional").split(',').map { it.trim() })
+        this.addAll(mod.prop("minecraft_version.additional").split(',').map { it.trim() }.filter { it.isNotEmpty() })
 }
 
 plugins {
@@ -16,6 +17,12 @@ plugins {
 repositories {
     mavenCentral()
     maven("https://repo.nyon.dev/releases")
+}
+
+loom {
+    mods {
+        maybeCreate("main").sourceSet("main")
+    }
 }
 
 dependencies {
@@ -52,22 +59,33 @@ publishMods {
         else -> "fabriclike"
     }
 
-    dryRun = false
-
-    if (
+    val publishingDisabled =
         mod.hasProp("build.no_publish")
-        && (mod.prop("build.no_publish") == "true"
-                || (mod.prop("build.no_publish") == dependType || mod.prop("build.no_publish") == likeProject))
-    ) {
+            && (mod.prop("build.no_publish") == "true"
+            || mod.prop("build.no_publish") == dependType
+            || mod.prop("build.no_publish") == likeProject)
+
+    if (publishingDisabled) {
         println("Publishing disabled. Skipping...")
+        tasks.matching {
+            it.name == "publishMods" || it.name == "publishModrinth" || it.name == "publishCurseforge"
+        }.configureEach {
+            enabled = false
+        }
         return@publishMods
     }
 
+    dryRun = false
     changelog = rootProject.file("CHANGELOG.md").readText()
+    type = when (publishType?.lowercase()) {
+        "alpha" -> ReleaseType.ALPHA
+        "beta" -> ReleaseType.BETA
+        else -> ReleaseType.STABLE
+    }
 
     displayName = "[${mod.loader}-${mod.minecraftVersion}] ${mod.name} (v.${mod.version})"
     version = "${mod.loader}-${mod.version}+mc${mod.minecraftVersion}"
-    modLoaders.add(mod.loader)
+    modLoaders.set(listOf(mod.loader))
 
     val modrinthProject: String? = if (mod.hasProp("publish.modrinth.project_id")) mod.prop("publish.modrinth.project_id") else null
     val modrinthToken = System.getenv("MODRINTH_TOKEN")
@@ -80,8 +98,6 @@ publishMods {
     if (modrinthToken != null && modrinthProject != null) modrinth {
         projectId = modrinthProject
         accessToken = modrinthToken
-
-        version = "${mod.version}+mc${mod.minecraftVersion}-${mod.loader}"
 
         if (mod.hasProp("publish.modrinth.$dependType.depends")) {
             val depends = mod.prop("publish.modrinth.$dependType.depends").split(',')

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#dimore:needs_iron_tool"
+    "#dimore:mineable/hoe"
   ]
 }

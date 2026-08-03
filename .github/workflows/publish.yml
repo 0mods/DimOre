@@ -1,17 +1,35 @@
 name: Publish mod to platforms
+
 on:
   push:
-    branches: [ "stonecutter" ]
+    branches: [stonecutter]
+  workflow_dispatch:
+    inputs:
+      modrinth:
+        description: Publish to Modrinth
+        type: boolean
+        default: true
+      curseforge:
+        description: Publish to CurseForge
+        type: boolean
+        default: false
 
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   changelog:
     name: Generate changelog
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v5
-      - name: Create Release
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Create release
         uses: ncipollo/release-action@v1.20.0
         with:
           allowUpdates: true
@@ -19,76 +37,72 @@ jobs:
           makeLatest: true
           name: ${{ github.ref_name }}
           token: ${{ github.token }}
-          tag: "latest"
+          tag: latest
           generateReleaseNotes: true
-      - name: Generate Changelog
+      - name: Generate changelog
         uses: smichard/conventional_changelog@2.0.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set Git User Info
+      - name: Commit changelog
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      - name: Commit Changelog
-        run: |
           git add CHANGELOG.md
-          git commit -m "docs: :robot: changelog file generated/updated" || echo "No changes to commit"
+          git commit -m "docs: update generated changelog" || echo "No changes to commit"
           git push
+
   curseforge:
-    name: CurseForge Publish
-    strategy:
-      matrix:
-        java: [ 25 ]
-        os: [ ubuntu-latest ]
-        gradle-version: [ 9.2.1 ]
-    runs-on: ${{ matrix.os }}
-    if: |
-      contains(github.event.head_commit.message, '[cf]')
-    needs: changelog
+    name: CurseForge publish
+    if: >-
+      (github.event_name == 'push' && contains(github.event.head_commit.message, '[cf]')) ||
+      (github.event_name == 'workflow_dispatch' && inputs.curseforge)
+    runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v5
-      - name: setup jdk ${{ matrix.java }}
-        uses: actions/setup-java@v1
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
         with:
-          java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: Prepare Gradle
+          distribution: temurin
+          java-version: '25'
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
         with:
-          gradle-version: ${{ matrix.gradle-version }}
-      - name: Build Mod
-        run: gradle publishMods
+          gradle-version: '9.2.1'
+      - name: Validate CurseForge credentials
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        run: test -n "$CURSEFORGE_TOKEN" || { echo '::error::CURSEFORGE_TOKEN is not configured'; exit 1; }
+      - name: Publish to CurseForge
+        run: gradle publishMods --no-parallel --stacktrace
         env:
           CURSEFORGE_ID: ${{ secrets.CURSEFORGE_ID }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+
   modrinth:
-    name: Modrinth Publish
-    strategy:
-      matrix:
-        java: [ 25 ]
-        os: [ ubuntu-latest ]
-        gradle-version: [ 9.2.1 ]
-    runs-on: ${{ matrix.os }}
-    if: |
-      contains(github.event.head_commit.message, '[mr]')
-    needs: changelog
+    name: Modrinth publish
+    if: >-
+      (github.event_name == 'push' && contains(github.event.head_commit.message, '[mr]')) ||
+      (github.event_name == 'workflow_dispatch' && inputs.modrinth)
+    runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v5
-      - name: setup jdk ${{ matrix.java }}
-        uses: actions/setup-java@v1
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
         with:
-          java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: Prepare Gradle
+          distribution: temurin
+          java-version: '25'
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
         with:
-          gradle-version: ${{ matrix.gradle-version }}
-      - name: Build Mod
-        run: gradle publishMods
+          gradle-version: '9.2.1'
+      - name: Validate Modrinth credentials
         env:
-          MODRINTH_ID: ${{ secrets.MODRINTH_ID }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: test -n "$MODRINTH_TOKEN" || { echo '::error::MODRINTH_TOKEN is not configured'; exit 1; }
+      - name: Publish to Modrinth
+        run: gradle publishMods --no-parallel --stacktrace
+        env:
+          MODRINTH_ID: tdrqr7qS
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

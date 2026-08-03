@@ -1,297 +1,146 @@
 package com.algorithmlx.dimore.init.config
 
+import com.algorithmlx.dimore.ModId
 import com.algorithmlx.dimore.util.DimensionOreConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+const val GENERATION_TARGET_FIELD: String =
+    //$ if fabric '"dimension"' else '"biome"'
+    "dimension"
+
+const val DEFAULT_NETHER_TARGET: String =
+    //$ if fabric '"minecraft:the_nether"' else '"#minecraft:is_nether"'
+    "minecraft:the_nether"
+
+const val DEFAULT_OVERWORLD_TARGET: String =
+    //$ if fabric '"minecraft:overworld"' else '"#minecraft:is_overworld"'
+    "minecraft:overworld"
+
+const val DEFAULT_END_TARGET: String =
+    //$ if fabric '"minecraft:the_end"' else '"#minecraft:is_end"'
+    "minecraft:the_end"
+
+@JsonComment([
+    "Hello! This is $ModId's config.",
+    "A broken config is backed up with the current time before defaults are restored.",
+    "Comments and values are preserved across restarts."
+], multiline = true)
+@JsonDefaults(recursive = true)
 @Serializable
 data class DimensionalOresConfig(
+    @JsonComment(["Enables custom blocks from config/$ModId/custom."])
     @SerialName("custom_blocks")
     val enableCustomBlocks: Boolean = false,
+
+    @JsonComment(["Enables custom loot tables from config/$ModId/loot."])
     @SerialName("custom_loot_tables")
     val enableLootTables: Boolean = false,
 
-    // Nether Ores
-    @JsonComment([
-        "Configures ore generation in The Nether"
-    ])
+    @JsonComment(["Configures ore generation in The Nether."])
     @SerialName("nether_ores")
     val netherOres: NetherOres = NetherOres(),
 
-    // Overworld Ores
-    @JsonComment([
-        "Configures ore generation in Overworld"
-    ])
+    @JsonComment(["Configures ore generation in the Overworld."])
     @SerialName("overworld_ores")
     val overworldOres: OverworldOres = OverworldOres(),
 
-    // End Ores
-    @JsonComment([
-        "Configures ore generation in The End"
-    ])
+    @JsonComment(["Configures ore generation in The End."])
     @SerialName("end_ores")
     val endOres: EndOres = EndOres()
 ) {
+    @JsonDefaults(recursive = true)
     @Serializable
     data class NetherOres(
-        @JsonComment([
-            "Enables/disables ore generation in The Nether.",
-            "If false, no ore will be generated."
-        ], multiline = true)
+        @JsonComment(["Enables all DimOre generation in The Nether."])
         @SerialName("enabled")
         val generateOres: Boolean = true,
 
-        @JsonComment([
-            "Settings of the Coal generation in The Nether.",
-            "Default values:",
-            "size = 32",
-            "count = 20",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("coal")
-        val coalSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 32, 20, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Copper generation in The Nether.",
-            "Default values:",
-            "size = 20",
-            "count = 16",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("copper")
-        val copperSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 20, 16, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Iron generation in The Nether.",
-            "Default values:",
-            "size = 18",
-            "count = 10",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("iron")
-        val ironSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 18, 10, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Lapis Lazuli generation in The Nether.",
-            "Default values:",
-            "size = 14",
-            "count = 4",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("lapis")
-        val lapisSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 14, 4, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Diamond generation in The Nether.",
-            "Default values:",
-            "size = 16",
-            "count = 7",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("diamond")
-        val diamondSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 16, 7, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Emerald generation in The Nether.",
-            "Default values:",
-            "size = 12",
-            "count = 4",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("emerald")
-        val emeraldSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 12, 4, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Redstone generation in The Nether.",
-            "Default values:",
-            "size = 16",
-            "count = 8",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("redstone")
-        val redstoneSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 16, 8, -64, 480
-        )
+        val coal: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 32, 20, MiningLevel.DIAMOND),
+        val copper: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 20, 16, MiningLevel.DIAMOND),
+        val iron: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 18, 10, MiningLevel.DIAMOND),
+        val lapis: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 14, 4, MiningLevel.DIAMOND),
+        val diamond: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 16, 7, MiningLevel.DIAMOND),
+        val emerald: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 12, 4, MiningLevel.DIAMOND),
+        val redstone: OreGenerationSettings = ore(DEFAULT_NETHER_TARGET, 16, 8, MiningLevel.DIAMOND)
     )
 
+    @JsonDefaults(recursive = true)
     @Serializable
     data class OverworldOres(
-        @JsonComment([
-            "Enables/disables ore generation in Overworld.",
-            "If false, no ore will be generated."
-        ], multiline = true)
+        @JsonComment(["Enables all DimOre generation in the Overworld."])
         @SerialName("enabled")
         val generateOres: Boolean = true,
 
-        @JsonComment([
-            "Settings of the Quartz generation in Overworld.",
-            "Default values:",
-            "size = 16",
-            "count = 8",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("quartz")
-        val quartzSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 14, 16, -64, 480
-        ),
+        val quartz: OreGenerationSettings = ore(DEFAULT_OVERWORLD_TARGET, 14, 16, MiningLevel.IRON)
     )
 
+    @JsonDefaults(recursive = true)
     @Serializable
     data class EndOres(
-        @JsonComment([
-            "Enables/disables ore generation in The End.",
-            "If false, no ore will be generated."
-        ], multiline = true)
+        @JsonComment(["Enables all DimOre generation in The End."])
         @SerialName("enabled")
         val generateOres: Boolean = true,
 
-        @JsonComment([
-            "Settings of the Quartz generation in The End.",
-            "Default values:",
-            "size = 28",
-            "count = 8",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("quartz")
-        val quartzSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 28, 8, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Coal generation in The End.",
-            "Default values:",
-            "size = 32",
-            "count = 7",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("coal")
-        val coalSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 32, 7, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Copper generation in The End.",
-            "Default values:",
-            "size = 20",
-            "count = 8",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("copper")
-        val copperSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 20, 8, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Iron generation in The End.",
-            "Default values:",
-            "size = 18",
-            "count = 5",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("iron")
-        val ironSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 18, 5, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Gold generation in The End.",
-            "Default values:",
-            "size = 18",
-            "count = 4",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("gold")
-        val goldSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 18, 4, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Lapis Lazuli generation in The End.",
-            "Default values:",
-            "size = 14",
-            "count = 4",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("lapis")
-        val lapisSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 14, 4, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Diamond generation in The End.",
-            "Default values:",
-            "size = 16",
-            "count = 7",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("diamond")
-        val diamondSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 16, 7, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Emerald generation in The End.",
-            "Default values:",
-            "size = 12",
-            "count = 4",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("emerald")
-        val emeraldSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 12, 4, -64, 480
-        ),
-
-        @JsonComment([
-            "Settings of the Redstone generation in The End.",
-            "Default values:",
-            "size = 16",
-            "count = 8",
-            "min_height = -64",
-            "max_height = 480"
-        ], multiline = true)
-        @SerialName("redstone")
-        val redstoneSettings: OreGenerationSettings = OreGenerationSettings(
-            true, 16, 8, -64, 480
-        )
+        val quartz: OreGenerationSettings = ore(DEFAULT_END_TARGET, 28, 8, MiningLevel.DIAMOND),
+        val coal: OreGenerationSettings = ore(DEFAULT_END_TARGET, 32, 7, MiningLevel.DIAMOND),
+        val copper: OreGenerationSettings = ore(DEFAULT_END_TARGET, 20, 8, MiningLevel.DIAMOND),
+        val iron: OreGenerationSettings = ore(DEFAULT_END_TARGET, 18, 5, MiningLevel.DIAMOND),
+        val gold: OreGenerationSettings = ore(DEFAULT_END_TARGET, 18, 4, MiningLevel.DIAMOND),
+        val lapis: OreGenerationSettings = ore(DEFAULT_END_TARGET, 14, 4, MiningLevel.DIAMOND),
+        val diamond: OreGenerationSettings = ore(DEFAULT_END_TARGET, 16, 7, MiningLevel.DIAMOND),
+        val emerald: OreGenerationSettings = ore(DEFAULT_END_TARGET, 12, 4, MiningLevel.DIAMOND),
+        val redstone: OreGenerationSettings = ore(DEFAULT_END_TARGET, 16, 8, MiningLevel.DIAMOND)
     )
 
+    @JsonDefaults
     @Serializable
     data class OreGenerationSettings(
-        @SerialName("enabled")
-        override val generate: Boolean,
-        override val size: Int,
-        override val count: Int,
+        //? if fabric {
+        @JsonComment(["Dimension id where this ore generates. An empty value disables this ore."])
+        @SerialName("dimension")
+        //?} else {
+        /*@JsonComment(["Biome id or #biome_tag where this ore generates. An empty value disables this ore."])
+        @SerialName("biome")
+        *///?}
+        override val target: String = "",
+
+        @JsonComment(["The size of a single ore vein."])
+        override val size: Int = 1,
+
+        @JsonComment(["Number of ore veins per chunk."])
+        override val count: Int = 1,
+
+        @JsonComment(["Minimum generation height."])
         @SerialName("min_height")
-        override val minHeight: Int,
+        override val minHeight: Int = -64,
+
+        @JsonComment(["Maximum generation height."])
         @SerialName("max_height")
-        override val maxHeight: Int
-    ) : DimensionOreConfig
+        override val maxHeight: Int = 480,
+
+        @JsonComment(["Mining tool: pickaxe, axe, shovel or hoe."])
+        override val tool: MiningTool = MiningTool.PICKAXE,
+
+        @JsonComment(["Minimum tool level: wood, stone, iron or diamond."])
+        @SerialName("tool_level")
+        override val toolLevel: MiningLevel = MiningLevel.DIAMOND
+    ) : DimensionOreConfig, MiningConfiguration
+
+    companion object {
+        private fun ore(
+            target: String,
+            size: Int,
+            count: Int,
+            toolLevel: MiningLevel
+        ) = OreGenerationSettings(
+            target = target,
+            size = size,
+            count = count,
+            minHeight = -64,
+            maxHeight = 480,
+            tool = MiningTool.PICKAXE,
+            toolLevel = toolLevel
+        )
+    }
 }
